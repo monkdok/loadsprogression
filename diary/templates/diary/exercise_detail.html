@@ -1,0 +1,46 @@
+{% extends 'diary/base.html' %}
+
+{% block title %}
+    {{ exercise.name }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    {% if sets_list %}
+        <div class="container mt-3">
+            <h4>{{ exercise.name }}:</h4>
+            <table class="table table-borderless mt-4">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+
+                    {% for date in set_date %}
+                        <th scope="col">{{ date|date:"j.m.y" }}</th>
+                    {% endfor %}
+                </tr>
+            {% for set in sets_list %}
+                </thead>
+                <tbody>
+                <tr>
+                    {% if forloop.counter == set.set_number %}
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ set.weight }}x{{ set.reps }}</td>
+                    <td></td>
+                    <td><button type="button" class="btn btn-outline-danger mt-2">Delete</button></td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-outline-success mt-2">Add</button>
+
+        </div>
+    {% else %}
+        <div class="card border-light text-center">
+            <div class="card-body">
+                <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any training, yet</h5>
+                <a href="#" class="btn btn-primary mt-4">Create your training</a>
+            </div>
+        </div>
+{% endif %}
+{% endblock %}

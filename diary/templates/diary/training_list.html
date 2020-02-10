@@ -1,0 +1,21 @@
+{% extends 'diary/base.html' %}
+
+
+{% block content %}
+{% if training %}
+    <div class="container mt-5 text-center">
+        {% for training in training %}
+        <a href="{{ training.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block">{{ training.name }}</a>
+        {% endfor %}
+        <button type="button" class="btn btn-outline-success mt-4">Add</button>
+
+    </div>
+{% else %}
+    <div class="card border-light text-center">
+        <div class="card-body">
+            <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any training, yet</h5>
+            <a href="#" class="btn btn-primary mt-4">Create your training</a>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
