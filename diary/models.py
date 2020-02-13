@@ -4,62 +4,70 @@ from django.shortcuts import reverse
 import datetime
 
 
-class TrainingDay(models.Model):
-    # training day means "Legs day", "Chest day"
-    name = models.CharField(max_length=100, blank=False)
+class Category(models.Model):
+    # Category means "Legs day", "Chest day"
+    title = models.CharField(max_length=100, blank=False)
     description = models.TextField(blank=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     # objects = models.Manager()
 
     def get_absolute_url(self):
-        return reverse('training_detail_url', kwargs={'slug': self.slug})
+        return reverse('category_detail_url', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(TrainingDay, self).save(*args, **kwargs)
+        self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Exercise(models.Model):
-    name = models.CharField(max_length=100, blank=False)
+    title = models.CharField(max_length=100, blank=False)
     description = models.TextField(blank=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
-    training_day = models.ForeignKey(TrainingDay, on_delete=models.CASCADE, related_name='exercises')
+    training_day = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='exercises')
+    date = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
         return reverse('exercise_detail_url', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.title)
         super(Exercise, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
-class Training(models.Model):
+class TrainingDay(models.Model):
     # training contains exercises on a specific date
     slug = models.SlugField(max_length=20, unique=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True)
-    training_day = models.ForeignKey(Exercise, on_delete=models.CASCADE, related_name='training')
+    training_day = models.ManyToManyField(Exercise, related_name='training')
 
     def get_absolute_url(self):
         return reverse('training_detail_url', kwargs={'slug': self.slug})
 
+    # def save(self, *args, **kwargs):
+    #     slug_data = str(TrainingCategory.slugself.date)
+    #     self.slug = slugify()
+    #     super(TrainingDay, self).save(*args, **kwargs)
+
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.date)
-        super(Training, self).save(*args, **kwargs)
+        date = datetime.datetime.now()
+        self.slug = '{}, {}, {}, {}, {}, {},'.format(date.day, date.month, date.year, date.hour, date.minute,
+                                                    date.second)
+        super(TrainingDay, self).save()
 
     def __str__(self):
-        return str(self.date)
+        return str(self.slug)
 
 
 class Set(models.Model):
     set_number = models.IntegerField(default='', blank=True)
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, related_name='sets')
+    exercise = models.ManyToManyField(Exercise, related_name='sets')
     weight = models.IntegerField(default='', blank=False)
     reps = models.IntegerField(default='', blank=False)
     date = models.DateField(auto_now_add=True)

@@ -2,9 +2,9 @@
 
 
 {% block content %}
-{% if training %}
+{% if training_list %}
     <div class="container mt-5 text-center">
-        {% for training in training %}
+        {% for training in training_list %}
         <a href="{{ training.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block">{{ training.name }}</a>
         {% endfor %}
         <button type="button" class="btn btn-outline-success mt-4">Add</button>

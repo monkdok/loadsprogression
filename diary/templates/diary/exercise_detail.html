@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    {% if sets_list %}
+{% for date in exercise.training.all %}
+    {{ date }}
+{% endfor %}
+    {% if exercise.sets %}
         <div class="container mt-3">
             <h4>{{ exercise.name }}:</h4>
             <table class="table table-borderless mt-4">
@@ -13,11 +16,11 @@
                 <tr>
                     <th scope="col">#</th>
 
-                    {% for date in set_date %}
+                    {% for date in training.date %}
                         <th scope="col">{{ date|date:"j.m.y" }}</th>
                     {% endfor %}
                 </tr>
-            {% for set in sets_list %}
+            {% for set in exercise.sets.all %}
                 </thead>
                 <tbody>
                 <tr>
