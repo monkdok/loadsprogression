@@ -5,18 +5,24 @@
 {% endblock %}
 
 {% block content %}
-    {{ sets_count }}
+    Technical info: <br>
+    {{ sets_count }} sets in {{ exercise.title }}.<br>
+    {{ all_dates_count }} unique date:
+    {% for date in all_dates %}
+            {{ date|date:"j.m.y" }}/
+        {% endfor %}<br>
+    latest: {{ latest.0 }}
+
+
     {% if set_list %}
         <div class="container mt-3">
             <h4>{{ exercise.title }}:</h4>
-            <p>{{ exercise.date|date:"j.m.y" }}</p>
             {% for set in set_list %}
-
-                    {% if forloop.counter == set.set_number %}
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">{{ forloop.counter }}. {{ set.weight }}x{{ set.reps }}</li>
-                        </ul>
-                    {% endif %}
+                {% if forloop.counter == set.set_number %}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ forloop.counter }}. {{ set.weight }}x{{ set.reps }}</li>
+                    </ul>
+                {% endif %}
             {% endfor %}
             <button type="button" class="btn btn-outline-success mt-2">Add</button>
         </div>

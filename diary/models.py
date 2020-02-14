@@ -56,6 +56,8 @@ class Set(models.Model):
     #     )
     #     super(Set, self).save()
 
+
+
     def __str__(self):
         # date = datetime.datetime.now()
         # self.date = '{}/{}/{}'.format(date.day, date.month, date.year)

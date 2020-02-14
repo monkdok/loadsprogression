@@ -24,11 +24,15 @@ class ExerciseDetail(View):
         exercise = get_object_or_404(Exercise, slug__iexact=slug)
         sets = exercise.set_mm.all()
         sets_count = len(sets)
+        # all sets date
         all_dates = []
-        all_dates = list(dict.fromkeys(all_dates))
         for set in sets:
-            all_dates.append(Set.date)
+            all_dates.append(set.date)
+        all_dates = list(dict.fromkeys(all_dates))
+        all_dates_count = len(all_dates)
+        latest = Set.objects.order_by('date')
         # exact_date_sets = list(Set.objects.filter(date=all_dates[0]))
-        context = {'exercise': exercise, 'set_list': sets, 'all_dates': all_dates, 'sets_count': sets_count}
+        context = {'exercise': exercise, 'set_list': sets, 'all_dates': all_dates, 'sets_count': sets_count,
+                   'latest': latest, 'all_dates_count': all_dates_count}
         return render(request, 'diary/exercise_detail.html', context)
 
