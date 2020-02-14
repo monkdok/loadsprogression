@@ -2,10 +2,10 @@
 
 
 {% block content %}
-{% if training_list %}
+{% if workout_list %}
     <div class="container mt-5 text-center">
-        {% for training in training_list %}
-        <a href="{{ training.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block">{{ training.name }}</a>
+        {% for workout in workout_list %}
+        <a href="{{ workout.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block">{{ workout.title }}</a>
         {% endfor %}
         <button type="button" class="btn btn-outline-success mt-4">Add</button>
 

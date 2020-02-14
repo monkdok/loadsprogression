@@ -1,42 +1,24 @@
 {% extends 'diary/base.html' %}
 
 {% block title %}
-    {{ exercise.name }} - {{ block.super }}
+    {{ exercise.title }} - {{ block.super }}
 {% endblock %}
 
 {% block content %}
-{% for date in exercise.training.all %}
-    {{ date }}
-{% endfor %}
-    {% if exercise.sets %}
+    {{ sets_count }}
+    {% if set_list %}
         <div class="container mt-3">
-            <h4>{{ exercise.name }}:</h4>
-            <table class="table table-borderless mt-4">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
+            <h4>{{ exercise.title }}:</h4>
+            <p>{{ exercise.date|date:"j.m.y" }}</p>
+            {% for set in set_list %}
 
-                    {% for date in training.date %}
-                        <th scope="col">{{ date|date:"j.m.y" }}</th>
-                    {% endfor %}
-                </tr>
-            {% for set in exercise.sets.all %}
-                </thead>
-                <tbody>
-                <tr>
                     {% if forloop.counter == set.set_number %}
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ set.weight }}x{{ set.reps }}</td>
-                    <td></td>
-                    <td><button type="button" class="btn btn-outline-danger mt-2">Delete</button></td>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{ forloop.counter }}. {{ set.weight }}x{{ set.reps }}</li>
+                        </ul>
                     {% endif %}
-
-                </tr>
             {% endfor %}
-                </tbody>
-            </table>
             <button type="button" class="btn btn-outline-success mt-2">Add</button>
-
         </div>
     {% else %}
         <div class="card border-light text-center">

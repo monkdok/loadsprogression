@@ -16,12 +16,11 @@ Including another URL conf
 from django.contrib import admin
 from django.urls import path
 from .views import *
+from django.views.generic.dates import ArchiveIndexView
 
 urlpatterns = [
-    path('', training_list, name='training_list_url'),
-    path('training/<str:slug>/', CategoryDetail.as_view(), name='category_detail_url'),
+    path('', workout_list, name='workout_list_url'),
+    path('workout/<str:slug>/', WorkoutDetail.as_view(), name='workout_detail_url'),
     path('exercise/<str:slug>/', ExerciseDetail.as_view(), name='exercise_detail_url'),
-    # path('<str:slug>', exercise_list, name='exercise_list_url'),
-    # path('<str:slug>', exercise_detail, name='exercise_detail_url'),
-
+    path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="article_archive"),
 ]

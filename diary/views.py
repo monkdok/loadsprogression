@@ -1,26 +1,34 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import TrainingDay, Exercise, Set, Category
+from .models import Exercise, Set, Workout
 from django.views.generic import View
 # Create your views here.
 
 
-def training_list(request):
-    training = Category.objects.all()
-    context = {'training_list': training}
-    return render(request, 'diary/training_list.html', context)
+def workout_list(request):
+    workouts = Workout.objects.all()
+    context = {'workout_list': workouts}
+    return render(request, 'diary/workout_list.html', context)
 
 
-class CategoryDetail(View):
+class WorkoutDetail(View):
     def get(self, request, slug):
-        training = get_object_or_404(Category, slug__iexact=slug)
-        context = {'training': training, 'exercises_list': training.exercises.all()}
-        return render(request, 'diary/training_detail.html', context)
+        workout = get_object_or_404(Workout, slug__iexact=slug)
+        # context = {'workout': workout, 'exercises_list': workout.exercises.all()}
+        exercises = workout.exercise_mm.all()
+        context = {'workout': workout, 'exercises_list': exercises}
+        return render(request, 'diary/workout_detail.html', context)
 
 
 class ExerciseDetail(View):
     def get(self, request, slug):
         exercise = get_object_or_404(Exercise, slug__iexact=slug)
-        context = {'exercise': exercise}
+        sets = exercise.set_mm.all()
+        sets_count = len(sets)
+        all_dates = []
+        all_dates = list(dict.fromkeys(all_dates))
+        for set in sets:
+            all_dates.append(Set.date)
+        # exact_date_sets = list(Set.objects.filter(date=all_dates[0]))
+        context = {'exercise': exercise, 'set_list': sets, 'all_dates': all_dates, 'sets_count': sets_count}
         return render(request, 'diary/exercise_detail.html', context)
-
 
