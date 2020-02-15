@@ -11,7 +11,7 @@
     {% for date in all_dates %}
             {{ date|date:"j.m.y" }}/
         {% endfor %}<br>
-    latest: {{ latest.0 }}
+    latest: {{ latest }}
     Sets by date: <br>
     {% for set in sets_by_date %}
         {{ set }}

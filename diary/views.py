@@ -15,7 +15,10 @@ class WorkoutDetail(View):
         workout = get_object_or_404(Workout, slug__iexact=slug)
         # context = {'workout': workout, 'exercises_list': workout.exercises.all()}
         exercises = workout.exercise_mm.all()
-        context = {'workout': workout, 'exercises_list': exercises}
+        context = {
+            'workout': workout,
+            'exercises_list': exercises
+        }
         return render(request, 'diary/workout_detail.html', context)
 
 
@@ -30,7 +33,7 @@ class ExerciseDetail(View):
             all_dates.append(set.date)
         all_dates = list(dict.fromkeys(all_dates))
         all_dates_count = len(all_dates)
-        latest = Set.objects.order_by('date')
+        latest = Set.objects.latest('date')
         sets_by_date = Set.objects.filter(date=all_dates[-1], exercise=exercise).order_by('set_number')
         # exact_date_sets = list(Set.objects.filter(date=all_dates[0]))
         context = {
