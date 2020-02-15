@@ -31,8 +31,16 @@ class ExerciseDetail(View):
         all_dates = list(dict.fromkeys(all_dates))
         all_dates_count = len(all_dates)
         latest = Set.objects.order_by('date')
+        sets_by_date = Set.objects.filter(date=all_dates[-1], exercise=exercise).order_by('set_number')
         # exact_date_sets = list(Set.objects.filter(date=all_dates[0]))
-        context = {'exercise': exercise, 'set_list': sets, 'all_dates': all_dates, 'sets_count': sets_count,
-                   'latest': latest, 'all_dates_count': all_dates_count}
+        context = {
+            'exercise': exercise,
+            'set_list': sets,
+            'all_dates': all_dates,
+            'sets_count': sets_count,
+            'latest': latest,
+            'all_dates_count': all_dates_count,
+            'sets_by_date': sets_by_date
+        }
         return render(request, 'diary/exercise_detail.html', context)
 

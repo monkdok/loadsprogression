@@ -56,7 +56,8 @@ class Set(models.Model):
     #     )
     #     super(Set, self).save()
 
-
+    # class Meta:
+    #     ordering = ('-date',)
 
     def __str__(self):
         # date = datetime.datetime.now()

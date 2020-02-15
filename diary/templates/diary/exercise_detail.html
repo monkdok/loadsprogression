@@ -12,6 +12,10 @@
             {{ date|date:"j.m.y" }}/
         {% endfor %}<br>
     latest: {{ latest.0 }}
+    Sets by date: <br>
+    {% for set in sets_by_date %}
+        {{ set }}
+    {% endfor %}
 
 
     {% if set_list %}
