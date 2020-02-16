@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Exercise, Set, Workout
 from django.views.generic import View
+from django.views.generic.dates import ArchiveIndexView
+
 # Create your views here.
 
 
@@ -34,8 +36,8 @@ class ExerciseDetail(View):
         all_dates = list(dict.fromkeys(all_dates))
         all_dates_count = len(all_dates)
         latest = Set.objects.latest('date')
-        sets_by_date = Set.objects.filter(date=all_dates[-1], exercise=exercise).order_by('set_number')
-        # exact_date_sets = list(Set.objects.filter(date=all_dates[0]))
+        # sets_by_date = Set.objects.filter(exercise=exercise, date=latest.date).order_by('set_number')
+        sets_by_date = Set.objects.filter(exercise=exercise, date=all_dates[-1]).order_by('set_number')
         context = {
             'exercise': exercise,
             'set_list': sets,

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    Technical info: <br>
+    <p style="font-size:90%; color: grey;">Technical info: <br>
     {{ sets_count }} sets in {{ exercise.title }}.<br>
     {{ all_dates_count }} unique date:
     {% for date in all_dates %}
@@ -16,17 +16,29 @@
     {% for set in sets_by_date %}
         {{ set }}
     {% endfor %}
+    </p>
+
 
 
     {% if set_list %}
         <div class="container mt-3">
             <h4>{{ exercise.title }}:</h4>
-            {% for set in set_list %}
-                {% if forloop.counter == set.set_number %}
+            {% if all_dates %}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dates
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for date in all_dates %}
+                        <a class="dropdown-item" href="#">{{ date|date:"j.m.y" }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            {% for set in sets_by_date %}
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">{{ forloop.counter }}. {{ set.weight }}x{{ set.reps }}</li>
                     </ul>
-                {% endif %}
             {% endfor %}
             <button type="button" class="btn btn-outline-success mt-2">Add</button>
         </div>

@@ -60,10 +60,8 @@ class Set(models.Model):
     #     ordering = ('-date',)
 
     def __str__(self):
-        # date = datetime.datetime.now()
         # self.date = '{}/{}/{}'.format(date.day, date.month, date.year)
-        # return self.date
-        w_r = '{}) {}x{}'.format(self.set_number, self.weight, self.reps)
+        w_r = '{}) {}x{}({})'.format(self.set_number, self.weight, self.reps, self.date)
         w_r = str(w_r)
         return w_r
 

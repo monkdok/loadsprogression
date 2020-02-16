@@ -22,5 +22,5 @@ urlpatterns = [
     path('', workout_list, name='workout_list_url'),
     path('workout/<str:slug>/', WorkoutDetail.as_view(), name='workout_detail_url'),
     path('exercise/<str:slug>/', ExerciseDetail.as_view(), name='exercise_detail_url'),
-    path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="article_archive"),
+    # path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="set_archive"),
 ]
