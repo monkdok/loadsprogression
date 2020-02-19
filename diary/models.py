@@ -59,6 +59,9 @@ class Set(models.Model):
     # class Meta:
     #     ordering = ('-date',)
 
+    def get_absolute_url(self):
+        return reverse('sets_archive_url', kwargs={'slug': self.date})
+
     def __str__(self):
         # self.date = '{}/{}/{}'.format(date.day, date.month, date.year)
         w_r = '{}) {}x{}({})'.format(self.set_number, self.weight, self.reps, self.date)

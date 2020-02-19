@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Exercise, Set, Workout
 from django.views.generic import View
+from .forms import *
 from django.views.generic.dates import ArchiveIndexView
 
 # Create your views here.
@@ -37,7 +38,13 @@ class ExerciseDetail(View):
         all_dates_count = len(all_dates)
         latest = Set.objects.latest('date')
         # sets_by_date = Set.objects.filter(exercise=exercise, date=latest.date).order_by('set_number')
-        sets_by_date = Set.objects.filter(exercise=exercise, date=all_dates[-1]).order_by('set_number')
+        if sets:
+            sets_by_date = Set.objects.filter(exercise=exercise, date=all_dates[-1]).order_by('set_number')
+        else:
+            sets_by_date = None
+        all_dates_sets = []
+        for date in all_dates:
+            sets = list(Set.objects.filter(exercise=exercise, date=date))
         context = {
             'exercise': exercise,
             'set_list': sets,
@@ -45,7 +52,29 @@ class ExerciseDetail(View):
             'sets_count': sets_count,
             'latest': latest,
             'all_dates_count': all_dates_count,
-            'sets_by_date': sets_by_date
+            'sets_by_date': sets_by_date,
+            'all_dates_sets': all_dates_sets
         }
         return render(request, 'diary/exercise_detail.html', context)
 
+
+def workout_create_view(request):
+    form = WorkoutCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = WorkoutCreateForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'diary/workout_create.html', context)
+
+
+def exercise_create_view(request):
+    form = ExerciseCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = ExerciseCreateForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'diary/exercise_create.html', context)

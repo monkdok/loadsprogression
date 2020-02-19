@@ -21,6 +21,9 @@ from django.views.generic.dates import ArchiveIndexView
 urlpatterns = [
     path('', workout_list, name='workout_list_url'),
     path('workout/<str:slug>/', WorkoutDetail.as_view(), name='workout_detail_url'),
+    path('workout_create/', workout_create_view, name='workout_create_url'),
     path('exercise/<str:slug>/', ExerciseDetail.as_view(), name='exercise_detail_url'),
+    path('exercise_create/', exercise_create_view, name='exercise_create_url'),
+    path('<str:exercise>/archive/<str:slug>/', WorkoutDetail.as_view(), name='sets_archive_url'),
     # path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="set_archive"),
 ]

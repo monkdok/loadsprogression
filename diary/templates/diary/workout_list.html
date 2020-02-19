@@ -7,14 +7,16 @@
         {% for workout in workout_list %}
         <a href="{{ workout.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block">{{ workout.title }}</a>
         {% endfor %}
-        <button type="button" class="btn btn-outline-success mt-4">Add</button>
+        <a href="{% url 'workout_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
+
+<!--        <button type="button" class="btn btn-outline-success mt-4">Add</button>-->
 
     </div>
 {% else %}
     <div class="card border-light text-center">
         <div class="card-body">
             <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any training, yet</h5>
-            <a href="#" class="btn btn-primary mt-4">Create your training</a>
+            <a href="{% url 'workout_create_url' %}" class="btn btn-primary mt-4">Create your training</a>
         </div>
     </div>
 {% endif %}
