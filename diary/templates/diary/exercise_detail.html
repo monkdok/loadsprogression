@@ -37,10 +37,12 @@
             {% endif %}
             {% for set in sets_by_date %}
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ forloop.counter }}. {{ set.weight }}x{{ set.reps }}</li>
+                        <li class="list-group-item">{{ forloop.counter }}. {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' %}" class="close"
+                                                                                                             aria-label="Close"><span aria-hidden="true">&times;</span></a>
+</li>
                     </ul>
             {% endfor %}
-            <button type="button" class="btn btn-outline-success mt-2">Add</button>
+            <a href="{% url 'set_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
         </div>
     {% else %}
         <div class="card border-light text-center">

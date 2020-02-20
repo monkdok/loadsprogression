@@ -24,5 +24,13 @@ class ExerciseCreateForm(forms.ModelForm):
                'workout',
           ]
 
-     # def get_absolute_url(self):
-     #      return reverse('workout_create_url')
+
+class SetCreateForm(forms.ModelForm):
+     class Meta:
+          model = Set
+          fields = [
+               'set_number',
+               'weight',
+               'reps',
+               'exercise',
+          ]

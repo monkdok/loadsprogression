@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Exercise, Set, Workout
-from django.views.generic import View
+from django.views.generic import View, ListView
 from .forms import *
 from django.views.generic.dates import ArchiveIndexView
 
@@ -78,3 +78,27 @@ def exercise_create_view(request):
         'form': form
     }
     return render(request, 'diary/exercise_create.html', context)
+
+
+def set_create_view(request):
+    form = SetCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('../')
+    context = {
+        'form': form
+    }
+    return render(request, 'diary/set_create.html', context)
+
+
+def set_delete_view(request, id):
+    obj = get_object_or_404(Set, id=id)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('../')
+    context = {
+        'obj': obj
+    }
+    return render(request, 'diary/set_delete.html', context)
+
+
