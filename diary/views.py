@@ -106,6 +106,6 @@ def set_create_view(request):
 class SetDeleteView(DeleteView):
     model = Set
     template_name = 'diary/set_delete.html'
-    success_url = reverse_lazy('./')
+    success_url = reverse_lazy('workout_list_url')
 
 

@@ -24,10 +24,9 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 
 @admin.register(Set)
-class ExerciseAdmin(admin.ModelAdmin):
+class SetAdmin(admin.ModelAdmin):
     list_display = ('set_number', 'weight', 'reps', 'date')
     list_filter = ('set_number', 'weight', 'exercise', 'date')
     search_fields = ('set_number', 'weight', 'exercise', 'date')
-    raw_id_fields = ('exercise', )
     date_hierarchy = 'date'
     ordering = ('set_number', 'date')

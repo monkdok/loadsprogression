@@ -1,14 +1,20 @@
 from django.db import models
 from django.utils.text import slugify
 from django.shortcuts import reverse
-import datetime
+from django.utils import timezone
 
 
-class Workout(models.Model):
-    # Workout means "Legs day", "Chest day"
-
+class CommonInfo(models.Model):
     title = models.CharField(max_length=100, blank=False)
     description = models.TextField(blank=True)
+
+    class Meta:
+        abstract=True
+
+
+class Workout(CommonInfo):
+    # Workout means "Legs day", "Chest day"
+
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     def get_absolute_url(self):
@@ -22,12 +28,8 @@ class Workout(models.Model):
         return self.title
 
 
-class Exercise(models.Model):
-    title = models.CharField(max_length=100, blank=False)
-    description = models.TextField(blank=True)
+class Exercise(CommonInfo):
     slug = models.SlugField(max_length=100, unique=True, blank=True)
-    # workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name='exercise_mm', )
-    # sets = models.ManyToManyField('Set', related_name='exercises_mm', blank=True)
     date = models.DateTimeField(auto_now_add=True)
     workout = models.ManyToManyField('Workout', related_name='exercise_mm', blank=True)
 
@@ -46,6 +48,7 @@ class Set(models.Model):
     set_number = models.IntegerField(default='', blank=True)
     weight = models.IntegerField(default='', blank=False)
     reps = models.IntegerField(default='', blank=False)
+    # user_date = models.DateField(default=timezone.now, blank=True, null=True)
     date = models.DateField(auto_now_add=True)
     exercise = models.ManyToManyField('Exercise', related_name='set_mm', blank=True)
     #
