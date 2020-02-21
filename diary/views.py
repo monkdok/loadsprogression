@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+
 from .models import Exercise, Set, Workout
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DeleteView
 from .forms import *
 from django.views.generic.dates import ArchiveIndexView
 
@@ -91,14 +93,19 @@ def set_create_view(request):
     return render(request, 'diary/set_create.html', context)
 
 
-def set_delete_view(request, id):
-    obj = get_object_or_404(Set, id=id)
-    if request.method == 'POST':
-        obj.delete()
-        return redirect('../')
-    context = {
-        'obj': obj
-    }
-    return render(request, 'diary/set_delete.html', context)
+# def set_delete_view(request, id):
+#     obj = get_object_or_404(Set, id=id)
+#     if request.method == 'POST':
+#         obj.delete()
+#         return redirect('../')
+#     context = {
+#         'obj': obj
+#     }
+#     return render(request, 'diary/set_delete.html', context)
+
+class SetDeleteView(DeleteView):
+    model = Set
+    template_name = 'diary/set_delete.html'
+    success_url = reverse_lazy('./')
 
 

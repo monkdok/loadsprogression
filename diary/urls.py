@@ -25,7 +25,7 @@ urlpatterns = [
     path('exercise/<str:slug>/', ExerciseDetail.as_view(), name='exercise_detail_url'),
     path('exercise_create/', exercise_create_view, name='exercise_create_url'),
     path('set_create/', set_create_view, name='set_create_url'),
-    path('set_delete/', set_delete_view, name='set_delete_url'),
+    path('set/<int:pk>/set_delete', SetDeleteView.as_view(), name='set_delete_url'),
     path('<str:exercise>/archive/<str:slug>/', WorkoutDetail.as_view(), name='sets_archive_url'),
     # path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="set_archive"),
 ]
