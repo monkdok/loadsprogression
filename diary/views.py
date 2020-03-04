@@ -73,7 +73,10 @@ class ExerciseDetail(View):
             last_sets_count = last_training_sets
         training_list = [secondlast_training_sets, last_training_sets]
         all_dates_sets = [sets.filter(exercise=exercise, date=date) for date in all_dates]
-        last_two_date = all_dates[-3:-1]
+        if all_dates_count < 2:
+            last_two_date = all_dates[-3:-1]
+        else:
+            last_two_date = all_dates[0]
 
         context = {
             'exercise': exercise,

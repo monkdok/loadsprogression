@@ -39,6 +39,9 @@
     {% if set_list %}
         <div class="container mt-3">
             <h4>{{ exercise.title }}:</h4>
+
+<!--            Dropdown menu -->
+
             {% if all_dates %}
                 <div class="dropdown mb-2">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -52,25 +55,41 @@
                     </div>
                 </div>
             {% endif %}
+
+<!--            Dates -->
+
             <div class="container">
                 <div class="row">
-                    <div class="col-1"></div>
-                        <div class="col-3">
-                            {{ last_two_date.0|date:"j.m.y" }}
-                        </div>
-                        <div class="col-3">
-                            {{ last_two_date.1|date:"j.m.y" }}
-                        </div>
+                    <div class="col-1">
+                        {{ last_two_date }}
+                    </div>
+                    <div class="col-3">
+                        {{ last_two_date.0|date:"j.m.y" }}
+                    </div>
+                    <div class="col-3">
+                        {{ last_two_date.1|date:"j.m.y" }}
+                    </div>
                 </div>
+
+<!--                Sets table-->
+
                 <div class="row">
+
+
                     {% if secondlast_training_sets %}
+
+                    <!--                    Forloop counter-->
+
                         <div class="col-1">
-                            {% for set in last_sets_count %}
+<!--                            {% for set in last_sets_count %}-->
                                 <div class="alert alert-primary">
                                     {{ forloop.counter }}
                                 </div>
-                            {% endfor %}
+<!--                            {% endfor %}-->
                         </div>
+
+<!--                    Secondlist and last list-->
+
                         <div class="col-3">
                             {% for set in secondlast_training_sets %}
                                 <div class="alert alert-primary" role="alert">
@@ -88,6 +107,9 @@
                             {% endfor %}
                         </div>
                     {% else %}
+
+<!--                    Last list only-->
+
                         <div class="col-1">
                             {% for set in last_sets_count %}
                                 <div class="alert alert-primary">
