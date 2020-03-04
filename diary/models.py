@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
 from django.shortcuts import reverse
-from django.utils import timezone
 
 
 class CommonInfo(models.Model):
@@ -9,7 +8,7 @@ class CommonInfo(models.Model):
     description = models.TextField(blank=True)
 
     class Meta:
-        abstract=True
+        abstract = True
 
 
 class Workout(CommonInfo):
@@ -18,7 +17,7 @@ class Workout(CommonInfo):
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     def get_absolute_url(self):
-        return reverse('workout_detail_url', kwargs={'slug': self.slug})
+        return reverse('exercise_list', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -63,11 +62,10 @@ class Set(models.Model):
     #     ordering = ('-date',)
 
     def get_absolute_url(self):
-        return reverse('sets_archive_url', kwargs={'slug': self.date})
+        return reverse('sets_archive_url', kwargs={'exercise': self.exercise, 'slug': self.date})
 
     def __str__(self):
         # self.date = '{}/{}/{}'.format(date.day, date.month, date.year)
         w_r = '{}) {}x{}({})'.format(self.set_number, self.weight, self.reps, self.date)
         w_r = str(w_r)
         return w_r
-

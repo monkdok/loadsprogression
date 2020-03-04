@@ -17,15 +17,17 @@ from django.contrib import admin
 from django.urls import path
 from .views import *
 from django.views.generic.dates import ArchiveIndexView
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', workout_list, name='workout_list_url'),
-    path('workout/<str:slug>/', WorkoutDetail.as_view(), name='workout_detail_url'),
+    path('', WorkoutList.as_view(), name='workout_list_url'),
+    path('bootstrap/', TemplateView.as_view(template_name='diary/bootstrap/example.html')),
+    path('workout/<str:slug>/', WorkoutDetail.as_view(), name='exercise_list'),
     path('workout_create/', workout_create_view, name='workout_create_url'),
     path('exercise/<str:slug>/', ExerciseDetail.as_view(), name='exercise_detail_url'),
     path('exercise_create/', exercise_create_view, name='exercise_create_url'),
     path('set_create/', set_create_view, name='set_create_url'),
     path('set/<int:pk>/set_delete', SetDeleteView.as_view(), name='set_delete_url'),
-    path('<str:exercise>/archive/<str:slug>/', WorkoutDetail.as_view(), name='sets_archive_url'),
+    # path('<str:exercise>/archive/<str:slug>/', WorkoutDetail.as_view(), name='sets_archive_url'),
     # path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="set_archive"),
 ]

@@ -5,18 +5,34 @@
 {% endblock %}
 
 {% block content %}
-    <p style="font-size:90%; color: grey;">Technical info: <br>
+<p style="font-size:90%; color: grey;">Technical info: <br>
     {{ sets_count }} sets in {{ exercise.title }}.<br>
     {{ all_dates_count }} unique date:
     {% for date in all_dates %}
-            {{ date|date:"j.m.y" }}/
-        {% endfor %}<br>
-    latest: {{ latest }}
+    {{ date|date:"j.m.y" }}/
+    {% endfor %}<br>
+    latest: {{ latest }} <br>
     Sets by date: <br>
     {% for set in sets_by_date %}
-        {{ set }}
+    {{ set }}
+    {% endfor %} <br>
+    Sets list: <br>
+    {% for set in set_list %}
+    {{ set }}
+    {% endfor %} <br>
+    Today date: {{ today }} <br>
+    Latest set date: {{ latest.date }}
+    {% for set in sets_by_date %}
+        {% if set.date == today %}
+            they are equal
+        {% endif %}
+    {% endfor %} <br>
+    Training list:
+    {% for training in training_list.1 %}
+        {{ training }}
     {% endfor %}
-    </p>
+
+</p>
 
 
 
@@ -24,24 +40,63 @@
         <div class="container mt-3">
             <h4>{{ exercise.title }}:</h4>
             {% if all_dates %}
-                <div class="dropdown">
+                <div class="dropdown mb-2">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dates
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {% for date in all_dates %}
-                        <a class="dropdown-item" href="#">{{ date|date:"j.m.y" }}</a>
+
+                            <a class="dropdown-item" href="{{ exercise.get_absolute_url }}">{{ date|date:"j.m.y" }}</a>
                         {% endfor %}
                     </div>
                 </div>
             {% endif %}
-            {% for set in sets_by_date %}
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ forloop.counter }}. {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
-                                                                                                             aria-label="Close"><span aria-hidden="true">&times;</span></a>
-</li>
-                    </ul>
-            {% endfor %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-1"></div>
+                        <div class="col-3">
+                            {{ last_two_date.0|date:"j.m.y" }}
+                        </div>
+                        <div class="col-3">
+                            {{ last_two_date.1|date:"j.m.y" }}
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        {% for set in last_sets_count %}
+                            <div class="alert alert-primary">
+                                {{ forloop.counter }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-3">
+                        {% for set in secondlast_training_sets %}
+                            <div class="alert alert-primary" role="alert">
+                                {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
+                                                                                                                 aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-3">
+                        {% for set in last_training_sets %}
+                            <div class="alert alert-primary" role="alert">
+                                {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
+                                                                                                                 aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
             <a href="{% url 'set_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
         </div>
     {% else %}
