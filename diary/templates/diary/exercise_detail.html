@@ -63,29 +63,47 @@
                         </div>
                 </div>
                 <div class="row">
-                    <div class="col-1">
-                        {% for set in last_sets_count %}
-                            <div class="alert alert-primary">
-                                {{ forloop.counter }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="col-3">
-                        {% for set in secondlast_training_sets %}
-                            <div class="alert alert-primary" role="alert">
-                                {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
-                                                                                                                 aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="col-3">
-                        {% for set in last_training_sets %}
-                            <div class="alert alert-primary" role="alert">
-                                {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
-                                                                                                                 aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                            </div>
-                        {% endfor %}
-                    </div>
+                    {% if secondlast_training_sets %}
+                        <div class="col-1">
+                            {% for set in last_sets_count %}
+                                <div class="alert alert-primary">
+                                    {{ forloop.counter }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-3">
+                            {% for set in secondlast_training_sets %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
+                                                                                                                     aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-3">
+                            {% for set in last_training_sets %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
+                                                                                                                     aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="col-1">
+                            {% for set in last_sets_count %}
+                                <div class="alert alert-primary">
+                                    {{ forloop.counter }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-3">
+                            {% for set in last_training_sets %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
+                                                                                                                     aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                                </div>
+                            {% endfor %}
+                    {% endif %}
+                        </div>
                 </div>
             </div>
 
