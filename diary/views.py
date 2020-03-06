@@ -53,53 +53,43 @@ class ExerciseDetail(View):
         exercise = get_object_or_404(Exercise, slug__iexact=slug)
         sets = exercise.set_mm.all()  # all sets in current exercise
         # exact_set_date = sets.filter(date=date)
-        sets_count = len(sets)  # quantity of all sets
+        all_sets_count = len(sets)  # quantity of all sets
         all_dates = [set.date for set in sets]  # all sets dates
         all_dates = list(dict.fromkeys(all_dates))  # unique sets dates
         all_dates_count = len(all_dates)  # quantity of all unique dates
         latest = sets.latest('date')  # latest set
         today = date.today()
-        # sets_by_date = Set.objects.filter(exercise=exercise, date=latest.date).order_by('set_number')
-        # if latest.date == today:
-        # if all_dates_count >= 2:
-        #     last_date = [all_dates[-2], all_dates[-1]]
-        # else:
-        #     last_date = [all_dates[0]]
-        # training_list_len = len(training_list)
-        try:
-            secondlast_training_sets = sets.filter(exercise=exercise, date=all_dates[-2]).order_by('set_number')
-        except IndexError:
-            secondlast_training_sets = []
-        last_training_sets = sets.filter(exercise=exercise, date=all_dates[-1]).order_by('set_number')
-        last_sets_count = None
-        if len(secondlast_training_sets) > len(last_training_sets):
-            last_sets_count = secondlast_training_sets
+        if all_dates_count >= 2:
+            last_training_sets = [sets.filter(exercise=exercise, date=all_dates[-2]).order_by('set_number'),
+                                  sets.filter(exercise=exercise, date=all_dates[-1]).order_by('set_number')]
+            if len(last_training_sets[0]) > len(last_training_sets[1]):
+                last_sets_count = last_training_sets[0]
+            else:
+                last_sets_count = last_training_sets[1]
+
         else:
-            last_sets_count = last_training_sets
-        training_list = []
-        training_list = [secondlast_training_sets, last_training_sets]
+            last_training_sets = [list(sets.filter(exercise=exercise, date=all_dates[0]).order_by('set_number'))]
+            last_sets_count = last_training_sets[0]
         all_dates_sets = [sets.filter(exercise=exercise, date=date) for date in all_dates]
         if all_dates_count >= 2:
             last_date = [all_dates[-2], all_dates[-1]]
         else:
             last_date = [all_dates[0]]
-        training_list_len = len(training_list)
+        training_list_len = len(last_training_sets)
 
         context = {
             'exercise': exercise,
             'set_list': sets,
             'all_dates': all_dates,
-            'sets_count': sets_count,
+            'all_sets_count': all_sets_count,
             'latest': latest,
             'all_dates_count': all_dates_count,
             'all_dates_sets': all_dates_sets,
             'today': today,
-            'secondlast_training_sets': secondlast_training_sets,
             'last_training_sets': last_training_sets,
-            'last_sets_count': last_sets_count,
             'last_date': last_date,
-            'training_list': training_list,
             'training_list_len': training_list_len,
+            'last_sets_count': last_sets_count,
         }
         return render(request, 'diary/exercise_detail.html', context)
 

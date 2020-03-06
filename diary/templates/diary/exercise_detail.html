@@ -31,15 +31,7 @@
     {% for training in training_list.1 %}
         {{ training }}
     {% endfor %} <br>
-        {{ training_list_len }} = {{ training_list }}
-    {% for training in training_list %}
-        {% if training|length != 0 %}
-            {{ training }}
-        {% else %}
-            no training
-        {% endif %}
-    {% endfor %}
-
+    {{ last_sets_count }}
 </p>
 
 
@@ -48,7 +40,7 @@
         <div class="container mt-3">
             <h4>{{ exercise.title }}:</h4>
 
-<!--            Dropdown menu -->
+<!--Dropdown menu-->
 
             {% if all_dates %}
                 <div class="dropdown mb-2">
@@ -64,9 +56,10 @@
                 </div>
             {% endif %}
 
-<!--            Dates -->
-
             <div class="container">
+
+<!--Date-->
+
                 <div class="row">
                     <div class="col-1">
                     </div>
@@ -77,18 +70,22 @@
                     {% endfor %}
                 </div>
 
-<!--                Sets table-->
 
                 <div class="row">
+
+<!--Counter-->
+
                     <div class="col-1">
-                        <!--                            {% for set in last_sets_count %}-->
-                        <div class="alert alert-primary">
-                            {{ forloop.counter }}
-                        </div>
-                        <!--                            {% endfor %}-->
+                        {% for set in last_sets_count %}
+                            <div class="alert alert-primary">
+                                {{ forloop.counter }}
+                            </div>
+                        {% endfor %}
                     </div>
 
-                    {% for training in training_list %}
+<!--Sets-->
+
+                    {% for training in last_training_sets %}
                         <div class="col-3">
                             {% for set in training %}
                                 <div class="alert alert-primary" role="alert">
@@ -98,63 +95,6 @@
                             {% endfor %}
                         </div>
                     {% endfor %}
-
-
-                </div>
-
-                <div class="row">
-
-
-                    {% if secondlast_training_sets %}
-
-                    <!--                    Forloop counter-->
-
-                        <div class="col-1">
-<!--                            {% for set in last_sets_count %}-->
-                                <div class="alert alert-primary">
-                                    {{ forloop.counter }}
-                                </div>
-<!--                            {% endfor %}-->
-                        </div>
-
-<!--                    Secondlist and last list-->
-
-                        <div class="col-3">
-                            {% for set in secondlast_training_sets %}
-                                <div class="alert alert-primary" role="alert">
-                                    {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
-                                                                                                                     aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="col-3">
-                            {% for set in last_training_sets %}
-                                <div class="alert alert-primary" role="alert">
-                                    {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
-                                                                                                                     aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-
-<!--                    Last list only-->
-
-                        <div class="col-1">
-                            {% for set in last_sets_count %}
-                                <div class="alert alert-primary">
-                                    {{ forloop.counter }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="col-3">
-                            {% for set in last_training_sets %}
-                                <div class="alert alert-primary" role="alert">
-                                    {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
-                                                                                                                     aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                                </div>
-                            {% endfor %}
-                    {% endif %}
-                        </div>
                 </div>
             </div>
 
