@@ -61,6 +61,11 @@ class ExerciseDetail(View):
         today = date.today()
         # sets_by_date = Set.objects.filter(exercise=exercise, date=latest.date).order_by('set_number')
         # if latest.date == today:
+        # if all_dates_count >= 2:
+        #     last_date = [all_dates[-2], all_dates[-1]]
+        # else:
+        #     last_date = [all_dates[0]]
+        # training_list_len = len(training_list)
         try:
             secondlast_training_sets = sets.filter(exercise=exercise, date=all_dates[-2]).order_by('set_number')
         except IndexError:
@@ -71,12 +76,14 @@ class ExerciseDetail(View):
             last_sets_count = secondlast_training_sets
         else:
             last_sets_count = last_training_sets
+        training_list = []
         training_list = [secondlast_training_sets, last_training_sets]
         all_dates_sets = [sets.filter(exercise=exercise, date=date) for date in all_dates]
-        if all_dates_count < 2:
-            last_two_date = all_dates[-3:-1]
+        if all_dates_count >= 2:
+            last_date = [all_dates[-2], all_dates[-1]]
         else:
-            last_two_date = all_dates[0]
+            last_date = [all_dates[0]]
+        training_list_len = len(training_list)
 
         context = {
             'exercise': exercise,
@@ -87,11 +94,12 @@ class ExerciseDetail(View):
             'all_dates_count': all_dates_count,
             'all_dates_sets': all_dates_sets,
             'today': today,
-            'training_list': training_list,
             'secondlast_training_sets': secondlast_training_sets,
             'last_training_sets': last_training_sets,
             'last_sets_count': last_sets_count,
-            'last_two_date': last_two_date,
+            'last_date': last_date,
+            'training_list': training_list,
+            'training_list_len': training_list_len,
         }
         return render(request, 'diary/exercise_detail.html', context)
 

@@ -30,6 +30,14 @@
     Training list:
     {% for training in training_list.1 %}
         {{ training }}
+    {% endfor %} <br>
+        {{ training_list_len }} = {{ training_list }}
+    {% for training in training_list %}
+        {% if training|length != 0 %}
+            {{ training }}
+        {% else %}
+            no training
+        {% endif %}
     {% endfor %}
 
 </p>
@@ -61,17 +69,38 @@
             <div class="container">
                 <div class="row">
                     <div class="col-1">
-                        {{ last_two_date }}
                     </div>
+                    {% for date in last_date %}
                     <div class="col-3">
-                        {{ last_two_date.0|date:"j.m.y" }}
+                        {{ date|date:"j.m.y" }}
                     </div>
-                    <div class="col-3">
-                        {{ last_two_date.1|date:"j.m.y" }}
-                    </div>
+                    {% endfor %}
                 </div>
 
 <!--                Sets table-->
+
+                <div class="row">
+                    <div class="col-1">
+                        <!--                            {% for set in last_sets_count %}-->
+                        <div class="alert alert-primary">
+                            {{ forloop.counter }}
+                        </div>
+                        <!--                            {% endfor %}-->
+                    </div>
+
+                    {% for training in training_list %}
+                        <div class="col-3">
+                            {% for set in training %}
+                                <div class="alert alert-primary" role="alert">
+                                    {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
+                                                                      aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+
+                </div>
 
                 <div class="row">
 
