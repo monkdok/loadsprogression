@@ -21,6 +21,9 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', WorkoutList.as_view(), name='workout_list_url'),
+    path('login', DiaryLoginView.as_view(), name='login_url'),
+    path('logout', DiaryLogoutView.as_view(), name='logout_url'),
+    path('register', RegisterUserView.as_view(), name='register_url'),
     path('bootstrap/', TemplateView.as_view(template_name='diary/bootstrap/example.html')),
     path('workout/<str:slug>/', WorkoutDetail.as_view(), name='exercise_list'),
     path('workout_create/', workout_create_view, name='workout_create_url'),
@@ -28,6 +31,8 @@ urlpatterns = [
     path('exercise_create/', exercise_create_view, name='exercise_create_url'),
     path('set_create/', set_create_view, name='set_create_url'),
     path('set/<int:pk>/set_delete', SetDeleteView.as_view(), name='set_delete_url'),
+    path('exercise/<str:slug>/exercise_delete', ExerciseDeleteView.as_view(), name='exercise_delete_url'),
+    path('workout/<str:slug>/workout_delete', WorkoutDeleteView.as_view(), name='workout_delete_url'),
     # path('<str:exercise>/archive/<str:slug>/', WorkoutDetail.as_view(), name='sets_archive_url'),
     # path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="set_archive"),
 ]

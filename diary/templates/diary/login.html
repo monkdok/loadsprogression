@@ -1,0 +1,18 @@
+{% extends 'diary/base.html' %}
+
+{% block title %}
+    Log In - {{ block.super }}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="col-4">
+            <h4>Log In</h4>
+            <form id="add_form" method="post" class="mt-5">
+                {% csrf_token %}
+                {{ form }}
+                <button form="add_form" type="submit" class="btn btn-primary mt-3">Log In</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

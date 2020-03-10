@@ -16,15 +16,38 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'workout_list_url' %}">Workouts</a>
+        {% url 'workout_list_url' as workout_list_url %}
+        <a class="navbar-brand btn btn-light {% if workout_list_url == request.path %}active{% endif %}" href="{% url 'workout_list_url' %}">Workouts</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Statistics</a>
+                    <a class="nav-link navbar-brand btn btn-light" href="#">Statistics</a>
                 </li>
+
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        {% url 'logout_url' as logout_url %}
+                        <a class="nav-link btn btn-danger text-light ml-5 {% if logout_url == request.path %}active{% endif %}" href="{{ logout_url }}">Log Out</a>
+                    </li>
+                    <li>
+                        {{ request.user }}
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        {% url 'login_url' as login_url%}
+                        <a class="nav-link btn btn-info text-light ml-2 {% if login_url == request.path %}active{% endif %}" href="{{ login_url }}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        {% url 'register_url' as register_url %}
+                        <a class="nav-link btn btn-info text-light ml-2 {% if register_url == request.path %}active{% endif %}" href="{{ register_url }}">Sign Up</a>
+                    </li>
+                {% endif %}
+
+
+
             </ul>
         </div>
     </nav>

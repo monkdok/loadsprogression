@@ -5,38 +5,38 @@
 {% endblock %}
 
 {% block content %}
-<p style="font-size:90%; color: grey;">Technical info: <br>
-    {{ sets_count }} sets in {{ exercise.title }}.<br>
-    {{ all_dates_count }} unique date:
-    {% for date in all_dates %}
-    {{ date|date:"j.m.y" }}/
-    {% endfor %}<br>
-    latest: {{ latest }} <br>
-    Sets by date: <br>
-    {% for set in sets_by_date %}
-    {{ set }}
-    {% endfor %} <br>
-    Sets list: <br>
-    {% for set in set_list %}
-    {{ set }}
-    {% endfor %} <br>
-    Today date: {{ today }} <br>
-    Latest set date: {{ latest.date }}
-    {% for set in sets_by_date %}
-        {% if set.date == today %}
-            they are equal
-        {% endif %}
-    {% endfor %} <br>
-    Training list:
-    {% for training in training_list.1 %}
-        {{ training }}
-    {% endfor %} <br>
-    {{ last_sets_count }}
-</p>
+<!--<p style="font-size:90%; color: grey;">Technical info: <br>-->
+<!--    {{ sets_count }} sets in {{ exercise.title }}.<br>-->
+<!--    {{ all_dates_count }} unique date:-->
+<!--    {% for date in all_dates %}-->
+<!--    {{ date|date:"j.m.y" }}/-->
+<!--    {% endfor %}<br>-->
+<!--    latest: {{ latest }} <br>-->
+<!--    Sets by date: <br>-->
+<!--    {% for set in sets_by_date %}-->
+<!--    {{ set }}-->
+<!--    {% endfor %} <br>-->
+<!--    Sets list: <br>-->
+<!--    {% for set in set_list %}-->
+<!--    {{ set }}-->
+<!--    {% endfor %} <br>-->
+<!--    Today date: {{ today }} <br>-->
+<!--    Latest set date: {{ latest.date }}-->
+<!--    {% for set in sets_by_date %}-->
+<!--        {% if set.date == today %}-->
+<!--            they are equal-->
+<!--        {% endif %}-->
+<!--    {% endfor %} <br>-->
+<!--    Training list:-->
+<!--    {% for training in training_list.1 %}-->
+<!--        {{ training }}-->
+<!--    {% endfor %} <br>-->
+<!--    {{ last_sets_count }}-->
+<!--</p>-->
 
 
 
-    {% if set_list %}
+    {% if last_training_sets %}
         <div class="container mt-3">
             <h4>{{ exercise.title }}:</h4>
 
@@ -89,7 +89,8 @@
                         <div class="col-3">
                             {% for set in training %}
                                 <div class="alert alert-primary" role="alert">
-                                    {{ set.weight }}x{{ set.reps }}<a href="{% url 'set_delete_url' set.id %}" class="close"
+                                    {{ set.weight }}x{{ set.reps }}
+                                    <a href="{% url 'set_delete_url' set.id %}" class="close"
                                                                       aria-label="Close"><span aria-hidden="true">&times;</span></a>
                                 </div>
                             {% endfor %}

@@ -5,9 +5,21 @@
 {% if object_list %}
     <div class="container mt-5 text-center">
         {% for article in object_list %}
-        <a href="{{ article.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block">{{ article.title }}</a>
+            <div class="row">
+                <div class="col-11">
+                    <a href="{{ article.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block mb-2">{{ article.title }}</a>
+                </div>
+                <div class="col-1">
+                    <a href="{% url 'workout_delete_url' article.slug %}" class="close"
+                                                                      aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                </div>
+            </div>
         {% endfor %}
-        <a href="{% url 'workout_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
+        <div class="row">
+            <div class="col-1">
+                <a href="{% url 'workout_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
+            </div>
+        </div>
 
 <!--        <button type="button" class="btn btn-outline-success mt-4">Add</button>-->
 

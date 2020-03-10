@@ -8,9 +8,21 @@
     {% if exercises_list %}
         <div class="container mt-5 text-center">
             {% for exercise in exercises_list %}
-            <a href="{{ exercise.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block">{{ exercise.title }}</a>
+                <div class="row">
+                    <div class="col-11">
+                        <a href="{{ exercise.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block mb-2">{{ exercise.title }}</a>
+                    </div>
+                    <div class="col-1">
+                        <a href="{% url 'exercise_delete_url' exercise.slug %}" class="close"
+                                                                      aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    </div>
+                </div>
             {% endfor %}
-            <a href="{% url 'exercise_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
+            <div class="row">
+                <div class="col-1">
+                    <a href="{% url 'exercise_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
+                </div>
+            </div>
 
         </div>
     {% else %}
