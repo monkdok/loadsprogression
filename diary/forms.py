@@ -14,6 +14,12 @@ class WorkoutCreateForm(forms.ModelForm):
                'description',
           ]
 
+     def __init__(self, *args, **kwargs):
+          super().__init__(*args, **kwargs)
+          for field in self.fields:
+               self.fields[field].widget.attrs['class'] = 'form-control'
+
+
      def get_absolute_url(self):
           return reverse('workout_create_url')
 
@@ -27,6 +33,11 @@ class ExerciseCreateForm(forms.ModelForm):
                'workout',
           ]
 
+     def __init__(self, *args, **kwargs):
+          super().__init__(*args, **kwargs)
+          for field in self.fields:
+               self.fields[field].widget.attrs['class'] = 'form-control'
+
 
 class SetCreateForm(forms.ModelForm):
      class Meta:
@@ -38,6 +49,10 @@ class SetCreateForm(forms.ModelForm):
                'exercise',
           ]
 
+     def __init__(self, *args, **kwargs):
+          super().__init__(*args, **kwargs)
+          for field in self.fields:
+               self.fields[field].widget.attrs['class'] = 'form-control'
 
 class AuthForm(AuthenticationForm, forms.ModelForm):
      class Meta:

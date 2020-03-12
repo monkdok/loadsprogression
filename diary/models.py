@@ -1,10 +1,13 @@
+from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 from django.shortcuts import reverse
 
 
 class CommonInfo(models.Model):
-    title = models.CharField(max_length=100, blank=False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default='author')
+    title = models.CharField(max_length=100, blank=False, unique=False)
     description = models.TextField(blank=True)
 
     class Meta:
@@ -12,15 +15,14 @@ class CommonInfo(models.Model):
 
 
 class Workout(CommonInfo):
-    # Workout means "Legs day", "Chest day"
-
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('exercise_list', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        custom_slug = '{}-{}'.format(self.author, self.title)
+        self.slug = slugify(custom_slug)
         super(Workout, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -36,7 +38,8 @@ class Exercise(CommonInfo):
         return reverse('exercise_detail_url', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        custom_slug = '{}-{}'.format(self.author, self.title)
+        self.slug = slugify(custom_slug)
         super(Exercise, self).save()
 
     def __str__(self):
@@ -44,6 +47,8 @@ class Exercise(CommonInfo):
 
 
 class Set(models.Model):
+    # AUTH_USER_MODEL
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     set_number = models.IntegerField(default='', blank=True)
     weight = models.IntegerField(default='', blank=False)
     reps = models.IntegerField(default='', blank=False)

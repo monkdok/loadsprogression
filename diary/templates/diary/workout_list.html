@@ -7,7 +7,7 @@
         {% for article in object_list %}
             <div class="row">
                 <div class="col-11">
-                    <a href="{{ article.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block mb-2">{{ article.title }}</a>
+                    <a href="{{ article.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block mb-2">{{ article.title }} - {{ article.author }}</a>
                 </div>
                 <div class="col-1">
                     <a href="{% url 'workout_delete_url' article.slug %}" class="close"

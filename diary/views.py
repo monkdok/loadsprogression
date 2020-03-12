@@ -43,10 +43,20 @@ class DiaryLogoutView(LogoutView):
 
 class WorkoutList(LoginRequiredMixin, ListView):
     model = Workout
+    login_url = 'login_url'
+    # LoginRequiredMixin
+    # UserPassesTestMixin
+    # def get_queryset(self):
+    #     return super(WorkoutList, self).get_queryset().filter(author=self.request.user)
+
+    # def test_func(self):
+    #     all_obj = self.model.objects.all()
+    #
+    #     obj = self.model.objects.get
+    #     return obj.author == self.request.user
 
     def get_queryset(self):
         return super(WorkoutList, self).get_queryset().filter(author=self.request.user)
-
 
 
 class WorkoutDetail(View):
@@ -100,7 +110,6 @@ class ExerciseDetail(View):
             training_list_len = None
             last_sets_count = None
 
-
         context = {
             'exercise': exercise,
             'set_list': sets,
@@ -125,8 +134,11 @@ class ExerciseDetail(View):
 def workout_create_view(request):
     form = WorkoutCreateForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        form = WorkoutCreateForm()
+        obj = form.save(commit=False)
+        obj.author = request.user
+        obj.save()
+        form.save_m2m()
+        return redirect('../')
     context = {
         'form': form
     }
@@ -136,7 +148,10 @@ def workout_create_view(request):
 def exercise_create_view(request):
     form = ExerciseCreateForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        obj = form.save(commit=False)
+        obj.author = request.user
+        obj.save()
+        form.save_m2m()
         return redirect('../')
     context = {
         'form': form
@@ -147,7 +162,10 @@ def exercise_create_view(request):
 def set_create_view(request):
     form = SetCreateForm(request.POST or None)
     if form.is_valid():
-        form.save()
+        obj = form.save(commit=False)
+        obj.author = request.user
+        obj.save()
+        form.save_m2m()
         return redirect('../')
     context = {
         'form': form
