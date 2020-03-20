@@ -6,7 +6,7 @@ from django.shortcuts import reverse
 
 
 class CommonInfo(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, default='author')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     title = models.CharField(max_length=100, blank=False, unique=False)
     description = models.TextField(blank=True)
 
@@ -18,10 +18,14 @@ class Workout(CommonInfo):
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     def get_absolute_url(self):
-        return reverse('exercise_list', kwargs={'slug': self.slug})
+        return reverse('exercise_list', kwargs={
+            'slug': self.slug,
+            'title': self.title,
+            'author': self.author,
+        })
 
     def save(self, *args, **kwargs):
-        custom_slug = '{}-{}'.format(self.author, self.title)
+        custom_slug = '{}-{}'.format(self.title, self.author)
         self.slug = slugify(custom_slug)
         super(Workout, self).save(*args, **kwargs)
 
@@ -32,13 +36,17 @@ class Workout(CommonInfo):
 class Exercise(CommonInfo):
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    workout = models.ManyToManyField('Workout', related_name='exercise_mm', blank=True)
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE, related_name='exercise_mm', blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('exercise_detail_url', kwargs={'slug': self.slug})
+        return reverse('exercise_detail_url', kwargs={
+            'slug': self.slug,
+            'workout': self.workout,
+            'author': self.author,
+        })
 
     def save(self, *args, **kwargs):
-        custom_slug = '{}-{}'.format(self.author, self.title)
+        custom_slug = '{}-{}'.format(self.title, self.author)
         self.slug = slugify(custom_slug)
         super(Exercise, self).save()
 
@@ -54,7 +62,7 @@ class Set(models.Model):
     reps = models.IntegerField(default='', blank=False)
     # user_date = models.DateField(default=timezone.now, blank=True, null=True)
     date = models.DateField(auto_now_add=True)
-    exercise = models.ManyToManyField('Exercise', related_name='set_mm', blank=True)
+    exercise = models.ForeignKey('Exercise', on_delete=models.CASCADE, related_name='set_mm', blank=True, null=True)
     #
     # def save(self, *args, **kwargs):
     #     date = datetime.datetime.now()

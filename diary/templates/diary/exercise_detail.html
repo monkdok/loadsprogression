@@ -34,15 +34,14 @@
 <!--    {{ last_sets_count }}-->
 <!--</p>-->
 
-
+<h5>Workout: {{ workout }} <br>
+    Exercise: {{ exercise.title }}
+    </h5>
 
     {% if last_training_sets %}
         <div class="container mt-3">
-            <h4>{{ exercise.title }}:</h4>
-
-<!--Dropdown menu-->
-
-            {% if all_dates %}
+            <div class="col-1">
+                {% if all_dates %}
                 <div class="dropdown mb-2">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dates
@@ -50,11 +49,16 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {% for date in all_dates %}
 
-                            <a class="dropdown-item" href="{{ exercise.get_absolute_url }}">{{ date|date:"j.m.y" }}</a>
+                        <a class="dropdown-item" href="{{ exercise.get_absolute_url }}">{{ date|date:"j.m.y" }}</a>
                         {% endfor %}
                     </div>
                 </div>
-            {% endif %}
+                {% endif %}
+
+            </div>
+
+<!--Dropdown menu-->
+
 
             <div class="container">
 
@@ -99,22 +103,24 @@
                 </div>
             </div>
 
+<!--Add            -->
 
-
-
-
-
-
-
-
-            <a href="{% url 'set_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
+            <a href="{% url 'set_create_url' exercise.slug %}" class="btn btn-outline-success mt-4">Add</a>
         </div>
     {% else %}
-        <div class="card border-light text-center">
-            <div class="card-body">
-                <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any training, yet</h5>
-                <a href="{% url 'set_create_url' %}" class="btn btn-primary mt-4">Create your training</a>
+
+        {% if exercise %}
+            <div class="col-1">
+                <div class="card border-light text-center">
+                    <div class="card-body">
+                        <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any training, yet</h5>
+                        <a href="{% url 'set_create_url' exercise.slug %}" class="btn btn-primary mt-4">Create your training</a>
+                    </div>
+                </div>
             </div>
-        </div>
+
+        {% else %}
+            PROBLEM
+        {% endif %}
 {% endif %}
 {% endblock %}

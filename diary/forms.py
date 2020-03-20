@@ -19,7 +19,6 @@ class WorkoutCreateForm(forms.ModelForm):
           for field in self.fields:
                self.fields[field].widget.attrs['class'] = 'form-control'
 
-
      def get_absolute_url(self):
           return reverse('workout_create_url')
 
@@ -30,7 +29,6 @@ class ExerciseCreateForm(forms.ModelForm):
           fields = [
                'title',
                'description',
-               'workout',
           ]
 
      def __init__(self, *args, **kwargs):
@@ -46,7 +44,6 @@ class SetCreateForm(forms.ModelForm):
                'set_number',
                'weight',
                'reps',
-               'exercise',
           ]
 
      def __init__(self, *args, **kwargs):
