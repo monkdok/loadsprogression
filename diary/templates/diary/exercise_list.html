@@ -10,7 +10,7 @@
             {% for exercise in exercises_list %}
                 <div class="row">
                     <div class="col-11">
-                        <a href="{{ exercise.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block mb-2">{{ exercise.title }} - {{ exercise.workout }}</a>
+                        <a href="{{ exercise.get_absolute_url }}" class="btn btn-outline-secondary btn-lg btn-block mb-2">{{ exercise.title }}</a>
                     </div>
                     <div class="col-1">
                         <a href="{% url 'exercise_delete_url' exercise.slug %}" class="close"
@@ -29,7 +29,7 @@
         <div class="card border-light text-center">
             <div class="card-body">
                 <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any training, yet</h5>
-                <a href="{% url 'exercise_create_url' %}" class="btn btn-primary mt-4">Create your training</a>
+                <a href="{% url 'exercise_create_url' workout.slug %}" class="btn btn-primary mt-4">Create your training</a>
             </div>
         </div>
 {% endif %}

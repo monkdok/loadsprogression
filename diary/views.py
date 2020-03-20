@@ -36,7 +36,8 @@ class ExerciseDetail(View):
     def get(self, request, slug, author, workout):
         exercise = get_object_or_404(Exercise, slug__iexact=slug)
         workout = workout
-        workout1 = get_object_or_404(Workout, title=exercise.workout)
+        print('========================================================================{}'.format(slug))
+        workout1 = get_object_or_404(Workout, slug=exercise.workout.slug)
         sets = exercise.set_mm.all()  # all sets in current exercise
         print('========================================================================{}'.format(workout1))        #
         # exact_set_date = sets.filter(date=date)
