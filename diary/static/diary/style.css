@@ -1,0 +1,25 @@
+body {
+    background-color: #1a1a1a;
+    color: orange;
+}
+
+/*.btn-block {
+    background-color: orange;
+    color: black;
+    border-color: orange;
+}
+
+.btn-block:hover,
+.btn-block:active {
+    color: black;
+    background-color: #f56642 !important;
+    border-color: #f56642;
+}
+
+.btn-block:focus {
+    color: black;
+    background-color: #f56642 !important;
+    border-color: orange;
+}*/
+
+

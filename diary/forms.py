@@ -14,10 +14,10 @@ class WorkoutCreateForm(forms.ModelForm):
                'description',
           ]
 
-     def __init__(self, *args, **kwargs):
-          super().__init__(*args, **kwargs)
-          for field in self.fields:
-               self.fields[field].widget.attrs['class'] = 'form-control'
+          widgets = {
+               'title': forms.TextInput(attrs={'class': 'form-control'}),
+               'description': forms.Textarea(attrs={'class': 'form-control'}),
+               }
 
      def get_absolute_url(self):
           return reverse('workout_create_url')
@@ -31,10 +31,10 @@ class ExerciseCreateForm(forms.ModelForm):
                'description',
           ]
 
-     def __init__(self, *args, **kwargs):
-          super().__init__(*args, **kwargs)
-          for field in self.fields:
-               self.fields[field].widget.attrs['class'] = 'form-control'
+          widgets = {
+               'title': forms.TextInput(attrs={'class': 'form-control'}),
+               'description': forms.Textarea(attrs={'class': 'form-control'}),
+               }
 
 
 class SetCreateForm(forms.ModelForm):
@@ -44,12 +44,20 @@ class SetCreateForm(forms.ModelForm):
                'set_number',
                'weight',
                'reps',
-          ]
+               ]
 
-     def __init__(self, *args, **kwargs):
-          super().__init__(*args, **kwargs)
-          for field in self.fields:
-               self.fields[field].widget.attrs['class'] = 'form-control'
+          widgets = {
+               'set_number': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '#'}),
+               'weight': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'weight'}),
+               'reps': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'reps'}),
+               }
+
+          # labels = {
+          #      'set_number': 'Set',
+          #      'weight': '',
+          #      'reps': '',
+          # }
+
 
 class AuthForm(AuthenticationForm, forms.ModelForm):
      class Meta:

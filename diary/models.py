@@ -8,7 +8,7 @@ from django.shortcuts import reverse
 class CommonInfo(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     title = models.CharField(max_length=100, blank=False, unique=False)
-    description = models.TextField(blank=True)
+    description = models.CharField(max_length=100, blank=True)
 
     class Meta:
         abstract = True
@@ -57,9 +57,9 @@ class Exercise(CommonInfo):
 class Set(models.Model):
     # AUTH_USER_MODEL
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    set_number = models.IntegerField(default='', blank=True)
-    weight = models.IntegerField(default='', blank=False)
-    reps = models.IntegerField(default='', blank=False)
+    set_number = models.PositiveIntegerField(default='', blank=False)
+    weight = models.PositiveIntegerField(default='', blank=False)
+    reps = models.PositiveIntegerField(default='', blank=False)
     # user_date = models.DateField(default=timezone.now, blank=True, null=True)
     date = models.DateField(auto_now_add=True)
     exercise = models.ForeignKey('Exercise', on_delete=models.CASCADE, related_name='set_mm', blank=True, null=True)

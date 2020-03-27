@@ -119,3 +119,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIR = (
+    os.path.join(BASE_DIR, 'static/diary')
+)
+
+# AUTHENTICATION_BACKENDS = ['social_core.backends.facebook.FacebookOAuth2', ]
+# SOCIAL_AUTH_URL_NAMESPACE = 'social'
+#
+# SOCIAL_AUTH_FACEBOOK_KEY = '1088115854881796'  # Facebook App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET = 'c6abcc04e7cdeceeb6e656f749d583ef'  # Facebook App Secret
+# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'password']

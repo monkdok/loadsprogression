@@ -33,17 +33,31 @@
 <!--    {% endfor %} <br>-->
 <!--    {{ last_sets_count }}-->
 <!--</p>-->
-
+<!--
 <h5>Workout: {{ workout }} <br>
     Exercise: {{ exercise.title }}
-    </h5>
+    </h5>-->
+<!--Workout menu-->
+<div class="btn-group ml-5 mt-2">
+    <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+        "{{ exercise.title }}" options
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Edit</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="{% url 'exercise_delete_url' exercise.slug %}">Delete</a>
+    </div>
+</div>
 
     {% if last_training_sets %}
         <div class="container mt-3">
             <div class="col-1">
                 {% if all_dates %}
+                <!--Dropdown
                 <div class="dropdown mb-2">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                         Dates
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -52,18 +66,13 @@
                         <a class="dropdown-item" href="{{ exercise.get_absolute_url }}">{{ date|date:"j.m.y" }}</a>
                         {% endfor %}
                     </div>
-                </div>
+                </div>-->
                 {% endif %}
 
             </div>
 
-<!--Dropdown menu-->
-
 
             <div class="container">
-
-<!--Date-->
-
                 <div class="row">
                     <div class="col-1">
                     </div>
@@ -81,7 +90,7 @@
 
                     <div class="col-1">
                         {% for set in last_sets_count %}
-                            <div class="alert alert-primary">
+                            <div class="alert alert-secondary">
                                 {{ forloop.counter }}
                             </div>
                         {% endfor %}
@@ -92,7 +101,7 @@
                     {% for training in last_training_sets %}
                         <div class="col-3">
                             {% for set in training %}
-                                <div class="alert alert-primary" role="alert">
+                                <div class="alert alert-secondary" role="alert">
                                     {{ set.weight }}x{{ set.reps }}
                                     <a href="{% url 'set_delete_url' set.id %}" class="close"
                                                                       aria-label="Close"><span aria-hidden="true">&times;</span></a>
@@ -100,12 +109,48 @@
                             {% endfor %}
                         </div>
                     {% endfor %}
+
                 </div>
+                    <div class="row">
+                        <div class="col-8">
+
+                            <!--Collapse-->
+                            <p>
+                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                    Add set
+                                </button>
+                            </p>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    <!--Form-->
+                                    <form method="POST" class="form-row mt-3"> {% csrf_token %}
+                                        <div class="form-row">
+                                            <div class="col-2">
+                                                {{ form.set_number }}
+                                            </div>
+                                            <div class="col-2">
+                                                {{ form.weight }}
+                                            </div>
+                                            <div class="col-1 text-center">
+                                                x
+                                            </div>
+                                            <div class="col-2">
+                                                {{ form.reps }}
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-2">Save</button>
+                                        <!--                <input type="submit" value="Save" class="btn btn-primary">-->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
 
 <!--Add            -->
 
-            <a href="{% url 'set_create_url' exercise.slug %}" class="btn btn-outline-success mt-4">Add</a>
+<!--            <a href="{% url 'set_create_url' exercise.slug %}" class="btn btn-outline-success mt-4">Add</a>-->
+
         </div>
     {% else %}
 

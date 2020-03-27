@@ -14,6 +14,7 @@ Including another URL conf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 from .views import *
 from django.views.generic.dates import ArchiveIndexView
@@ -38,3 +39,5 @@ urlpatterns = [
     # path('<str:exercise>/archive/<str:slug>/', WorkoutDetail.as_view(), name='sets_archive_url'),
     # path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="set_archive"),
 ]
+
+urlpatterns += staticfiles_urlpatterns()

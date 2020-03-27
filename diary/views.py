@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from datetime import date
@@ -12,12 +13,29 @@ from .forms import *
 from django.views.generic.dates import ArchiveIndexView
 
 
-class WorkoutList(LoginRequiredMixin, ListView):
-    model = Workout
+class WorkoutList(LoginRequiredMixin, View):
+    # model = Workout
     login_url = 'login_url'
 
-    def get_queryset(self):
-        return super(WorkoutList, self).get_queryset().filter(author=self.request.user)
+    def get(self, request):
+        workouts = Workout.objects.filter(author=self.request.user)
+        form = WorkoutCreateForm()
+        context = {
+            'form': form,
+            'workouts': workouts,
+        }
+        return render(request, 'diary/workout_list.html', context)
+
+    def post(self, request):
+        form = WorkoutCreateForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.author = self.request.user
+            form.save()
+        return HttpResponseRedirect(self.request.path_info)
+
+    # def get_queryset(self):
+    #     return super(WorkoutList, self).get_queryset().filter(author=self.request.user)
 
 
 class WorkoutDetail(View):
@@ -34,12 +52,11 @@ class WorkoutDetail(View):
 
 class ExerciseDetail(View):
     def get(self, request, slug, author, workout):
+        form = SetCreateForm()
         exercise = get_object_or_404(Exercise, slug__iexact=slug)
         workout = workout
-        print('========================================================================{}'.format(slug))
         workout1 = get_object_or_404(Workout, slug=exercise.workout.slug)
         sets = exercise.set_mm.all()  # all sets in current exercise
-        print('========================================================================{}'.format(workout1))        #
         # exact_set_date = sets.filter(date=date)
 
         # latest = sets.latest('date')  # latest set
@@ -77,6 +94,7 @@ class ExerciseDetail(View):
             last_sets_count = None
 
         context = {
+            'form': form,
             'exercise': exercise,
             'set_list': sets,
             'all_dates': all_dates,
@@ -92,6 +110,17 @@ class ExerciseDetail(View):
             'workout': workout1,
         }
         return render(request, 'diary/exercise_detail.html', context)
+
+    def post(self, request, slug, author, workout):
+        form = SetCreateForm(request.POST)
+        exercise = Exercise.objects.get(slug=slug)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.exercise = exercise
+            form.author = self.request.user
+            form.save()
+
+        return HttpResponseRedirect(self.request.path_info)
 
 
 # def workout_create_view(request):
@@ -138,16 +167,16 @@ class ExerciseCreateView(View):
         return redirect('workout_list_url')
 
 
-# class ExerciseCreateView(CreateView):
-#     model = Exercise
-#     form_class = ExerciseCreateForm
-#     success_url = 'workout_list_url'
-#
-#     def form_valid(self, form, pk):
-#         form.instance.author = self.request.user
-#         form.instance.workout_id = pk
-#         form.save()
-#         return redirect('workout_list_url')
+class ExerciseCreateView(CreateView):
+    model = Exercise
+    form_class = ExerciseCreateForm
+    success_url = 'workout_list_url'
+
+    def form_valid(self, form, pk):
+        form.instance.author = self.request.user
+        form.instance.workout_id = pk
+        form.save()
+        return redirect('workout_list_url')
 
 
 # def set_create_view(request):
@@ -187,6 +216,7 @@ class SetCreateView(View):
 #         'obj': obj
 #     }
 #     return render(request, 'diary/set_delete.html', context)
+
 
 class SetDeleteView(DeleteView):
     model = Set

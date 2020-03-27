@@ -2,23 +2,49 @@
 
 
 {% block content %}
-{% if object_list %}
+
+{% if workouts %}
     <div class="container mt-5 text-center">
-        {% for article in object_list %}
+        {% for workout in workouts %}
             <div class="row">
-                <div class="col-11">
-                    <a href="{% url 'exercise_list' article.slug %}" class="btn btn-outline-secondary btn-lg btn-block mb-2">{{ article.title }}</a>
+                <div class="col-4 offset-4">
+                    <a href="{% url 'exercise_list' workout.slug %}" class="btn btn-warning btn-lg btn-block mb-2">{{ workout.title }}
+                    </a>
                 </div>
+
+                <!--workout delete
                 <div class="col-1">
-                    <a href="{% url 'workout_delete_url' article.slug %}" class="close"
+                    <a href="{% url 'workout_delete_url' workout.slug %}" class="close"
                                                                       aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                </div>
+                </div>-->
             </div>
         {% endfor %}
-        <div class="row">
-            <div class="col-1">
+        <!--<div class="row">
+            <div class="col-1 mx-auto">
                 <a href="{% url 'workout_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
             </div>
+        </div>-->
+
+    <!--Collapse-->
+        <div class="row">
+            <div class="col-4 offset-4">
+                <p>
+                    <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                            aria-controls="collapseExample">
+                        Add workout
+                    </button>
+                </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+
+                            <!--Form-->
+                            <form method="POST"> {% csrf_token %}
+                                {{ form.as_p }}
+                                <input type="submit" value="Save" class="btn btn-primary">
+                            </form>
+                        </div>
+                    </div>
+                </div>
         </div>
 
 <!--        <button type="button" class="btn btn-outline-success mt-4">Add</button>-->

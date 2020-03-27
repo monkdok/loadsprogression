@@ -3,13 +3,20 @@
 
 {% block content %}
     <div class="container">
-        <div class="col-6">
-            <div class="col-6">
-                <form method="POST"> {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" value="Save">
+        <div class="row">
+            <div class="col-8">
+                <form method="POST" class="form-row mt-3"> {% csrf_token %}
+                    <div class="form-row">
+                        {% for field in form %}
+                            <div class="col">
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Save</button>
+    <!--                <input type="submit" value="Save" class="btn btn-primary">-->
                 </form>
-            </div>
+        </div>
         </div>
     </div>
 {% endblock %}

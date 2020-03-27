@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'diary/style.css' %}">
     <title>
         {% block title %}
           Loads progression
@@ -12,19 +14,20 @@
     </title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        {% url 'workout_list_url' as workout_list_url %}
-        <a class="navbar-brand btn btn-light {% if workout_list_url == request.path %}active{% endif %}" href="{% url 'workout_list_url' %}">Workouts</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link navbar-brand btn btn-light" href="#">Statistics</a>
-                </li>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand btn dark {% if workout_list_url == request.path %}active{% endif %}" href="{% url 'workout_list_url' %}">
+                Workouts</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link navbar-brand btn btn-dark" href="#">Statistics</a>
+                    </li>
 
-                {% if request.user.is_authenticated %}
+                    {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         {% url 'logout_url' as logout_url %}
                         <a class="nav-link btn btn-danger text-light ml-5 {% if logout_url == request.path %}active{% endif %}" href="{{ logout_url }}">Log Out</a>
@@ -32,7 +35,7 @@
                     <li>
                         {{ request.user }}
                     </li>
-                {% else %}
+                    {% else %}
                     <li class="nav-item">
                         {% url 'login_url' as login_url%}
                         <a class="nav-link btn btn-info text-light ml-2 {% if login_url == request.path %}active{% endif %}" href="{{ login_url }}">Log In</a>
@@ -41,12 +44,14 @@
                         {% url 'register_url' as register_url %}
                         <a class="nav-link btn btn-info text-light ml-2 {% if register_url == request.path %}active{% endif %}" href="{{ register_url }}">Sign Up</a>
                     </li>
-                {% endif %}
+                    {% endif %}
 
 
 
-            </ul>
+                </ul>
+            </div>
         </div>
+
     </nav>
     {% block content %}
     {% endblock %}
