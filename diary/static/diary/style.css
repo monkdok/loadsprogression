@@ -1,6 +1,12 @@
 body {
     background-color: #1a1a1a;
-    color: orange;
+    color: #ffc107;
+}
+
+.alert-secondary {
+    background-color: #ffc107;
+    color: #1a1a1a;
+    border-color: #ffc107;
 }
 
 /*.btn-block {

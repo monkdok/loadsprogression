@@ -86,8 +86,7 @@
 
                 <div class="row">
 
-<!--Counter-->
-
+                <!--Counter-->
                     <div class="col-1">
                         {% for set in last_sets_count %}
                             <div class="alert alert-secondary">
@@ -96,10 +95,9 @@
                         {% endfor %}
                     </div>
 
-<!--Sets-->
-
+                <!--Sets-->
                     {% for training in last_training_sets %}
-                        <div class="col-3">
+                        <div class="col-2">
                             {% for set in training %}
                                 <div class="alert alert-secondary" role="alert">
                                     {{ set.weight }}x{{ set.reps }}
@@ -115,34 +113,25 @@
                         <div class="col-8">
 
                             <!--Collapse-->
-                            <p>
-                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                    Add set
-                                </button>
-                            </p>
-                            <div class="collapse" id="collapseExample">
-                                <div class="card card-body">
-                                    <!--Form-->
-                                    <form method="POST" class="form-row mt-3"> {% csrf_token %}
-                                        <div class="form-row">
-                                            <div class="col-2">
-                                                {{ form.set_number }}
-                                            </div>
-                                            <div class="col-2">
-                                                {{ form.weight }}
-                                            </div>
-                                            <div class="col-1 text-center">
-                                                x
-                                            </div>
-                                            <div class="col-2">
-                                                {{ form.reps }}
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mt-2">Save</button>
-                                        <!--                <input type="submit" value="Save" class="btn btn-primary">-->
-                                    </form>
+                            <div class="col-4 offset-4">
+                                <p>
+                                    <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                                            aria-controls="collapseExample">
+                                        Add workout
+                                    </button>
+                                </p>
+                                <div class="collapse" id="collapseExample">
+                                    <div class="card card-body">
+
+                                        <!--Form-->
+                                        <form method="POST"> {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <input type="submit" value="Save" class="btn btn-primary">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
             </div>

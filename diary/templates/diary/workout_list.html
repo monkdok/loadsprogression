@@ -11,19 +11,8 @@
                     <a href="{% url 'exercise_list' workout.slug %}" class="btn btn-warning btn-lg btn-block mb-2">{{ workout.title }}
                     </a>
                 </div>
-
-                <!--workout delete
-                <div class="col-1">
-                    <a href="{% url 'workout_delete_url' workout.slug %}" class="close"
-                                                                      aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                </div>-->
             </div>
         {% endfor %}
-        <!--<div class="row">
-            <div class="col-1 mx-auto">
-                <a href="{% url 'workout_create_url' %}" class="btn btn-outline-success mt-4">Add</a>
-            </div>
-        </div>-->
 
     <!--Collapse-->
         <div class="row">
@@ -44,11 +33,8 @@
                             </form>
                         </div>
                     </div>
-                </div>
+            </div>
         </div>
-
-<!--        <button type="button" class="btn btn-outline-success mt-4">Add</button>-->
-
     </div>
 {% else %}
     <div class="card border-light text-center">
