@@ -70,6 +70,8 @@ class ExerciseDetail(View):
         workout = workout
         workout1 = get_object_or_404(Workout, slug=exercise.workout.slug)
         sets = exercise.set_mm.all()  # all sets in current exercise
+        today_sets = len(Set.objects.all().filter(exercise=exercise, date=date.today()))
+        set_number = today_sets + 1
         # exact_set_date = sets.filter(date=date)
 
         # latest = sets.latest('date')  # latest set
@@ -120,13 +122,14 @@ class ExerciseDetail(View):
             'training_list_len': training_list_len,
             'last_sets_count': last_sets_count,
             'workout': workout1,
+            'set_number': set_number,
         }
         return render(request, 'diary/exercise_detail.html', context)
 
     def post(self, request, slug, author, workout):
         form = SetCreateForm(request.POST)
         exercise = Exercise.objects.get(slug=slug)
-        sets = len(Set.objects.all().filter(exercise=exercise))
+        sets = len(Set.objects.all().filter(exercise=exercise, date=date.today()))
         set_number = sets + 1
         if form.is_valid():
             form = form.save(commit=False)
@@ -190,13 +193,24 @@ class SetDeleteView(DeleteView):
 
     # def get_success_url(self):
     #     return reverse('/')
-    success_url = reverse_lazy('workout_list_url')
+    def get_success_url(self):
+        view_name = 'exercise_detail_url'
+        # No need for reverse_lazy here, because it's called inside the method
+        return reverse(view_name, kwargs={
+            'slug': self.object.exercise.slug,
+            'author': self.object.exercise.author,
+            'workout': self.object.exercise.workout,
+        })
 
 
 class ExerciseDeleteView(DeleteView):
     model = Exercise
     template_name = 'diary/exercise_delete.html'
-    success_url = reverse_lazy('workout_list_url')
+
+    def get_success_url(self):
+        view_name = 'exercise_list'
+        # No need for reverse_lazy here, because it's called inside the method
+        return reverse(view_name, kwargs={'slug': self.object.workout.slug})
 
 
 class WorkoutDeleteView(DeleteView):

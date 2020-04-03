@@ -51,6 +51,8 @@
     </div>
 </div>
 
+<a href="{% url 'exercise_list' workout.slug %}">Back</a>
+
 <div class="container text-center">
     {% if last_training_sets %}
 
@@ -121,7 +123,9 @@
                                         {{ set.weight }}x{{ set.reps }}
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{% url 'set_update_view' set.pk %}">Edit</a>
+                                        <a class="dropdown-item" type="button" data-toggle="collapse" data-target="#collapseExample"
+                                           aria-expanded="false"
+                                        aria-controls="collapseExample">Edit</a>
                                         <a class="dropdown-item" href="{% url 'set_delete_url' set.pk %}">Delete</a>
                                     </div>
                                 </div>
@@ -146,6 +150,7 @@
 
                                     <!--Form-->
                                     <form method="POST"> {% csrf_token %}
+                                        {{ set_number }} set
                                         {{ form.as_p }}
                                         <input type="submit" value="Save" class="btn btn-primary">
                                     </form>
@@ -178,6 +183,7 @@
 
                         <!--Form-->
                         <form method="POST"> {% csrf_token %}
+                            {{ set_number }} set
                             {{ form.as_p }}
                             <input type="submit" value="Save" class="btn btn-primary">
                         </form>
