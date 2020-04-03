@@ -4,7 +4,7 @@
 {% block content %}
 
 {% if workouts %}
-    <div class="container mt-5 text-center">
+    <div class="container text-center">
         {% for workout in workouts %}
             <div class="row">
                 <div class="col-4 offset-4">
@@ -37,10 +37,31 @@
         </div>
     </div>
 {% else %}
-    <div class="card border-light text-center">
+    <!--<div class="card border-light text-center">
         <div class="card-body">
             <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any training, yet</h5>
             <a href="{% url 'workout_create_url' %}" class="btn btn-primary mt-4">Create your training</a>
+        </div>
+    </div>-->
+    <!--Form Collapse-->
+    <div class="row">
+        <div class="col-4 mx-auto">
+            <p>
+                <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                        aria-controls="collapseExample">
+                    Do you first workout, boy!
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+
+                    <!--Form-->
+                    <form method="POST"> {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="submit" value="Save" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 {% endif %}

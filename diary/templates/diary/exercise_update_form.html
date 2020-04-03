@@ -1,0 +1,21 @@
+{% extends 'diary/base.html' %}
+
+{% block title %}
+    {{ workout.title }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<!--Collapse-->
+<div class="row">
+    <div class="col-4 offset-4">
+        <div class="card card-body">
+
+            <!--Form-->
+            <form method="POST"> {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Update" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

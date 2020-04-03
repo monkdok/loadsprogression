@@ -6,20 +6,20 @@
 
 {% block content %}
 
-<!--Workout menu-->
-<div class="btn-group ml-5 mt-2">
-    <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-        "{{ workout.title }}" options
-    </button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Edit</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{% url 'workout_delete_url' workout.slug %}">Delete</a>
-    </div>
-</div>
     {% if exercises_list %}
-        <div class="container mt-5 text-center">
+        <div class="container">
+            <!--Workout menu-->
+            <div class="btn-group mr-20 mt-2">
+                <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    "{{ workout.title }}" options
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'workout_update_view' workout.slug %}">Edit</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'workout_delete_url' workout.slug %}">Delete</a>
+                </div>
+            </div>
             {% for exercise in exercises_list %}
                 <div class="row">
                     <div class="col-4 offset-4">
@@ -36,11 +36,12 @@
             {% endfor %}
             <!--Collapse-->
             <div class="row">
-                <div class="col-4 offset-4">
+                <div class="col-4 offset-4 text-center">
                     <p>
-                        <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                        <button class="btn btn-outline-warning mt-3" type="button" data-toggle="collapse" data-target="#collapseExample"
+                                aria-expanded="false"
                                 aria-controls="collapseExample">
-                            Add workout
+                            Add Exercise
                         </button>
                     </p>
                     <div class="collapse" id="collapseExample">
@@ -63,10 +64,31 @@
 
         </div>
     {% else %}
-        <div class="card border-light text-center">
+        <!--<div class="card border-light text-center">
             <div class="card-body">
-                <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any training, yet</h5>
+                <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any exercise, yet</h5>
                 <a href="{% url 'exercise_create_url' workout.slug %}" class="btn btn-primary mt-4">Create your training</a>
+            </div>
+        </div>-->
+    <!--Form Collapse-->
+        <div class="row">
+            <div class="col-4 mx-auto">
+                <p>
+                    <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                            aria-controls="collapseExample">
+                        Do you first exercise, boy!
+                    </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+
+                        <!--Form-->
+                        <form method="POST"> {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value="Save" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 {% endif %}

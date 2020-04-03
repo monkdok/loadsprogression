@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.forms import modelform_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -15,7 +16,7 @@ from django.views.generic.dates import ArchiveIndexView
 
 class WorkoutList(LoginRequiredMixin, View):
     # model = Workout
-    login_url = 'login_url'
+    login_url = 'account_login'
 
     def get(self, request):
         workouts = Workout.objects.filter(author=self.request.user)
@@ -42,12 +43,24 @@ class WorkoutDetail(View):
     def get(self, request, slug):
         workout = get_object_or_404(Workout, slug__iexact=slug)
         exercises = workout.exercise_mm.all()
+        form = ExerciseCreateForm()
 
         context = {
             'workout': workout,
-            'exercises_list': exercises
+            'exercises_list': exercises,
+            'form': form,
         }
         return render(request, 'diary/exercise_list.html', context)
+
+    def post(self, request, slug):
+        form = ExerciseCreateForm(request.POST)
+        workout = Workout.objects.get(slug=slug)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.author = self.request.user
+            form.workout = workout
+            form.save()
+        return HttpResponseRedirect(self.request.path_info)
 
 
 class ExerciseDetail(View):
@@ -99,7 +112,6 @@ class ExerciseDetail(View):
             'set_list': sets,
             'all_dates': all_dates,
             'all_sets_count': all_sets_count,
-            # 'latest': latest,
             'all_dates_count': all_dates_count,
             'all_dates_sets': all_dates_sets,
             'today': today,
@@ -114,27 +126,16 @@ class ExerciseDetail(View):
     def post(self, request, slug, author, workout):
         form = SetCreateForm(request.POST)
         exercise = Exercise.objects.get(slug=slug)
+        sets = len(Set.objects.all().filter(exercise=exercise))
+        set_number = sets + 1
         if form.is_valid():
             form = form.save(commit=False)
+            form.set_number = set_number
             form.exercise = exercise
             form.author = self.request.user
             form.save()
 
         return HttpResponseRedirect(self.request.path_info)
-
-
-# def workout_create_view(request):
-#     form = WorkoutCreateForm(request.POST or None)
-#     if form.is_valid():
-#         obj = form.save(commit=False)
-#         obj.author = request.user
-#         obj.save()
-#         form.save_m2m()
-#         return redirect('workout_list_url')
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'diary/workout_form.html', context)
 
 
 class WorkoutCreateView(View):
@@ -167,32 +168,6 @@ class ExerciseCreateView(View):
         return redirect('workout_list_url')
 
 
-class ExerciseCreateView(CreateView):
-    model = Exercise
-    form_class = ExerciseCreateForm
-    success_url = 'workout_list_url'
-
-    def form_valid(self, form, pk):
-        form.instance.author = self.request.user
-        form.instance.workout_id = pk
-        form.save()
-        return redirect('workout_list_url')
-
-
-# def set_create_view(request):
-#     form = SetCreateForm(request.POST or None)
-#     if form.is_valid():
-#         obj = form.save(commit=False)
-#         obj.author = request.user
-#         obj.save()
-#         form.save_m2m()
-#         return redirect('../')
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'diary/set_form.html', context)
-
-
 class SetCreateView(View):
     def get(self, request, slug):
         form = SetCreateForm()
@@ -207,15 +182,6 @@ class SetCreateView(View):
             form.author = self.request.user
             form.save()
         return redirect('workout_list_url')
-# def set_delete_view(request, id):
-#     obj = get_object_or_404(Set, id=id)
-#     if request.method == 'POST':
-#         obj.delete()
-#         return redirect('../')
-#     context = {
-#         'obj': obj
-#     }
-#     return render(request, 'diary/set_delete.html', context)
 
 
 class SetDeleteView(DeleteView):
@@ -237,6 +203,49 @@ class WorkoutDeleteView(DeleteView):
     model = Workout
     template_name = 'diary/workout_delete.html'
     success_url = reverse_lazy('workout_list_url')
+
+
+class WorkoutUpdateView(UpdateView):
+    model = Workout
+    form_class = WorkoutCreateForm
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        view_name = 'exercise_list'
+        # No need for reverse_lazy here, because it's called inside the method
+        return reverse(view_name, kwargs={'slug': self.object.slug})
+
+
+class ExerciseUpdateView(UpdateView):
+    model = Exercise
+    form_class = ExerciseCreateForm
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        view_name = 'exercise_detail_url'
+        # No need for reverse_lazy here, because it's called inside the method
+        return reverse(view_name, kwargs={
+            'slug': self.object.slug,
+            'author': self.object.author,
+            'workout': self.object.workout,
+
+        })
+
+
+class SetUpdateView(UpdateView):
+    model = Set
+    form_class = SetCreateForm
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        view_name = 'exercise_detail_url'
+        # No need for reverse_lazy here, because it's called inside the method
+        return reverse(view_name, kwargs={
+            'slug': self.object.exercise.slug,
+            'author': self.object.author,
+            'workout': self.object.exercise.workout,
+
+        })
 
 
 class RegisterUserView(CreateView):

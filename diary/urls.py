@@ -15,15 +15,19 @@ Including another URL conf
 """
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.urls import path
+from django.urls import path, include
 from .views import *
 from django.views.generic.dates import ArchiveIndexView
 from django.views.generic import TemplateView
 
 urlpatterns = [
+    path('accounts/', include('allauth.urls')),
     path('workouts/', WorkoutList.as_view(), name='workout_list_url'),
     path('workout/<str:slug>/', WorkoutDetail.as_view(), name='exercise_list'),
+    path('workout/<str:slug>/update', WorkoutUpdateView.as_view(), name='workout_update_view'),
     path('user/<slug:author>/workout/<slug:workout>/exercise/<str:slug>/', ExerciseDetail.as_view(), name='exercise_detail_url'),
+    path('exercise/<str:slug>/update', ExerciseUpdateView.as_view(), name='exercise_update_view'),
+    path('set/<int:pk>/update', SetUpdateView.as_view(), name='set_update_view'),
     path('workout_create/', WorkoutCreateView.as_view(), name='workout_create_url'),
     # path('user/<slug:author>/exercise/<slug:workout>/exercise/<str:slug>/create/', exercise_create_view, name='exercise_create_url'),
     # path('exercise_create/', exercise_create_view, name='exercise_create_url'),

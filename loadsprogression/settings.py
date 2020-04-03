@@ -37,8 +37,58 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
     'diary',
 ]
+
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    },
+    'facebook':
+           {'METHOD': 'oauth2',
+            'SCOPE': ['email','public_profile', 'user_friends'],
+            'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+            'FIELDS': [
+                'id',
+                'email',
+                'name',
+                'first_name',
+                'last_name',
+                'verified',
+                'locale',
+                'timezone',
+                'link',
+                'gender',
+                'updated_time'],
+            'EXCHANGE_TOKEN': True,
+            'LOCALE_FUNC': lambda request: 'kr_KR',
+            'VERIFIED_EMAIL': False,
+            'VERSION': 'v2.4'}
+}
+
+#facebook
+SOCIAL_AUTH_FACEBOOK_KEY = '1088115854881796'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET ='c6abcc04e7cdeceeb6e656f749d583ef' #app key
+LOGIN_REDIRECT_URL = "workout_list_url"
+ACCOUNT_LOGOUT_REDIRECT_URL ="workout_list_url"
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USERNAME_REQURIED=True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,6 +120,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'loadsprogression.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -122,10 +178,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIR = (
     os.path.join(BASE_DIR, 'static/diary')
 )
-
-# AUTHENTICATION_BACKENDS = ['social_core.backends.facebook.FacebookOAuth2', ]
-# SOCIAL_AUTH_URL_NAMESPACE = 'social'
-#
-# SOCIAL_AUTH_FACEBOOK_KEY = '1088115854881796'  # Facebook App ID
-# SOCIAL_AUTH_FACEBOOK_SECRET = 'c6abcc04e7cdeceeb6e656f749d583ef'  # Facebook App Secret
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'password']
