@@ -58,7 +58,7 @@ class Set(models.Model):
     # AUTH_USER_MODEL
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     set_number = models.PositiveIntegerField(default='', blank=False)
-    weight = models.PositiveIntegerField(default='', blank=False)
+    weight = models.PositiveIntegerField(default='', blank=True, null=True)
     reps = models.PositiveIntegerField(default='', blank=False)
     # user_date = models.DateField(default=timezone.now, blank=True, null=True)
     date = models.DateField(auto_now_add=True)

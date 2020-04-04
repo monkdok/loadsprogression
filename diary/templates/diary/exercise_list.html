@@ -9,7 +9,6 @@
 <!--Workout menu-->
 
     {% if exercises_list %}
-        <div class="container">
             {% for exercise in exercises_list %}
                 <div class="row">
                     <div class="col-4 offset-4">
@@ -37,9 +36,9 @@
             {% endfor %}
             <!--Collapse-->
             <div class="row">
-                <div class="col-4 offset-4 text-center">
+                <div class="col-4 offset-4">
                     <p>
-                        <button class="btn btn-outline-warning mt-3" type="button" data-toggle="collapse" data-target="#collapseExample"
+                        <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample"
                                 aria-expanded="false"
                                 aria-controls="collapseExample">
                             Add Exercise
@@ -57,7 +56,7 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="row">
+            <!--<div class="row">
                 <div class="col-1">
                     <a href="{% url 'exercise_create_url' workout.slug %}" class="btn btn-outline-success mt-4">Add</a>
                 </div>

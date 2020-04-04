@@ -39,7 +39,6 @@
     </h5>-->
 
 
-<div class="container text-center">
     {% if last_training_sets %}
 
             <!--Dropdown
@@ -62,10 +61,10 @@
 
                 <!--Dates-->
                 <div class="row justify-content-center">
-                    <div class="col-1">
+                    <div class="col-2">
                     </div>
                     {% for date in last_date %}
-                    <div class="col-2">
+                    <div class="col-4">
                         {% if date != today %}
                             {{ date|date:"j.m.y" }}
                         {% else %}
@@ -81,7 +80,7 @@
                     <div class="row justify-content-center">
 
                         <!--Counter-->
-                        <div class="col-1">
+                        <div class="col-2">
                             {% for set in last_sets_count %}
                             <div class="btn btn-warning counter">
                                 <div class="inside-counter">
@@ -93,7 +92,7 @@
 
                         <!--Sets-->
                         {% for training in last_training_sets %}
-                        <div class="col-2">
+                        <div class="col-4">
                             {% for set in training %}
                             <!--<div class="alert alert-secondary" role="alert">
                                 {{ set.weight }}x{{ set.reps }}
@@ -103,15 +102,15 @@
 
                             <!--Example single danger button -->
                                 <div class="btn-group set">
-                                    <button type="button" class="btn btn-warning set dropdown-toggle" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-
-                                        {{ set.weight }}x{{ set.reps }}
+                                    <button type="button" class="btn btn-warning set dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if set.weight %}
+                                            {{ set.weight }}x{{ set.reps }}
+                                        {% else %}
+                                            {{ set.reps }}
+                                        {% endif %}
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" type="button" data-toggle="collapse" data-target="#collapseExample"
-                                           aria-expanded="false"
-                                        aria-controls="collapseExample">Edit</a>
+                                        <a class="dropdown-item" href="{% url 'set_update_view' set.pk %}">Edit</a>
                                         <a class="dropdown-item" href="{% url 'set_delete_url' set.pk %}">Delete</a>
                                     </div>
                                 </div>

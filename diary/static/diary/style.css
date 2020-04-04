@@ -20,7 +20,8 @@ body {
 .container {
     background-color: #1a1a1a;
     margin: auto;
-    width: 100%;
+    max-width: 500px;
+    width: 70%;
     padding: 10px;
 }
 
