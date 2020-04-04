@@ -4,6 +4,18 @@
 {% block content %}
 
 {% if workouts %}
+<!--<nav aria-label="breadcrumb">
+  <ol class="breadcrumb d-flex align-items-center bg-dark">
+    <li class="breadcrumb-item active" aria-current="page">Workouts</li>
+    <li class="ml-auto p-2" style="color: grey">
+       {{ request.user }}
+    </li>
+    <li class="">
+        <a class="btn btn-danger text-light {% if account_logout == request.path %}active{% endif %}"
+           href="{% url 'account_logout' %}">Log Out</a>
+    </li>
+  </ol>
+</nav>-->
     <div class="container text-center">
         {% for workout in workouts %}
             <div class="row">

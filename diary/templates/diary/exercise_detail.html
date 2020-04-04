@@ -37,6 +37,25 @@
 <h5>Workout: {{ workout }} <br>
     Exercise: {{ exercise.title }}
     </h5>-->
+<!--{% block nav %}
+    {% block nav-workout-list %}<a href="{% url 'workout_list_url' %}">Workouts</a>{{% endblock %}
+    {% block nav-exercise-list %}<a href="{% url 'exercise_list' workout.slug %}">{{ workout.title }}</a>{% endblock %}
+    {% block nav-exercise %}{{ exercise.title }}{% endblock %}
+{% endblock %}-->
+<!--<nav aria-label="breadcrumb">
+  <ol class="breadcrumb d-flex align-items-center bg-dark">
+    <li class="breadcrumb-item"><a href="{% url 'workout_list_url' %}">Workouts</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'exercise_list' workout.slug %}">{{ workout.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ exercise.title }}</li>
+    <li class="ml-auto p-2" style="color: grey">
+       {{ request.user }}
+    </li>
+    <li class="">
+        <a class="btn btn-danger text-light {% if account_logout == request.path %}active{% endif %}"
+           href="{% url 'account_logout' %}">Log Out</a>
+    </li>
+  </ol>
+</nav>-->
 
 <!--Workout menu-->
 <div class="btn-group ml-5 mt-2">
@@ -50,8 +69,6 @@
         <a class="dropdown-item" href="{% url 'exercise_delete_url' exercise.slug %}">Delete</a>
     </div>
 </div>
-
-<a href="{% url 'exercise_list' workout.slug %}">Back</a>
 
 <div class="container text-center">
     {% if last_training_sets %}

@@ -24,6 +24,11 @@ body {
     padding: 10px;
 }
 
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #6c757d;
+    content: "/";
+}
+
 
 .btn.btn-warning.set {
     height: 70px;

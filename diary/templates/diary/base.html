@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="main-container">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand btn dark {% if workout_list_url == request.path %}active{% endif %}" href="{% url 'workout_list_url' %}">
                 Workouts</a>
@@ -30,7 +30,7 @@
 
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
-<!--                        {% url 'logout_url' as logout_url %}-->
+&lt;!&ndash;                        {% url 'logout_url' as logout_url %}&ndash;&gt;
                         <a class="nav-link btn btn-danger text-light ml-5 {% if account_logout == request.path %}active{% endif %}"
                            href="{% url 'account_logout' %}">Log Out</a>
                     </li>
@@ -39,7 +39,7 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-<!--                        {% url 'account_login' as login_url%}-->
+&lt;!&ndash;                        {% url 'account_login' as login_url%}&ndash;&gt;
                         <a class="nav-link btn btn-info text-light ml-2 {% if 'account_login' == request.path %}active{% endif %}"
                            href="{% url 'account_login' %}">Log In</a>
                     </li>
@@ -55,7 +55,33 @@
             </div>
         </div>
 
-    </nav>
+    </nav>-->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb d-flex align-items-center bg-dark">
+                <li class="breadcrumb-item"><a href="{% url 'workout_list_url' %}">Workouts</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'exercise_list' workout.slug %}">{{ workout.title }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ exercise.title }}</li>
+                {% if request.user.is_authenticated %}
+                    <li class="ml-auto p-2" style="color: grey">
+                        {{ request.user }}
+                    </li>
+                    <li class="">
+                        <a class="btn btn-danger text-light {% if account_logout == request.path %}active{% endif %}"
+                           href="{% url 'account_logout' %}">Log Out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <!--                        {% url 'account_login' as login_url%}-->
+                        <a class="nav-link btn btn-info text-light ml-2 {% if 'account_login' == request.path %}active{% endif %}"
+                           href="{% url 'account_login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        {% url 'register_url' as register_url %}
+                        <a class="nav-link btn btn-info text-light ml-2 {% if register_url == request.path %}active{% endif %}" href="{{ register_url }}">Sign Up</a>
+                    </li>
+                {%  endif %}
+            </ol>
+        </nav>
     </div>
 
     {% block content %}

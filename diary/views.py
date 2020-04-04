@@ -24,6 +24,7 @@ class WorkoutList(LoginRequiredMixin, View):
         context = {
             'form': form,
             'workouts': workouts,
+            'workout': workouts[0],
         }
         return render(request, 'diary/workout_list.html', context)
 
