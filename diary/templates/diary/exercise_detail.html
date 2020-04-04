@@ -38,18 +38,6 @@
     Exercise: {{ exercise.title }}
     </h5>-->
 
-<!--Workout menu-->
-<div class="btn-group ml-5 mt-2">
-    <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-        "{{ exercise.title }}" options
-    </button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="{% url 'exercise_update_view' exercise.slug %}">Edit</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{% url 'exercise_delete_url' exercise.slug %}">Delete</a>
-    </div>
-</div>
 
 <div class="container text-center">
     {% if last_training_sets %}

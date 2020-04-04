@@ -224,11 +224,7 @@ class WorkoutUpdateView(UpdateView):
     model = Workout
     form_class = WorkoutCreateForm
     template_name_suffix = '_update_form'
-
-    def get_success_url(self):
-        view_name = 'exercise_list'
-        # No need for reverse_lazy here, because it's called inside the method
-        return reverse(view_name, kwargs={'slug': self.object.slug})
+    success_url = reverse_lazy('workout_list_url')
 
 
 class ExerciseUpdateView(UpdateView):
@@ -237,13 +233,10 @@ class ExerciseUpdateView(UpdateView):
     template_name_suffix = '_update_form'
 
     def get_success_url(self):
-        view_name = 'exercise_detail_url'
+        view_name = 'exercise_list'
         # No need for reverse_lazy here, because it's called inside the method
         return reverse(view_name, kwargs={
-            'slug': self.object.slug,
-            'author': self.object.author,
-            'workout': self.object.workout,
-
+            'slug': self.object.workout.slug,
         })
 
 

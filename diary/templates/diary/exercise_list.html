@@ -7,24 +7,25 @@
 {% block content %}
 
 <!--Workout menu-->
-<div class="btn-group mr-20 mt-2">
-    <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-        "{{ workout.title }}" options
-    </button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="{% url 'workout_update_view' workout.slug %}">Edit</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{% url 'workout_delete_url' workout.slug %}">Delete</a>
-    </div>
-</div>
+
     {% if exercises_list %}
         <div class="container">
             {% for exercise in exercises_list %}
                 <div class="row">
                     <div class="col-4 offset-4">
-                        <a href="{{ exercise.get_absolute_url }}" class="btn btn-warning btn-lg btn-block mb-2">{{ exercise.title }}</a>
-                        </a>
+                        <!--<a href="{{ exercise.get_absolute_url }}" class="btn btn-warning btn-lg btn-block mb-2">{{ exercise.title }}</a>
+                        </a>-->
+                        <div class="btn-group btn-lg btn-block">
+                        <a href="{{ exercise.get_absolute_url }}" type="button" class="btn btn-warning btn-lg btn-block">{{ exercise.title }}</a>
+                        <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'exercise_update_view' exercise.slug %}">Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'exercise_delete_url' exercise.slug %}">Delete</a>
+                        </div>
+                    </div>
                     </div>
 
                     <!--Workout delete
