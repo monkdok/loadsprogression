@@ -4,22 +4,11 @@
 {% block content %}
 
 {% if workouts %}
-<!--<nav aria-label="breadcrumb">
-  <ol class="breadcrumb d-flex align-items-center bg-dark">
-    <li class="breadcrumb-item active" aria-current="page">Workouts</li>
-    <li class="ml-auto p-2" style="color: grey">
-       {{ request.user }}
-    </li>
-    <li class="">
-        <a class="btn btn-danger text-light {% if account_logout == request.path %}active{% endif %}"
-           href="{% url 'account_logout' %}">Log Out</a>
-    </li>
-  </ol>
-</nav>-->
+
     <div class="container text-center">
         {% for workout in workouts %}
             <div class="row">
-                <div class="col-4 offset-4">
+                <div class="col-6 offset-3">
                     <!--<div class="btn-group">
                         <button type="button" class="btn btn-danger">Action</button>
                         <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,8 +22,22 @@
                             <a class="dropdown-item" href="#">Separated link</a>
                         </div>
                     </div>-->
-                    <a href="{% url 'exercise_list' workout.slug %}" class="btn btn-warning btn-lg btn-block mb-2">{{ workout.title }}
-                    </a>
+
+                    <!--First button-->
+                    <!--<a href="{% url 'exercise_list' workout.slug %}" class="btn btn-warning btn-lg btn-block mb-2">{{ workout.title }}</a>-->
+                    <div class="btn-group btn-lg btn-block">
+                        <a href="{% url 'exercise_list' workout.slug %}" type="button" class="btn btn-warning btn-lg btn-block">{{ workout.title }}</a>
+                        <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}
