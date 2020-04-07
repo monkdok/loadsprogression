@@ -41,12 +41,12 @@ class Exercise(CommonInfo):
     def get_absolute_url(self):
         return reverse('exercise_detail_url', kwargs={
             'slug': self.slug,
-            'workout': self.workout,
+            'workout': self.workout.slug,
             'author': self.author,
         })
 
     def save(self, *args, **kwargs):
-        custom_slug = '{}-{}'.format(self.title, self.author)
+        custom_slug = '{}-{}-{}'.format(self.workout, self.title, self.author)
         self.slug = slugify(custom_slug)
         super(Exercise, self).save()
 
