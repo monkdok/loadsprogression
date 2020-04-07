@@ -199,7 +199,7 @@ class SetDeleteView(DeleteView):
         return reverse(view_name, kwargs={
             'slug': self.object.exercise.slug,
             'author': self.object.exercise.author,
-            'workout': self.object.exercise.workout,
+            'workout': self.object.exercise.workout.slug,
         })
 
 
@@ -250,7 +250,7 @@ class SetUpdateView(UpdateView):
         return reverse(view_name, kwargs={
             'slug': self.object.exercise.slug,
             'author': self.object.author,
-            'workout': self.object.exercise.workout,
+            'workout': self.object.exercise.workout.slug,
 
         })
 
