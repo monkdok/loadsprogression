@@ -128,6 +128,14 @@ html, body {
   padding: 8% 0 0;
   margin: auto;
 }
+
+.logout-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+
+
 .form {
   position: relative;
   background: #ffffff;
@@ -172,3 +180,10 @@ html, body {
     border-color: red;
 }
 
+.version {
+  color: grey;
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  font-size: 18px;
+}

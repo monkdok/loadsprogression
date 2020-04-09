@@ -54,15 +54,23 @@ SOCIALACCOUNT_PROVIDERS = {
         # For each OAuth based provider, either add a ``SocialApp``
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
+        'SCOPE': [
+                    'profile',
+                    'email',
+                ],
         'APP': {
-            'client_id': '123',
-            'secret': '456',
+            'client_id': '1068417660600-b1rvf41jh129q5gurb2cgedn2o9ol81e.apps.googleusercontent.com',
+            'secret': '8xxG7kX-p7lqrR6uQHg2H_zx',
             'key': ''
-        }
+        },
+        'AUTH_PARAMS': {
+                    'access_type': 'online',
+                }
+
     },
     'facebook':
            {'METHOD': 'oauth2',
-            'SCOPE': ['email','public_profile', 'user_friends'],
+            'SCOPE': ['email', 'public_profile', 'user_friends'],
             'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
             'FIELDS': [
                 'id',

@@ -22,7 +22,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('accounts/', include('allauth.urls')),
-    path('workouts/', WorkoutList.as_view(), name='workout_list_url'),
+    path('', WorkoutList.as_view(), name='workout_list_url'),
     path('workout/<str:slug>/', WorkoutDetail.as_view(), name='exercise_list'),
     path('workout/<str:slug>/update', WorkoutUpdateView.as_view(), name='workout_update_view'),
     path('user/<slug:author>/workout/<slug:workout>/exercise/<str:slug>/', ExerciseDetail.as_view(), name='exercise_detail_url'),
