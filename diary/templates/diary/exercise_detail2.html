@@ -1,9 +1,42 @@
 {% extends 'diary/base.html' %}
+{% load humanize %}
 
 {% block title %}
     {{ exercise.title }} - {{ block.super }}
 {% endblock %}
 
 {% block content %}
-
+{% if last_training_sets %}
+<div class="row justify-content-center">
+    <div class="all-sets-area col-4">
+        <div class="dates row">
+            <div class="col-2">
+                empty
+            </div>
+            {% for date in last_date %}
+            <div class="dates-col col-5">
+                <!--{% if date != today %}
+                {{ date|date:"j.m.y" }}
+                {% else %}
+                Today
+                {% endif %}-->
+                {{ date|naturalday:"j.m.y"|title }}
+            </div>
+            {% endfor %}
+        </div>
+        {% for training in last_training_sets %}
+        {% for set in training %}
+        <div class="row">
+            <div class="col-2">
+                {{ forloop.counter }}
+            </div>
+            <div class="col-5">
+                {{ set.weight }}x{{ set.reps }}
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 {% endblock %}

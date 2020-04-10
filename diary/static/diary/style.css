@@ -18,14 +18,21 @@ html, body {
 }
 
 .container {
-    width: 90%;
     text-align: center;
-
     background-color: #1a1a1a;
     margin: auto;
-    max-width: 970px;
-    width: 70%;
-    padding: 10px;
+}
+
+.dates {
+    background-color: red;
+}
+
+.dates-col {
+
+}
+
+.all-sets-area{
+    background-color:orange; color:black; height:760px;
 }
 
 .button.facebook {
@@ -43,7 +50,9 @@ html, body {
     padding-bottom: 0px;
 }*/
 
-
+/*.btn-group {
+    height: 100px;
+}*/
 
 .btn.btn-warning.set {
     height: 70px;
@@ -147,6 +156,7 @@ html, body {
   font-size: 14px;
   color: black;
 }
+
 .form input {
   font-family: "Roboto", sans-serif;
   outline: 0;

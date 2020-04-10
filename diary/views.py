@@ -72,18 +72,31 @@ class ExerciseDetail(View):
         sets = exercise.set_mm.all()  # all sets in current exercise
         today_sets = len(Set.objects.all().filter(exercise=exercise, date=date.today()))
         set_number = today_sets + 1
-        # exact_set_date = sets.filter(date=date)
-
-        # latest = sets.latest('date')  # latest set
         today = date.today()
         if sets:
             all_sets_count = len(sets)  # quantity of all sets
             all_dates = [set.date for set in sets]  # all sets dates
-            all_dates = list(dict.fromkeys(all_dates))  # unique sets dates
+            # all_dates = list(dict.fromkeys(all_dates))  # unique sets dates
             all_dates_count = len(all_dates)  # quantity of all unique dates
             if all_dates_count >= 2:
                 last_training_sets = [sets.filter(exercise=exercise, date=all_dates[-2]).order_by('set_number'),
                                       sets.filter(exercise=exercise, date=all_dates[-1]).order_by('set_number')]
+                last_training = [last_training_sets[-1]]
+                secondlast_training = [last_training_sets[0]]
+                dictionary = dict(zip(secondlast_training, last_training))
+                # listoflists = []
+                # secondlast_index = len(secondlast_training)
+                # last_index = len(last_training)
+                # while secondlast_index or last_index:
+                #     if secondlast_index and last_index:
+                #         listoflists.append((secondlast_training[secondlast_index -1], last_training[last_index -1]))
+                #     else:
+                #         if not secondlast_index:
+                #             listoflists.append(('none', last_training[last_index]))
+                #         elif not last_index:
+                #             listoflists.append((secondlast_training[secondlast_index], 'none'))
+                #     secondlast_index -= 1
+                #     last_index -= 1
                 if len(last_training_sets[0]) > len(last_training_sets[1]):
                     last_sets_count = last_training_sets[0]
                 else:
@@ -107,6 +120,9 @@ class ExerciseDetail(View):
             last_date = None
             training_list_len = None
             last_sets_count = None
+            last_training = None
+            secondlast_training = None
+            dictionary = None
 
         context = {
             'form': form,
@@ -119,12 +135,16 @@ class ExerciseDetail(View):
             'today': today,
             'last_training_sets': last_training_sets,
             'last_date': last_date,
+            'last_training': last_training,
+            'secondlast_training': secondlast_training,
+            'dictionary': dictionary,
+            # 'listoflists': listoflists,
             'training_list_len': training_list_len,
             'last_sets_count': last_sets_count,
             'workout': workout1,
             'set_number': set_number,
         }
-        return render(request, 'diary/exercise_detail.html', context)
+        return render(request, 'diary/exercise_detail2.html', context)
 
     def post(self, request, slug, author, workout):
         form = SetCreateForm(request.POST)
