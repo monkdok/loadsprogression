@@ -8,7 +8,7 @@
 {% block content %}
 {% if last_training_sets %}
 <div class="row justify-content-center">
-    <div class="all-sets-area col-4">
+    <div class="all-sets-area">
         <div class="dates row">
             <div class="col-2">
                 empty
@@ -24,18 +24,64 @@
             </div>
             {% endfor %}
         </div>
-        {% for training in last_training_sets %}
+
+        <div class="row justify-content-center">
+            <!--Counter-->
+            <div class="col-2">
+                {% for set in last_sets_count %}
+                <div class="btn btn-warning counter">
+                    <div class="inside-counter">
+                        {{ forloop.counter }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!--Sets-->
+            {% for training in last_training_sets %}
+            <div class="col-4">
+                {% for set in training %}
+                <!--<div class="alert alert-secondary" role="alert">
+                    {{ set.weight }}x{{ set.reps }}
+                    <a href="{% url 'set_delete_url' set.id %}" class="close"
+                                                      aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                </div>-->
+
+                <!--Example single danger button -->
+                <div class="btn-group set">
+                    <button type="button" class="btn btn-warning set dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if set.weight %}
+                        {{ set.weight }}x{{ set.reps }}
+                        {% else %}
+                        {{ set.reps }}
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'set_update_view' set.pk %}">Edit</a>
+                        <a class="dropdown-item" href="{% url 'set_delete_url' set.pk %}">Delete</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+
+
+
+
+       <!-- {% for training in last_training_sets %}
         {% for set in training %}
-        <div class="row">
             <div class="col-2">
                 {{ forloop.counter }}
             </div>
             <div class="col-5">
                 {{ set.weight }}x{{ set.reps }}
             </div>
-        </div>
         {% endfor %}
-        {% endfor %}
+        {% endfor %}-->
     </div>
 </div>
 {% endif %}

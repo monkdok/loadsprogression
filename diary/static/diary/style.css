@@ -25,6 +25,8 @@ html, body {
 
 .dates {
     background-color: red;
+    margin-right: 0px;
+    margin-left: 0px;
 }
 
 .dates-col {
@@ -33,6 +35,8 @@ html, body {
 
 .all-sets-area{
     background-color:orange; color:black; height:760px;
+    max-width: 790px;
+    min-width: 400px;
 }
 
 .button.facebook {
@@ -48,7 +52,7 @@ html, body {
     padding-right: 120px;
     padding-left: 120px;
     padding-bottom: 0px;
-}*/
+}
 
 /*.btn-group {
     height: 100px;
@@ -72,7 +76,9 @@ html, body {
     border-color: #1a1a1a;
     height: 70px;
     width: 70px;
-    margin: 10px;
+    margin-top: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
     display: table;
 
 }
