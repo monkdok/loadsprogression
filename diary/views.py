@@ -144,7 +144,7 @@ class ExerciseDetail(View):
             'workout': workout1,
             'set_number': set_number,
         }
-        return render(request, 'diary/exercise_detail2.html', context)
+        return render(request, 'diary/exercise_detail3.html', context)
 
     def post(self, request, slug, author, workout):
         form = SetCreateForm(request.POST)

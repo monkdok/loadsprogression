@@ -24,9 +24,8 @@ html, body {
 }
 
 .dates {
-    background-color: red;
-    margin-right: 0px;
-    margin-left: 0px;
+    margin-top: 10px;
+    color:white;
 }
 
 .dates-col {
@@ -34,7 +33,9 @@ html, body {
 }
 
 .all-sets-area{
-    background-color:orange; color:black; height:760px;
+    background-color:orange;
+    color:black;
+    height:760px;
     max-width: 790px;
     min-width: 400px;
 }
