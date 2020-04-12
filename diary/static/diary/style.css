@@ -11,65 +11,121 @@
 
 html, body {
     text-align: center;
-    background-color: #1a1a1a;
-    color: #ffc107;
+/*
+    background-color: #ECECEC;
+*/
+    background-color: #f7f7f7;
+    color: #161616;
     height: 100%;
+    min-width: 320px;
+    font-family: 'Roboto', sans-serif;
+/*
+    font-family: 'Ubuntu', sans-serif;
+*/
 
 }
 
 .container {
     text-align: center;
-    background-color: #1a1a1a;
     margin: auto;
 }
 
-.dates {
-    margin-top: 10px;
-    color:white;
-}
-
-.dates-col {
-
-}
 
 .all-sets-area{
-    background-color:orange;
-    color:black;
-    height:760px;
-    max-width: 790px;
-    min-width: 400px;
+    width: 100%;
+    padding: 0 15px;
+    color: #333;
+    font-weight: regular;
+    max-width: 500px;
+
 }
+
+
+.section{
+    width: 100%;
+    padding: 0 15px;
+    /*border: 1px solid black;*/
+}
+
+
+.set-box {
+/*
+    background-color: #333;
+*/
+    width: 45%;
+    margin: 10px auto 25px auto;
+    padding: 7px 15px;
+    display: inline-block;
+    /*border: 1px solid black;*/
+    border-radius: 5px;
+    /*box-shadow: 0px 0px 30px -2px rgba(0,0,0,0.09);*/
+}
+
+
+.badge {
+    margin: 0px auto 15px auto;
+    background-color: #333;
+    color:white;
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+.counter {
+    color: grey;
+    margin-right: 5px;
+}
+
+.set {
+
+}
+
 
 .button.facebook {
  background: #3b5998;
 }
 
+
+.breadcrumb {
+    margin-bottom: 0;
+    width: 100%;
+    height: auto;
+}
+
+
 .breadcrumb-item+.breadcrumb-item::before {
     color: #6c757d;
     content: "/";
+
 }
 
-/*.btn-group.btn-lg.btn-block {
-    padding-right: 120px;
-    padding-left: 120px;
-    padding-bottom: 0px;
+.button-section {
+    width: 100%;
+    margin: 25px auto 25px auto;
 }
 
-/*.btn-group {
-    height: 100px;
-}*/
+.btn {
+    font-weight: 300;
+    margin: 5px 0;
+}
+
+.btn-group.btn-lg.btn-block {
+    padding: 0;
+}
+
 
 .btn.btn-warning.set {
     height: 70px;
     width: 140px;
     margin: 10px;
     display: table;
+    font-style: black;
 }
 
 .btn-group.set {
     display: block;
 
 }
+
 
 .btn.btn-warning.counter {
     background-color: #1a1a1a;
@@ -164,7 +220,14 @@ html, body {
   color: black;
 }
 
-.form input {
+.card {
+    background-color: #f7f7f7;
+}
+
+.form-control {
+    background-color: #f7f7f7;
+}
+.form.input {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
@@ -172,6 +235,7 @@ html, body {
   border: 0;
   margin: 0 0 15px;
   padding: 15px;
+
 /*
   box-sizing: border-box;
 */

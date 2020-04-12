@@ -1,94 +1,94 @@
 {% extends 'diary/base.html' %}
 
 {% block title %}
-    {{ workout.title }} - {{ block.super }}
+{{ workout.title }} - {{ block.super }}
 {% endblock %}
 
 {% block content %}
 
 <!--Workout menu-->
 
-    {% if exercises_list %}
-            {% for exercise in exercises_list %}
-                <div class="row">
-                    <div class="col-4 offset-4">
-                        <!--<a href="{{ exercise.get_absolute_url }}" class="btn btn-warning btn-lg btn-block mb-2">{{ exercise.title }}</a>
-                        </a>-->
-                        <div class="btn-group btn-lg btn-block">
-                        <a href="{{ exercise.get_absolute_url }}" type="button" class="btn btn-warning btn-lg btn-block">{{ exercise.title }}</a>
-                        <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'exercise_update_view' exercise.slug %}">Edit</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'exercise_delete_url' exercise.slug %}">Delete</a>
-                        </div>
-                    </div>
-                    </div>
-
-                    <!--Workout delete
-                    <div class="col-1">
-                        <a href="{% url 'exercise_delete_url' exercise.slug %}" class="close"
-                                                                      aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                    </div>-->
-                </div>
-            {% endfor %}
-            <!--Collapse-->
-            <div class="row">
-                <div class="col-4 offset-4">
-                    <p>
-                        <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample"
-                                aria-expanded="false"
-                                aria-controls="collapseExample">
-                            Add Exercise
-                        </button>
-                    </p>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
-
-                            <!--Form-->
-                            <form method="POST"> {% csrf_token %}
-                                {{ form.as_p }}
-                                <input type="submit" value="Save" class="btn btn-primary">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--<div class="row">
-                <div class="col-1">
-                    <a href="{% url 'exercise_create_url' workout.slug %}" class="btn btn-outline-success mt-4">Add</a>
-                </div>
-            </div>-->
-
-    {% else %}
-        <!--<div class="card border-light text-center">
-            <div class="card-body">
-                <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any exercise, yet</h5>
-                <a href="{% url 'exercise_create_url' workout.slug %}" class="btn btn-primary mt-4">Create your training</a>
-            </div>
-        </div>-->
-    <!--Form Collapse-->
-        <div class="row">
-            <div class="col-4 mx-auto">
-                <p>
-                    <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                            aria-controls="collapseExample">
-                        Do you first exercise, boy!
-                    </button>
-                </p>
-                <div class="collapse" id="collapseExample">
-                    <div class="card card-body">
-
-                        <!--Form-->
-                        <form method="POST"> {% csrf_token %}
-                            {{ form.as_p }}
-                            <input type="submit" value="Save" class="btn btn-primary">
-                        </form>
-                    </div>
-                </div>
+{% if exercises_list %}
+{% for exercise in exercises_list %}
+<div class="row">
+    <div class="col-4 offset-4">
+        <!--<a href="{{ exercise.get_absolute_url }}" class="btn btn-warning btn-lg btn-block mb-2">{{ exercise.title }}</a>
+        </a>-->
+        <div class="btn-group btn-lg btn-block">
+            <a href="{{ exercise.get_absolute_url }}" type="button" class="btn btn-warning btn-lg btn-block">{{ exercise.title }}</a>
+            <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'exercise_update_view' exercise.slug %}">Edit</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'exercise_delete_url' exercise.slug %}">Delete</a>
             </div>
         </div>
+    </div>
+
+    <!--Workout delete
+    <div class="col-1">
+        <a href="{% url 'exercise_delete_url' exercise.slug %}" class="close"
+                                                      aria-label="Close"><span aria-hidden="true">&times;</span></a>
+    </div>-->
+</div>
+{% endfor %}
+<!--Collapse-->
+<div class="row">
+    <div class="col-4 offset-4">
+        <p>
+            <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample"
+                    aria-expanded="false"
+                    aria-controls="collapseExample">
+                Add Exercise
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+
+                <!--Form-->
+                <form method="POST"> {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="row">
+    <div class="col-1">
+        <a href="{% url 'exercise_create_url' workout.slug %}" class="btn btn-outline-success mt-4">Add</a>
+    </div>
+</div>-->
+
+{% else %}
+<!--<div class="card border-light text-center">
+    <div class="card-body">
+        <h5 class="card-title mt-4 text-secondary">Sorry, you don't have any exercise, yet</h5>
+        <a href="{% url 'exercise_create_url' workout.slug %}" class="btn btn-primary mt-4">Create your training</a>
+    </div>
+</div>-->
+<!--Form Collapse-->
+<div class="row">
+    <div class="col-4 mx-auto">
+        <p>
+            <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                    aria-controls="collapseExample">
+                Do you first exercise, boy!
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+
+                <!--Form-->
+                <form method="POST"> {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endif %}
 {% endblock %}

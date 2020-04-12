@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/path/to/bootstrap-social.css">
     <link rel="stylesheet" type="text/css" href="{% static 'diary/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>
@@ -18,6 +20,7 @@
 </head>
 <body>
     <div class="main-container">
+
         <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand btn dark {% if workout_list_url == request.path %}active{% endif %}" href="{% url 'workout_list_url' %}">
@@ -108,9 +111,12 @@
     </div>
 
     <div class="container-fluid">
-
+        <div class="row justify-content-center">
+            <div class="all-sets-area">
                 {% block content %}
                 {% endblock %}
+            </div>
+        </div>
 
     </div>
 

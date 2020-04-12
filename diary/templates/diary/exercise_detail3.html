@@ -7,30 +7,56 @@
 
 {% block content %}
 {% if last_training_sets %}
-<div class="row justify-content-center">
-    <div class="all-sets-area col-4">
-        <div class="col-4 offset-4">
+<div class="row">
+    <div class="section">
+        <div class="row">
             {% for training in last_training_sets %}
-            {% for set in training %}
-            {% if forloop.first %}
-            <div class="dates row ">
-                <div class="dates-col col-5" align="left">
-                    {{ set.date|naturalday:"j.m.y"|title }}
+            <div class="set-box">
+                {% for set in training %}
+                {% if forloop.first %}
+                <div class="dates row ">
+                    <div class="dates-col col-5 offset-2" align="left">
+                        <span class="badge badge-primary">{{ set.date|naturalday:"j.m.y"|title }}</span>
+                    </div>
                 </div>
-            </div>
-            {% endif %}
-            <div class="row">
-                <!--<div class="col-2">
-                    {{ forloop.counter }}
-                </div>-->
-                <div class="col-10" align="left">
-                    {{ forloop.counter }}) {{ set.weight }}x{{ set.reps }}
+                {% endif %}
+                <div class="row">
+                    <div class="col-10 offset-1 set" align="left">
+                        <span class="counter">{{ forloop.counter }}.</span>
+                        {% if set.weight %}
+                        {{ set.weight }}x{{ set.reps }}
+                        {% else %}
+                        {{ set.reps }}
+                        {% endif %}
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
             {% endfor %}
         </div>
     </div>
 </div>
 {% endif %}
+<!--Form Collapse-->
+<div class="row">
+    <div class="col mx-auto">
+        <p>
+            <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                    aria-controls="collapseExample">
+                Add Set
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+
+                <!--Form-->
+                <form method="POST"> {% csrf_token %}
+                    {{ set_number }} set
+                    {{ form.as_p }}
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
