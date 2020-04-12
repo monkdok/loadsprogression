@@ -21,13 +21,28 @@
                 </div>
                 {% endif %}
                 <div class="row">
-                    <div class="col-10 offset-1 set" align="left">
-                        <span class="counter">{{ forloop.counter }}.</span>
-                        {% if set.weight %}
-                        {{ set.weight }}x{{ set.reps }}
-                        {% else %}
-                        {{ set.reps }}
-                        {% endif %}
+                    <div class="col" align="left">
+                        <div class="row">
+                            <div class="col counter-set">
+                                <div class="counter">
+                                    {{ forloop.counter }}.
+                                </div>
+                                <!-- Example single danger button -->
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% if set.weight %}
+                                        {{ set.weight }}x{{ set.reps }}
+                                        {% else %}
+                                        {{ set.reps }}
+                                        {% endif %}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{% url 'set_update_view' set.pk %}">Edit</a>
+                                        <a class="dropdown-item" href="{% url 'set_delete_url' set.pk %}">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}

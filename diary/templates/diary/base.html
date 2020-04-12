@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/path/to/bootstrap-social.css">
     <link rel="stylesheet" type="text/css" href="{% static 'diary/style.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -86,7 +86,7 @@
                     <li class="breadcrumb-item active" aria-current="page">{{ exercise.title }}</li>
                 {% endif %}
 
-                {% if request.user.is_authenticated %}
+                <!--{% if request.user.is_authenticated %}
                     <li class="ml-auto p-2" style="color: grey">
                         {{ request.user }}
                     </li>
@@ -95,7 +95,7 @@
                            href="{% url 'account_logout' %}">Log Out</a>
                     </li>
                 {% else %}
-                    <!--<li class="nav-item">
+                    &lt;!&ndash;<li class="nav-item">
                         &lt;!&ndash;                        {% url 'account_login' as login_url%}&ndash;&gt;
                         <a class="nav-link btn btn-info text-light ml-2 {% if 'account_login' == request.path %}active{% endif %}"
                            href="{% url 'account_login' %}">Log In</a>
@@ -103,8 +103,8 @@
                     <li class="nav-item">
                         {% url 'register_url' as register_url %}
                         <a class="nav-link btn btn-info text-light ml-2 {% if register_url == request.path %}active{% endif %}" href="{{ register_url }}">Sign Up</a>
-                    </li>-->
-                {%  endif %}
+                    </li>&ndash;&gt;
+                {%  endif %}-->
             </ol>
         </nav>
         {% endif %}
