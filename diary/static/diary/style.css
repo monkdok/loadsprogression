@@ -56,9 +56,13 @@ html, body {
 
 .badge {
     margin: 0px auto 15px auto;
-    background-color: #333;
-    color:white;
+    /*background-color: #333;*/
+    background-color: #f7f7f7;
+    padding: 5px 5px;
+    color: #333;
+    border: 1px solid #f7f7f7;
     margin-bottom: 15px;
+    font-size: 18px;
     font-weight: 300;
     float: left;
 }
@@ -79,8 +83,17 @@ html, body {
  background: #3b5998;
 }
 
+.navbar {
+    display: inline-block !important;
+}
+
+.1col {
+    display: inline-block;
+}
 
 .breadcrumb {
+    padding: 20px 25px 20px 15px;
+    margin-right: auto !important;
     margin-bottom: 0;
     border-radius: 0;
     font-size: 15px;
@@ -137,13 +150,18 @@ html, body {
 
 }
 
+.navbar-nav {
+    margin-left: auto;
+}
+
 
 .dotted_menu {
-  width: 8px;
-  height: 8px;
+  text-align: right;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background-color: white;
-  box-shadow: 0px 15px 0px white, 0px 30px 0px white;
+  background-color: #FFBF0D;
+  box-shadow: 0px 10px 0px #FFBF0D, 0px 20px 0px #FFBF0D;
 }
 
 .three_dots {
@@ -217,3 +235,4 @@ html, body {
   right: 16px;
   font-size: 18px;
 }
+

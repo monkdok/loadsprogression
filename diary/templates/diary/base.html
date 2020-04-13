@@ -63,8 +63,9 @@
 
     </nav>-->
         {% if request.user.is_authenticated %}
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb d-flex align-items-center bg-dark">
+        <nav aria-label="navbar">
+            <div class="breadcrumb-custom">
+                <ol class="breadcrumb bg-dark">
                 {% url 'workout_list_url' as workout_list_url %}
                 {% if workout_list_url == request.path %}
                     <li class="breadcrumb-item active" aria-current="page">Workouts</li>
@@ -86,6 +87,10 @@
                     <li class="breadcrumb-item active" aria-current="page">{{ exercise.title }}</li>
                 {% endif %}
 
+                    <ul class="navbar-nav ml-auto">
+                        <li class="dotted_menu">
+                        </li>
+                    </ul>
                 <!--{% if request.user.is_authenticated %}
                     <li class="ml-auto p-2" style="color: grey">
                         {{ request.user }}
@@ -106,6 +111,8 @@
                     </li>&ndash;&gt;
                 {%  endif %}-->
             </ol>
+            </div>
+
         </nav>
         {% endif %}
     </div>
