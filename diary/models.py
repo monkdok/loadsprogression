@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 from django.shortcuts import reverse
+from slugify import slugify
+
 
 
 class CommonInfo(models.Model):
