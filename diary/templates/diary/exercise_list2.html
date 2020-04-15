@@ -13,7 +13,7 @@ Workouts - {{ block.super }}
             <div class="btn-group btn-lg btn-block">
                 <a href="{{ exercise.get_absolute_url }}" type="button" class="btn btn-warning btn-lg btn-block">{{ exercise.title }}</a>
                 <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
+                    <i class="fas fa-ellipsis-v"></i>
                 </button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="{% url 'exercise_update_view' exercise.slug %}">Edit</a>

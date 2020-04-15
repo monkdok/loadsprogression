@@ -3,7 +3,7 @@ html, body {
     background-color: #f7f7f7;
     color: #161616;
     height: 100%;
-    min-width: 320px;
+    min-width: 350px;
     font-family: 'Roboto', sans-serif;
 /*
     font-family: 'Ubuntu', sans-serif;
@@ -11,9 +11,21 @@ html, body {
 
 }
 
+div {
+    display: block;
+}
+ button {
+    display: block;
+}
+
+
 .container {
     text-align: center;
     margin: auto;
+}
+
+.dropdown-toggle-split {
+    color: #3f3f3f;
 }
 
 
@@ -67,9 +79,6 @@ html, body {
     float: left;
 }
 
-.counter-set {
-    padding: 0;
-}
 
 .counter {
     font-weight: 100;
@@ -80,19 +89,21 @@ html, body {
 
 
 .button.facebook {
- background: #3b5998;
+ background: red;
+ box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);
 }
 
-.navbar {
-    display: inline-block !important;
+.dropdown-toggle::after {
+    display: none;
 }
 
-.1col {
-    display: inline-block;
+.dropleft .dropdown-toggle::before {
+    display: none;
 }
+
 
 .breadcrumb {
-    padding: 20px 25px 20px 15px;
+    padding: 15px 0 15px 15px;
     margin-right: auto !important;
     margin-bottom: 0;
     border-radius: 0;
@@ -103,6 +114,7 @@ html, body {
 
 .breadcrumb-item, a {
     color: #FFBF0D;
+    margin: auto 0px;
 }
 
 
@@ -111,6 +123,17 @@ html, body {
     content: "/";
 
 }
+
+
+.dotted-btn {
+    float: right;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 40px;
+    background-color: transparent;
+}
+
 
 .button-section {
     width: 100%;
@@ -121,6 +144,7 @@ html, body {
     font-weight: 300;
 
 }
+
 
 .btn-group.btn-lg.btn-block {
     padding: 0;
@@ -150,8 +174,11 @@ html, body {
 
 }
 
+
+
 .navbar-nav {
     margin-left: auto;
+
 }
 
 
@@ -164,14 +191,29 @@ html, body {
   box-shadow: 0px 10px 0px #FFBF0D, 0px 20px 0px #FFBF0D;
 }
 
+
+.dotted-btn {
+    color: #FFBF0D;
+    font-size: 25px;
+}
+
+
+.dots {
+    margin: auto 10px auto auto
+}
+
+
 .three_dots {
     width: 30px;
     margin-left:auto;
     margin-right:0;
+    background-color: #333 !important;
 }
 
 
+
 .login-page {
+  background-color: #f7f7f7;
   width: 360px;
   padding: 8% 0 0;
   margin: auto;
@@ -186,7 +228,6 @@ html, body {
 
 .form {
   position: relative;
-  background: #ffffff;
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 25px 45px;
@@ -200,15 +241,14 @@ html, body {
     background-color: #f7f7f7;
 }
 
-.form-control {
-    background-color: #f7f7f7;
-}
-.form.input {
+
+.form input {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
   width: 100%;
   border: 0;
+  border-radius: 5px;
   margin: 0 0 15px;
   padding: 15px;
   font-size: 14px;
@@ -224,7 +264,7 @@ html, body {
   color: black;
   font-size: 14px;
   margin-bottom: 8px;
-  box-shadow: 0px 0px 72px -31px rgba(0,0,0,0.75);
+  box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);
 }
 
 

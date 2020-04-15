@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/c6e043f16c.js" crossorigin="anonymous"></script>
+
 
     <title>
         {% block title %}
@@ -86,11 +88,23 @@
                     <li class="breadcrumb-item"><a href="{% url 'exercise_list' workout.slug %}">{{ workout.title }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ exercise.title }}</li>
                 {% endif %}
+                    <div class="btn-group dropleft dots">
+                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle dotted-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <!--<img src="{% static 'diary/media/img/ellipsis.png' %}" alt="menu" width="50px">-->
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
+                        </div>
+                    </div>
+                    <!--<ul class="navbar-nav ml-auto">
+                        <i class="fas fa-ellipsis-v"></i>
 
-                    <ul class="navbar-nav ml-auto">
-                        <li class="dotted_menu">
-                        </li>
-                    </ul>
+
+                        &lt;!&ndash;<li class="dotted_menu">
+
+                        </li>&ndash;&gt;
+                    </ul>-->
                 <!--{% if request.user.is_authenticated %}
                     <li class="ml-auto p-2" style="color: grey">
                         {{ request.user }}
