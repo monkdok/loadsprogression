@@ -4,5 +4,3 @@ __pycache__
 myvenv
 /static
 .DS_Store
-*.sqlite3
-*.pyc
