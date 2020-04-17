@@ -2,7 +2,7 @@
 {% load humanize %}
 
 {% block title %}
-    {{ exercise.title }} - {{ block.super }}
+{{ exercise.title }} - {{ block.super }}
 {% endblock %}
 
 {% block content %}
@@ -33,15 +33,11 @@
                                         {% if set.weight %}
                                         {{ set.weight }}x{{ set.reps }}
                                         {% else %}
-                                        {{ set.reps }}
+                                        {{ set.reps }} - {{ set.volume }} kg.
                                         {% endif %}
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{% url 'set_update_view' set.pk %}">Edit</a>
-
-
-
-
                                         <a class="dropdown-item" href="{% url 'set_delete_url' set.pk %}">Delete</a>
                                     </div>
                                 </div>
@@ -52,6 +48,13 @@
                 {% endfor %}
             </div>
             {% endfor %}
+            <div class="volume row ">
+                {% for i in volume %}
+                    <div class="volume-col col-5 offset-2" align="left">
+                        <span class="badge badge-primary">{{ i }}</span>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

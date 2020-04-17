@@ -17,6 +17,7 @@ class CommonInfo(models.Model):
 
 
 class Workout(CommonInfo):
+    workout_id = models.AutoField(primary_key=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     def get_absolute_url(self):
@@ -27,7 +28,7 @@ class Workout(CommonInfo):
         })
 
     def save(self, *args, **kwargs):
-        custom_slug = '{}-{}'.format(self.title, self.author)
+        custom_slug = '{}-{}-{}'.format(self.title, self.author, self.author.id)
         self.slug = slugify(custom_slug)
         super(Workout, self).save(*args, **kwargs)
 
@@ -36,6 +37,7 @@ class Workout(CommonInfo):
 
 
 class Exercise(CommonInfo):
+    exercise_id = models.AutoField(primary_key=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     workout = models.ForeignKey('Workout', on_delete=models.CASCADE, related_name='exercise_mm', blank=True, null=True)
@@ -48,7 +50,7 @@ class Exercise(CommonInfo):
         })
 
     def save(self, *args, **kwargs):
-        custom_slug = '{}-{}-{}'.format(self.workout, self.title, self.author)
+        custom_slug = '{}-{}-{}-{}'.format(self.workout, self.title, self.author, self.author.id)
         self.slug = slugify(custom_slug)
         super(Exercise, self).save()
 
@@ -59,19 +61,21 @@ class Exercise(CommonInfo):
 class Set(models.Model):
     # AUTH_USER_MODEL
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    set_number = models.PositiveIntegerField(default='', blank=False)
+    set_number = models.PositiveIntegerField(default=0, blank=False)
     weight = models.PositiveIntegerField(default='', blank=True, null=True)
     reps = models.PositiveIntegerField(default='', blank=False)
+    volume = models.PositiveIntegerField(default='', blank=True, null=True)
     # user_date = models.DateField(default=timezone.now, blank=True, null=True)
     date = models.DateField(auto_now_add=True)
     exercise = models.ForeignKey('Exercise', on_delete=models.CASCADE, related_name='set_mm', blank=True, null=True)
-    #
-    # def save(self, *args, **kwargs):
-    #     date = datetime.datetime.now()
-    #     self.slug = '1 Set {}/{}/{}/{}/{}/{}'.format(
-    #         date.day, date.month, date.year, date.hour, date.minute, date.second
-    #     )
-    #     super(Set, self).save()
+
+    # def calculate_volume(self):
+    #     volume = self.reps * self.weight
+    #     return volume
+
+    def save(self, *args, **kwargs):
+        self.volume = self.reps * self.weight
+        super(Set, self).save()
 
     # class Meta:
     #     ordering = ('-date',)

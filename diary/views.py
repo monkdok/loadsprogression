@@ -94,9 +94,9 @@ class ExerciseDetail(View):
                 last_sets_count = last_training_sets[0]
             all_dates_sets = [sets.filter(exercise=exercise, date=date) for date in all_dates]
             if all_dates_count >= 2:
-                last_date = [all_dates[-2], all_dates[-1]]
+                last_dates = [all_dates[-2], all_dates[-1]]
             else:
-                last_date = [all_dates[0]]
+                last_dates = [all_dates[0]]
             training_list_len = len(last_training_sets)
         else:
             last_training_sets = None
@@ -104,9 +104,19 @@ class ExerciseDetail(View):
             all_sets_count = None
             all_dates_count = None
             all_dates_sets = None
-            last_date = None
+            last_dates = None
             training_list_len = None
             last_sets_count = None
+
+        # volume = []
+        # for training in last_training_sets:
+        #     training_day_volume = 0
+        #     for set in training:
+        #         set_volume = set.reps * set.weight
+        #         training_day_volume += set_volume
+        #     volume.append(training_day_volume)
+
+        training_dict = {'sets': last_training_sets, 'dates': last_dates}
 
         context = {
             'form': form,
@@ -118,11 +128,13 @@ class ExerciseDetail(View):
             'all_dates_sets': all_dates_sets,
             'today': today,
             'last_training_sets': last_training_sets,
-            'last_date': last_date,
+            'last_dates': last_dates,
             'training_list_len': training_list_len,
             'last_sets_count': last_sets_count,
             'workout': workout1,
             'set_number': set_number,
+            # 'volume': volume,
+            # 'training_dict': training_dict,
         }
         return render(request, 'diary/exercise_detail3.html', context)
 
@@ -136,6 +148,7 @@ class ExerciseDetail(View):
             form.set_number = set_number
             form.exercise = exercise
             form.author = self.request.user
+            # form.volume = form.weight * form.reps
             form.save()
 
         return HttpResponseRedirect(self.request.path_info)
