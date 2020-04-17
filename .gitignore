@@ -6,4 +6,3 @@ myvenv
 .DS_Store
 *.sqlite3
 *.pyc
-*.db
