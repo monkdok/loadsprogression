@@ -7,6 +7,6 @@ myvenv
 settings.py
 Pipfile
 db.json
-diary/migrations/0001_initial.py
+diary/migrations
 django_settings_backup.py
-
+db.sqlite3
