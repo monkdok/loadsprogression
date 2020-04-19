@@ -33,7 +33,7 @@
                                         {% if set.weight %}
                                         {{ set.weight }}x{{ set.reps }}
                                         {% else %}
-                                        {{ set.reps }} - {{ set.volume }} kg.
+                                        {{ set.reps }}
                                         {% endif %}
                                     </button>
                                     <div class="dropdown-menu">
@@ -48,13 +48,15 @@
                 {% endfor %}
             </div>
             {% endfor %}
-            <div class="volume row ">
-                {% for i in volume %}
-                    <div class="volume-col col-5 offset-2" align="left">
-                        <span class="badge badge-primary">{{ i }}</span>
+            {% for i in volume %}
+            <div class="set-box">
+                <div class="volume row ">
+                    <div class="volume-col col-5 offset-1" align="left">
+                        <span class="badge badge-primary">Total: {{ i }} kg.</span>
                     </div>
-                {% endfor %}
+                </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>

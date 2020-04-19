@@ -142,12 +142,8 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'loadsprogression',
-        'USER': 'dok_jf',
-        'PASSWORD': 'lion7zion',
-        'HOST': 'localhost',
-        'PORT': '',
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

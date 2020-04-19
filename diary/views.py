@@ -108,13 +108,13 @@ class ExerciseDetail(View):
             training_list_len = None
             last_sets_count = None
 
-        # volume = []
-        # for training in last_training_sets:
-        #     training_day_volume = 0
-        #     for set in training:
-        #         set_volume = set.reps * set.weight
-        #         training_day_volume += set_volume
-        #     volume.append(training_day_volume)
+        volume = []
+        for training in last_training_sets:
+            training_day_volume = 0
+            for set in training:
+                set_volume = set.reps * set.weight
+                training_day_volume += set_volume
+            volume.append(training_day_volume)
 
         training_dict = {'sets': last_training_sets, 'dates': last_dates}
 
@@ -133,7 +133,7 @@ class ExerciseDetail(View):
             'last_sets_count': last_sets_count,
             'workout': workout1,
             'set_number': set_number,
-            # 'volume': volume,
+            'volume': volume,
             # 'training_dict': training_dict,
         }
         return render(request, 'diary/exercise_detail3.html', context)
