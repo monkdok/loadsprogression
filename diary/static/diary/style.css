@@ -73,6 +73,7 @@ hr {
     margin: 0px auto 15px auto;
     /*background-color: #333;*/
     background-color: #f7f7f7;
+    line-height: normal;
     padding: 5px 5px;
     color: #333;
     border: 1px solid #f7f7f7;
@@ -147,6 +148,7 @@ hr {
     font-weight: 300;
 
 }
+
 
 
 .btn-group.btn-lg.btn-block {
@@ -273,9 +275,14 @@ hr {
 
 .version {
   color: grey;
+/*
   position: absolute;
-  bottom: 8px;
-  right: 16px;
+*/
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  /*bottom: 8px;
+  right: 16px;*/
   font-size: 18px;
 }
 

@@ -11,12 +11,12 @@ class WorkoutCreateForm(forms.ModelForm):
           model = Workout
           fields = [
                'title',
-               'description',
+               # 'description',
           ]
 
           widgets = {
                'title': forms.TextInput(attrs={'class': 'form-control'}),
-               'description': forms.Textarea(attrs={'class': 'form-control'}),
+               # 'description': forms.Textarea(attrs={'class': 'form-control'}),
                }
 
      def get_absolute_url(self):
@@ -28,12 +28,12 @@ class ExerciseCreateForm(forms.ModelForm):
           model = Exercise
           fields = [
                'title',
-               'description',
+               # 'description',
           ]
 
           widgets = {
                'title': forms.TextInput(attrs={'class': 'form-control'}),
-               'description': forms.Textarea(attrs={'class': 'form-control'}),
+               # 'description': forms.Textarea(attrs={'class': 'form-control'}),
                }
 
 

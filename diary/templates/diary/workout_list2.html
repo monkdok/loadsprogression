@@ -27,8 +27,16 @@ Workouts - {{ block.super }}
             <!--Form Collapse-->
             <div class="row">
                 <div class="col">
+                    {% if workouts_len == 0 %}
+                    <div class="row">
+                        <span class="badge badge-primary" style="font-size:30px">
+                            Create you first Workout<br>
+                            <span style="font-size:22px">for example: "Leg day"</span><br>
+                        </span>
+                    </div>
+                    {% endif %}
                     <p>
-                        <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                        <button class="btn btn-outline-dark mt-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
                                 aria-controls="collapseExample">
                             Add workout
                         </button>
@@ -39,7 +47,7 @@ Workouts - {{ block.super }}
                             <!--Form-->
                             <form method="POST"> {% csrf_token %}
                                 {{ form.as_p }}
-                                <input type="submit" value="Save" class="btn btn-primary">
+                                <input type="submit" value="Save" class="btn btn-warning">
                             </form>
                         </div>
                     </div>

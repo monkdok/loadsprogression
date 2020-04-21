@@ -24,6 +24,7 @@ class WorkoutList(LoginRequiredMixin, View):
         context = {
             'form': form,
             'workouts': workouts,
+            'workouts_len': len(workouts)
         }
         return render(request, 'diary/workout_list2.html', context)
 
@@ -47,7 +48,8 @@ class WorkoutDetail(View):
 
         context = {
             'workout': workout,
-            'exercises_list': exercises,
+            'exercises': exercises,
+            'exercises_len': len(exercises),
             'form': form,
         }
         return render(request, 'diary/exercise_list2.html', context)
@@ -98,6 +100,31 @@ class ExerciseDetail(View):
             else:
                 last_dates = [all_dates[0]]
             training_list_len = len(last_training_sets)
+
+            volume = []
+            weight_per_set = []
+            for training in last_training_sets:
+                training_day_volume = 0
+                training_day_reps = 0
+                for set in training:
+                    if set.weight:
+                        set_volume = set.reps * set.weight
+                        training_day_volume += set_volume
+                        training_day_reps += set.reps
+                    else:
+                        training_day_volume = None
+                volume.append(training_day_volume)
+                if training_day_volume:
+                    if training_day_volume % training_day_reps == 0:
+                        calc = round(training_day_volume / training_day_reps)
+                        weight_per_set.append(calc)
+                    else:
+                        weight_per_set.append(round(training_day_volume / training_day_reps, 1))
+                else:
+                    training_day_reps = None
+                    weight_per_set.append(training_day_reps)
+
+            training_dict = {'sets': last_training_sets, 'dates': last_dates}
         else:
             last_training_sets = None
             all_dates = None
@@ -107,32 +134,8 @@ class ExerciseDetail(View):
             last_dates = None
             training_list_len = None
             last_sets_count = None
-
-        volume = []
-        weight_per_set = []
-        for training in last_training_sets:
-            training_day_volume = 0
-            training_day_reps = 0
-            for set in training:
-                if set.weight:
-                    set_volume = set.reps * set.weight
-                    training_day_volume += set_volume
-                    training_day_reps += set.reps
-                else:
-                    training_day_volume = None
-            volume.append(training_day_volume)
-            if training_day_volume:
-                if training_day_volume % training_day_reps == 0:
-                    calc = round(training_day_volume / training_day_reps)
-                    weight_per_set.append(calc)
-                else:
-                    weight_per_set.append(round(training_day_volume / training_day_reps, 1))
-            else:
-                training_day_reps = None
-                weight_per_set.append(training_day_reps)
-
-
-        training_dict = {'sets': last_training_sets, 'dates': last_dates}
+            volume = None
+            weight_per_set = None
 
         context = {
             'form': form,

@@ -103,8 +103,16 @@
 <!--Form Collapse-->
 <div class="row">
     <div class="col mx-auto">
+        {% if training_list_len is None %}
+        <div class="row">
+            <span class="badge badge-primary mt-4" style="font-size:30px">
+                Create you first Set <br>
+                <span style="font-size:22px">You may pass "Weight" field if you train without weights</span><br>
+            </span>
+        </div>
+        {% endif %}
         <p>
-            <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+            <button class="btn btn-outline-dark mt-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
                     aria-controls="collapseExample">
                 Add Set
             </button>
@@ -116,7 +124,7 @@
                 <form method="POST"> {% csrf_token %}
                     {{ set_number }} set
                     {{ form.as_p }}
-                    <input type="submit" value="Save" class="btn btn-primary">
+                    <input type="submit" value="Save" class="btn btn-warning">
                 </form>
             </div>
         </div>
