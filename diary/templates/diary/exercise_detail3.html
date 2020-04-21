@@ -48,18 +48,57 @@
                 {% endfor %}
             </div>
             {% endfor %}
+            <!--<div style="width:80%; margin:auto">
+                <hr>
+            </div>-->
+        </div>
+
+        <!--Volume-->
+        <div class="row">
             {% for i in volume %}
-            <div class="set-box">
+            {% if i %}
+            <div class="set-box mb-0">
                 <div class="volume row ">
                     <div class="volume-col col-5 offset-1" align="left">
-                        <span class="badge badge-primary">Total: {{ i }} kg.</span>
+                        <span class="badge badge-primary ml-3" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg.</span>
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div class="set-box">
+                <div class="volume row ">
+                    <div class="volume-col col-5 offset-1" align="left">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!--Weight per rep-->
+        <div class="row">
+            {% for i in weight_per_set %}
+            {% if i %}
+            <div class="set-box">
+                <div class="volume row ">
+                    <div class="volume-col col-5 offset-1" align="left">
+                        <span class="badge badge-primary ml-3" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg./rep</span>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="set-box">
+                <div class="volume row ">
+                    <div class="volume-col col-5 offset-1" align="left">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
 </div>
+
 {% endif %}
 <!--Form Collapse-->
 <div class="row">
