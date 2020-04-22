@@ -35,12 +35,12 @@
         <button class="primaryAction btn btn-warning" type="submit">{% trans "Sign In" %}</button>
         <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
       </form></br>
-      or use your social
-      <a href="{% provider_login_url 'facebook' method='js_sdk' %}" class="btn btn-block btn-social btn-facebook mt-1"
+      or use your Google account
+      <!--<a href="{% provider_login_url 'facebook' method='js_sdk' %}" class="btn btn-block btn-social btn-facebook mt-1"
          style="background-color:#3b5998;text-align:center;color:white">
         <span class="fa fa-facebook"></span>
         Facebook
-      </a>
+      </a>-->
       <a href="{% provider_login_url 'google' method='js_sdk' %}" class="btn btn-block btn-social btn-google mb-3"
          style="background-color:#4c8bf5;text-align:center;color:white;<!--border: 2px solid #4c8bf5;-->">
         <span class="fa fa-google" style="color:white;"></span>
