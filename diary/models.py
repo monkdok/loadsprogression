@@ -74,7 +74,10 @@ class Set(models.Model):
     #     return volume
 
     def save(self, *args, **kwargs):
-        self.volume = self.reps * self.weight
+        if self.weight is not None:
+            self.volume = self.reps * self.weight
+        else:
+            self.volume = 0
         super(Set, self).save()
 
     # class Meta:

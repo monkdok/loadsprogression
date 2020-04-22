@@ -107,12 +107,14 @@ class ExerciseDetail(View):
                 training_day_volume = 0
                 training_day_reps = 0
                 for set in training:
-                    if set.weight:
+                    if set.weight is not None:
                         set_volume = set.reps * set.weight
                         training_day_volume += set_volume
                         training_day_reps += set.reps
                     else:
-                        training_day_volume = None
+                        set_volume = 0
+                        training_day_volume += set_volume
+                        training_day_reps += set.reps
                 volume.append(training_day_volume)
                 if training_day_volume:
                     if training_day_volume % training_day_reps == 0:
