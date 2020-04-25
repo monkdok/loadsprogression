@@ -243,9 +243,19 @@ hr {
   color: black;
 }
 
+.set-fields {
+    margin: 0 auto 15px;
+    width: 40%;
+}
+
+
 .card {
     background-color: #f7f7f7;
+    padding: 10px 25px 20px 25px;
+    margin-bottom: 15px;
+
 }
+
 
 
 .form input {
@@ -261,7 +271,7 @@ hr {
 }
 
 
-.form button {
+.form button, .logout-btn {
   font-family: "Roboto", sans-serif;
   outline: 0;
   width: 100%;

@@ -15,7 +15,7 @@ class WorkoutCreateForm(forms.ModelForm):
           ]
 
           widgets = {
-               'title': forms.TextInput(attrs={'class': 'form-control'}),
+               'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Workout name'}),
                # 'description': forms.Textarea(attrs={'class': 'form-control'}),
                }
 
@@ -32,7 +32,7 @@ class ExerciseCreateForm(forms.ModelForm):
           ]
 
           widgets = {
-               'title': forms.TextInput(attrs={'class': 'form-control'}),
+               'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Exercise name'}),
                # 'description': forms.Textarea(attrs={'class': 'form-control'}),
                }
 
@@ -46,16 +46,9 @@ class SetCreateForm(forms.ModelForm):
                ]
 
           widgets = {
-               'set_number': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '#'}),
-               'weight': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'weight'}),
-               'reps': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'reps'}),
+               'weight': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Weight'}),
+               'reps': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Repetitions'}),
                }
-
-          # labels = {
-          #      'set_number': 'Set',
-          #      'weight': '',
-          #      'reps': '',
-          # }
 
 
 class AuthForm(AuthenticationForm, forms.ModelForm):

@@ -121,12 +121,16 @@
         </p>
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
-
                 <!--Form-->
                 <form method="POST"> {% csrf_token %}
-                    {{ set_number }} set
-                    {{ form.as_p }}
-                    <input type="submit" value="Save" class="btn btn-warning">
+                    <span>{{ set_number }} Set</span>
+                    {% for field in form %}
+                    <div class="fieldWrapper set-fields">
+                        {{ field.errors }}
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <input type="submit" value="Save" class="btn btn-warning mt-3">
                 </form>
             </div>
         </div>

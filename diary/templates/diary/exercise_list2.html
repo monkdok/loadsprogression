@@ -48,8 +48,13 @@ Workouts - {{ block.super }}
 
                     <!--Form-->
                     <form method="POST"> {% csrf_token %}
-                        {{ form.as_p }}
-                        <input type="submit" value="Save" class="btn btn-warning">
+                        {% for field in form %}
+                        <div class="fieldWrapper">
+                            {{ field.errors }}
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+                        <input type="submit" value="Save" class="btn btn-warning mt-3">
                     </form>
                 </div>
             </div>

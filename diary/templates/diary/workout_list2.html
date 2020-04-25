@@ -6,54 +6,59 @@ Workouts - {{ block.super }}
 {% endblock %}
 
 {% block content %}
-        <div class="button-section">
-            {% for workout in workouts %}
-            <div class="row">
-                <div class="col-12">
-                    <div class="btn-group btn-lg btn-block">
-                        <a href="{% url 'exercise_list' workout.slug %}" type="button" class="btn btn-warning btn-lg btn-block">{{ workout.title }}</a>
-                        <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'workout_update_view' workout.slug %}">Edit</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'workout_delete_url' workout.slug %}">Delete</a>
-                        </div>
-                    </div>
+<div class="button-section">
+    {% for workout in workouts %}
+    <div class="row">
+        <div class="col-12">
+            <div class="btn-group btn-lg btn-block">
+                <a href="{% url 'exercise_list' workout.slug %}" type="button" class="btn btn-warning btn-lg btn-block">{{ workout.title }}</a>
+                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'workout_update_view' workout.slug %}">Edit</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'workout_delete_url' workout.slug %}">Delete</a>
                 </div>
             </div>
-            {% endfor %}
-            <!--Form Collapse-->
+        </div>
+    </div>
+    {% endfor %}
+    <!--Form Collapse-->
+    <div class="row">
+        <div class="col">
+            {% if workouts_len == 0 %}
             <div class="row">
-                <div class="col">
-                    {% if workouts_len == 0 %}
-                    <div class="row">
-                        <div class="col-8 offset-2">
+                <div class="col-8 offset-2">
                             <span class="badge badge-primary" style="font-size:30px">
                             Create you first Workout<br>
                             <span style="font-size:22px">for example: "Leg day"</span><br>
                         </span>
-                        </div>
-                    </div>
-                    {% endif %}
-                    <p>
-                        <button class="btn btn-outline-dark mt-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                                aria-controls="collapseExample">
-                            Add workout
-                        </button>
-                    </p>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
+                </div>
+            </div>
+            {% endif %}
+            <p>
+                <button class="btn btn-outline-dark mt-4" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                        aria-controls="collapseExample">
+                    Add workout
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
 
-                            <!--Form-->
-                            <form method="POST"> {% csrf_token %}
-                                {{ form.as_p }}
-                                <input type="submit" value="Save" class="btn btn-warning">
-                            </form>
+                    <!--Form-->
+                    <form method="POST"> {% csrf_token %}
+                        {% for field in form %}
+                        <div class="fieldWrapper">
+                            {{ field.errors }}
+                            {{ field }}
                         </div>
-                    </div>
+                        {% endfor %}
+                        <input type="submit" value="Save" class="btn btn-warning mt-3">
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 {% endblock %}

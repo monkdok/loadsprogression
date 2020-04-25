@@ -29,8 +29,7 @@ urlpatterns = [
     path('exercise/<str:slug>/update', ExerciseUpdateView.as_view(), name='exercise_update_view'),
     path('set/<int:pk>/update', SetUpdateView.as_view(), name='set_update_view'),
     path('workout_create/', WorkoutCreateView.as_view(), name='workout_create_url'),
-    # path('user/<slug:author>/exercise/<slug:workout>/exercise/<str:slug>/create/', exercise_create_view, name='exercise_create_url'),
-    # path('exercise_create/', exercise_create_view, name='exercise_create_url'),
+
     path('workout/<str:slug>/exercise_create/', ExerciseCreateView.as_view(), name='exercise_create_url'),
     path('<str:slug>/set_create/', SetCreateView.as_view(), name='set_create_url'),
     path('set/<int:pk>/set_delete', SetDeleteView.as_view(), name='set_delete_url'),
@@ -40,8 +39,7 @@ urlpatterns = [
     path('logout', DiaryLogoutView.as_view(), name='logout_url'),
     path('register', RegisterUserView.as_view(), name='register_url'),
     path('bootstrap/', TemplateView.as_view(template_name='diary/bootstrap/example.html')),
-    # path('<str:exercise>/archive/<str:slug>/', WorkoutDetail.as_view(), name='sets_archive_url'),
-    # path('archive/', ArchiveIndexView.as_view(model=Set, date_field="date"), name="set_archive"),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

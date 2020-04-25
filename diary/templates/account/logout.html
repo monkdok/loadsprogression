@@ -9,7 +9,9 @@
 <div class="logout-page">
   <div class="form">
     <div class="logout" style="width:100%;">
+<!--
       <span style="font-size: 50px;">Sign Out</span><br>
+-->
 <!--
       <p style="color:grey;font-size: 15px;">Are you sure you want to sign out?</p>
 -->
@@ -22,6 +24,8 @@
       {% endif %}
       <button type="submit" class="btn btn-warning">{% trans 'Sign Out' %}</button>
     </form>
+<!--    <button onclick="{% url 'workout_list_url' %}" class="btn btn-secondary logout-btn" style="color:white;background-color:#343a40;">Cancel</button>
+-->    <a href="{% url 'workout_list_url' %}" class="btn btn-secondary logout-btn"style="color:white;background-color:#343a40;">Cancel</a>
   </div>
 </div>
 
