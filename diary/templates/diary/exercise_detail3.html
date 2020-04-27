@@ -7,97 +7,95 @@
 
 {% block content %}
 {% if last_training_sets %}
+
 <div class="row">
-    <div class="section">
+    {% for training in last_training_sets %}
+    <div class="set-box">
+        {% for set in training %}
+        {% if forloop.first %}
+        <div class="dates row ">
+            <div class="dates-col col-5 offset-2" align="left">
+                <span class="badge badge-primary">{{ set.date|naturalday:"j.m.y"|title }}</span>
+            </div>
+        </div>
+        {% endif %}
         <div class="row">
-            {% for training in last_training_sets %}
-            <div class="set-box">
-                {% for set in training %}
-                {% if forloop.first %}
-                <div class="dates row ">
-                    <div class="dates-col col-5 offset-2" align="left">
-                        <span class="badge badge-primary">{{ set.date|naturalday:"j.m.y"|title }}</span>
-                    </div>
-                </div>
-                {% endif %}
+            <div class="col" align="left">
                 <div class="row">
-                    <div class="col" align="left">
-                        <div class="row">
-                            <div class="col counter-set">
-                                <div class="counter">
-                                    {{ forloop.counter }}.
-                                </div>
-                                <!-- Example single danger button -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {% if set.weight %}
-                                        {{ set.weight }}x{{ set.reps }}
-                                        {% else %}
-                                        {{ set.reps }}
-                                        {% endif %}
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{% url 'set_update_view' set.pk %}">Edit</a>
-                                        <a class="dropdown-item" href="{% url 'set_delete_url' set.pk %}">Delete</a>
-                                    </div>
-                                </div>
+                    <div class="col counter-set">
+                        <div class="counter">
+                            {{ forloop.counter }}.
+                        </div>
+                        <!-- Example single danger button -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if set.weight %}
+                                {{ set.weight }}x{{ set.reps }}
+                                {% else %}
+                                {{ set.reps }}
+                                {% endif %}
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'set_update_view' set.pk %}">Edit</a>
+                                <a class="dropdown-item" href="{% url 'set_delete_url' set.pk %}">Delete</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
-            {% endfor %}
-            <!--<div style="width:80%; margin:auto">
-                <hr>
-            </div>-->
         </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+    <!--<div style="width:80%; margin:auto">
+        <hr>
+    </div>-->
+</div>
 
-        <!--Volume-->
-        <div class="row">
-            {% for i in volume %}
-            {% if i %}
-            <div class="set-box mb-0">
-                <div class="volume row ">
-                    <div class="volume-col col-5 offset-1" align="left">
-                        <span class="badge badge-primary ml-3" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg.</span>
-                    </div>
-                </div>
+<!--Volume-->
+<div class="row">
+    {% for i in volume %}
+    {% if i %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+                <span class="badge badge-primary volume-badge" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg.</span>
             </div>
-            {% else %}
-            <div class="set-box">
-                <div class="volume row ">
-                    <div class="volume-col col-5 offset-1" align="left">
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
-        </div>
-
-        <!--Weight per rep-->
-        <div class="row">
-            {% for i in weight_per_set %}
-            {% if i %}
-            <div class="set-box">
-                <div class="volume row ">
-                    <div class="volume-col col-5 offset-1" align="left">
-                        <span class="badge badge-primary ml-3" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg./rep</span>
-                    </div>
-                </div>
-            </div>
-            {% else %}
-            <div class="set-box">
-                <div class="volume row ">
-                    <div class="volume-col col-5 offset-1" align="left">
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
         </div>
     </div>
+    {% else %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
 </div>
+
+<!--Weight per rep-->
+<div class="row">
+    {% for i in weight_per_set %}
+    {% if i %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+                <span class="badge badge-primary volume-badge" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg./rep</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="set-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
 
 {% endif %}
 <!--Form Collapse-->
@@ -120,7 +118,7 @@
             </button>
         </p>
         <div class="collapse" id="collapseExample">
-            <div class="card card-body">
+            <div class="card card-body pt-2">
                 <!--Form-->
                 <form method="POST"> {% csrf_token %}
                     <span>{{ set_number }} Set</span>

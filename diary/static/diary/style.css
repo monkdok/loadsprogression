@@ -22,6 +22,7 @@ div {
 
 
 .container {
+    width: 100%;
     text-align: center;
     margin: auto;
 }
@@ -33,6 +34,7 @@ div {
 
 .all-sets-area{
     width: 100%;
+    margin: 25px auto 25px auto;
     padding: 0 15px;
     color: #333;
     font-weight: regular;
@@ -40,24 +42,21 @@ div {
 }
 
 
-.section{
-    width: 100%;
-    padding: 0 15px;
-}
-
 
 .set-box {
 /*
     background-color: #333;
 */
     width: 45%;
-    margin: 10px auto 25px auto;
+    margin: 10px auto 0 auto;
     padding: 7px 15px;
     display: inline-block;
     /*border: 1px solid black;*/
     border-radius: 5px;
     /*box-shadow: 0px 0px 30px -2px rgba(0,0,0,0.09);*/
 }
+
+
 
 hr {
     display: block;
@@ -84,6 +83,19 @@ hr {
     white-space: normal;
 }
 
+
+.volume-box {
+    width: 45%;
+    margin: 0 auto 0 auto;
+    padding: 0 15px 0 55px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+
+.volume-badge {
+    margin: 0 auto;
+}
 
 .counter {
     font-weight: 100;
@@ -251,11 +263,10 @@ hr {
 
 .card {
     background-color: #f7f7f7;
-    padding: 10px 25px 20px 25px;
+    padding: 20px 25px 20px 25px;
     margin-bottom: 15px;
 
 }
-
 
 
 .form input {

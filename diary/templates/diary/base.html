@@ -16,130 +16,23 @@
 
     <title>
         {% block title %}
-          Loads progression
+        Loads progression
         {% endblock %}
     </title>
 </head>
 <body>
-    <div class="main-container">
 
-        <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand btn dark {% if workout_list_url == request.path %}active{% endif %}" href="{% url 'workout_list_url' %}">
-                Workouts</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link navbar-brand btn btn-dark" href="#">Statistics</a>
-                    </li>
+{% include 'diary/header.html' %}
 
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-&lt;!&ndash;                        {% url 'logout_url' as logout_url %}&ndash;&gt;
-                        <a class="nav-link btn btn-danger text-light ml-5 {% if account_logout == request.path %}active{% endif %}"
-                           href="{% url 'account_logout' %}">Log Out</a>
-                    </li>
-                    <li class="navbar-brand ml-2" style="color: grey">
-                        {{ request.user }}
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-&lt;!&ndash;                        {% url 'account_login' as login_url%}&ndash;&gt;
-                        <a class="nav-link btn btn-info text-light ml-2 {% if 'account_login' == request.path %}active{% endif %}"
-                           href="{% url 'account_login' %}">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        {% url 'register_url' as register_url %}
-                        <a class="nav-link btn btn-info text-light ml-2 {% if register_url == request.path %}active{% endif %}" href="{{ register_url }}">Sign Up</a>
-                    </li>
-                    {% endif %}
-
-
-
-                </ul>
-            </div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="all-sets-area">
+            {% block content %}
+            {% endblock %}
         </div>
-
-    </nav>-->
-        {% if request.user.is_authenticated %}
-        <nav aria-label="navbar">
-            <div class="breadcrumb-custom">
-                <ol class="breadcrumb bg-dark">
-                {% url 'workout_list_url' as workout_list_url %}
-                {% if workout_list_url == request.path %}
-                    <li class="breadcrumb-item active" aria-current="page">Workouts</li>
-                {% endif %}
-
-                {% url 'exercise_list' workout.slug as exercise_list %}
-                {% if exercise_list == request.path %}
-                    <li class="breadcrumb-item"><a href="{% url 'workout_list_url' %}">Workouts</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ workout.title }}</li>
-                {% endif %}
-
-
-<!--
-                {% url 'exercise_detail_url' exercise.slug as exercise_detail %}
--->
-                {% if exercise.get_absolute_url == request.path %}
-                    <li class="breadcrumb-item"><a href="{% url 'workout_list_url' %}">Workouts</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'exercise_list' workout.slug %}">{{ workout.title }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ exercise.title }}</li>
-                {% endif %}
-                    <div class="btn-group dropleft dots">
-                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle dotted-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <!--<img src="{% static 'diary/media/img/ellipsis.png' %}" alt="menu" width="50px">-->
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'account_logout' %}">Sign Out</a>
-                        </div>
-                    </div>
-                    <!--<ul class="navbar-nav ml-auto">
-                        <i class="fas fa-ellipsis-v"></i>
-
-
-                        &lt;!&ndash;<li class="dotted_menu">
-
-                        </li>&ndash;&gt;
-                    </ul>-->
-                <!--{% if request.user.is_authenticated %}
-                    <li class="ml-auto p-2" style="color: grey">
-                        {{ request.user }}
-                    </li>
-                    <li class="">
-                        <a class="btn btn-danger text-light {% if account_logout == request.path %}active{% endif %}"
-                           href="{% url 'account_logout' %}">Log Out</a>
-                    </li>
-                {% else %}
-                    &lt;!&ndash;<li class="nav-item">
-                        &lt;!&ndash;                        {% url 'account_login' as login_url%}&ndash;&gt;
-                        <a class="nav-link btn btn-info text-light ml-2 {% if 'account_login' == request.path %}active{% endif %}"
-                           href="{% url 'account_login' %}">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        {% url 'register_url' as register_url %}
-                        <a class="nav-link btn btn-info text-light ml-2 {% if register_url == request.path %}active{% endif %}" href="{{ register_url }}">Sign Up</a>
-                    </li>&ndash;&gt;
-                {%  endif %}-->
-            </ol>
-            </div>
-
-        </nav>
-        {% endif %}
     </div>
 
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="all-sets-area">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </div>
-
-    </div>
+</div>
 
 
 
