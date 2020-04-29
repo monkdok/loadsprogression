@@ -163,6 +163,10 @@ hr {
 }
 
 
+.btn-danger {
+    color: white;
+}
+
 
 .btn-group.btn-lg.btn-block {
     padding: 0;

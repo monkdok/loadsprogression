@@ -36,6 +36,11 @@ class WorkoutList(LoginRequiredMixin, View):
             form.save()
         return HttpResponseRedirect(self.request.path_info)
 
+    def workout_delete(self, request, slug):
+        if request.method == 'POST':
+            item = Workout.objects.get(slug=slug)
+            item.delete()
+
     # def get_queryset(self):
     #     return super(WorkoutList, self).get_queryset().filter(author=self.request.user)
 
@@ -63,6 +68,7 @@ class WorkoutDetail(View):
             form.workout = workout
             form.save()
         return HttpResponseRedirect(self.request.path_info)
+        # return redirect(workout.get_absolute_url())
 
 
 class ExerciseDetail(View):
@@ -250,7 +256,7 @@ class ExerciseDeleteView(DeleteView):
 
 class WorkoutDeleteView(DeleteView):
     model = Workout
-    template_name = 'diary/workout_delete.html'
+    # template_name = 'diary/workout_delete.html'
     success_url = reverse_lazy('workout_list_url')
 
 
