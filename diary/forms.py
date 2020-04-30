@@ -15,7 +15,7 @@ class WorkoutCreateForm(forms.ModelForm):
           ]
 
           widgets = {
-               'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Workout name'}),
+               'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'workout name'}),
                # 'description': forms.Textarea(attrs={'class': 'form-control'}),
                }
 
@@ -32,7 +32,7 @@ class ExerciseCreateForm(forms.ModelForm):
           ]
 
           widgets = {
-               'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Exercise name'}),
+               'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'exercise name'}),
                # 'description': forms.Textarea(attrs={'class': 'form-control'}),
                }
 
@@ -46,8 +46,8 @@ class SetCreateForm(forms.ModelForm):
                ]
 
           widgets = {
-               'weight': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Weight'}),
-               'reps': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Repetitions'}),
+               'weight': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'weight'}),
+               'reps': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'repetitions'}),
                }
 
 

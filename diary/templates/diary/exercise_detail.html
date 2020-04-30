@@ -1,184 +1,124 @@
 {% extends 'diary/base.html' %}
+{% load humanize %}
 
 {% block title %}
-    {{ exercise.title }} - {{ block.super }}
+{{ exercise.title }} - {{ block.super }}
 {% endblock %}
 
 {% block content %}
-<!--<p style="font-size:90%; color: grey;">Technical info: <br>-->
-<!--    {{ sets_count }} sets in {{ exercise.title }}.<br>-->
-<!--    {{ all_dates_count }} unique date:-->
-<!--    {% for date in all_dates %}-->
-<!--    {{ date|date:"j.m.y" }}/-->
-<!--    {% endfor %}<br>-->
-<!--    latest: {{ latest }} <br>-->
-<!--    Sets by date: <br>-->
-<!--    {% for set in sets_by_date %}-->
-<!--    {{ set }}-->
-<!--    {% endfor %} <br>-->
-<!--    Sets list: <br>-->
-<!--    {% for set in set_list %}-->
-<!--    {{ set }}-->
-<!--    {% endfor %} <br>-->
-<!--    Today date: {{ today }} <br>-->
-<!--    Latest set date: {{ latest.date }}-->
-<!--    {% for set in sets_by_date %}-->
-<!--        {% if set.date == today %}-->
-<!--            they are equal-->
-<!--        {% endif %}-->
-<!--    {% endfor %} <br>-->
-<!--    Training list:-->
-<!--    {% for training in training_list.1 %}-->
-<!--        {{ training }}-->
-<!--    {% endfor %} <br>-->
-<!--    {{ last_sets_count }}-->
-<!--</p>-->
-<!--
-<h5>Workout: {{ workout }} <br>
-    Exercise: {{ exercise.title }}
-    </h5>-->
+{% if last_training_sets %}
 
-
-    {% if last_training_sets %}
-
-            <!--Dropdown
-            <div class="col-1">
-                {% if all_dates %}
-                <div class="dropdown mb-2">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                        Dates
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        {% for date in all_dates %}
-
-                        <a class="dropdown-item" href="{{ exercise.get_absolute_url }}">{{ date|date:"j.m.y" }}</a>
-                        {% endfor %}
-                    </div>
-                </div>-
-                {% endif %}
-            </div>-->
-
-                <!--Dates-->
-                <div class="row justify-content-center">
-                    <div class="col-2">
-                    </div>
-                    {% for date in last_date %}
-                    <div class="col-4">
-                        {% if date != today %}
-                            {{ date|date:"j.m.y" }}
-                        {% else %}
-                            Today
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                </div>
-
-
-
-                <div class="container-secondary text-center">
-                    <div class="row justify-content-center">
-
-                        <!--Counter-->
-                        <div class="col-2">
-                            {% for set in last_sets_count %}
-                            <div class="btn btn-warning counter">
-                                <div class="inside-counter">
-                                    {{ forloop.counter }}
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-
-                        <!--Sets-->
-                        {% for training in last_training_sets %}
-                        <div class="col-4">
-                            {% for set in training %}
-                            <!--<div class="alert alert-secondary" role="alert">
-                                {{ set.weight }}x{{ set.reps }}
-                                <a href="{% url 'set_delete_url' set.id %}" class="close"
-                                                                  aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                            </div>-->
-
-                            <!--Example single danger button -->
-                                <div class="btn-group set">
-                                    <button type="button" class="btn btn-warning set dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {% if set.weight %}
-                                            {{ set.weight }}x{{ set.reps }}
-                                        {% else %}
-                                            {{ set.reps }}
-                                        {% endif %}
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{% url 'set_update_view' set.pk %}">Edit</a>
-                                        <a class="dropdown-item" href="{% url 'set_delete_url' set.pk %}">Delete</a>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        {% endfor %}
-                    </div>
-
-                </div>
-
-                    <!--Form Collapse-->
-                    <div class="row">
-                        <div class="col-4 mx-auto">
-                            <p>
-                                <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                                        aria-controls="collapseExample">
-                                    Add Set
-                                </button>
-                            </p>
-                            <div class="collapse" id="collapseExample">
-                                <div class="card card-body">
-
-                                    <!--Form-->
-                                    <form method="POST"> {% csrf_token %}
-                                        {{ set_number }} set
-                                        {{ form.as_p }}
-                                        <input type="submit" value="Save" class="btn btn-primary">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    {% else %}
-        {% if exercise %}
-            <!--<div class="col-12">
-                <div class="card border-light text-center">
-                    <div class="card-body">
-                        <h5 class="card-title mt-4 text-secondary">Do you first set!</h5>
-                        <a href="{% url 'set_create_url' exercise.slug %}" class="btn btn-primary mt-4">Create your training</a>
-                    </div>
-                </div>
-            </div>-->
-
-        <!--Form Collapse-->
+<div class="row">
+    {% for training in last_training_sets %}
+    <div class="set-box">
+        {% for set in training %}
+        {% if forloop.first %}
+        <div class="dates row ">
+            <div class="dates-col col-5 offset-2" align="left">
+                <span class="badge badge-primary">{{ set.date|naturalday:"j.m.y"|title }}</span>
+            </div>
+        </div>
+        {% endif %}
         <div class="row">
-            <div class="col-4 mx-auto">
-                <p>
-                    <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                            aria-controls="collapseExample">
-                        Do you first set, boy!
-                    </button>
-                </p>
-                <div class="collapse" id="collapseExample">
-                    <div class="card card-body">
-
-                        <!--Form-->
-                        <form method="POST"> {% csrf_token %}
-                            {{ set_number }} set
-                            {{ form.as_p }}
-                            <input type="submit" value="Save" class="btn btn-primary">
-                        </form>
+            <div class="col" align="left">
+                <div class="row">
+                    <div class="col counter-set">
+                        <div class="counter">
+                            {{ forloop.counter }}.
+                        </div>
+                        <!-- Example single danger button -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if set.weight %}
+                                {{ set.weight }}x{{ set.reps }}
+                                {% else %}
+                                {{ set.reps }}
+                                {% endif %}
+                            </button>
+                            <div class="dropdown-menu">
+                                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#set_update{{ set.pk }}">Edit</button>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#set_delete{{ set.pk }}">Delete</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        {% include 'diary/modals/set_update_modal.html' %}
+        {% include 'diary/modals/set_delete_modal.html' %}
+        {% include 'diary/modals/set_create_modal.html' %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+    <!--<div style="width:80%; margin:auto">
+        <hr>
+    </div>-->
+</div>
 
-        {% else %}
-            PROBLEM
-        {% endif %}
+<!--Volume-->
+<div class="row">
+    {% for i in volume %}
+    {% if i %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+                <span class="badge badge-primary volume-badge" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg.</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<!--Weight per rep-->
+<div class="row">
+    {% for i in weight_per_set %}
+    {% if i %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+                <span class="badge badge-primary volume-badge" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg./rep</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="set-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+
 {% endif %}
+<!--Form Collapse-->
+{% include 'diary/modals/set_create_modal.html' %}
+<div class="row">
+    <div class="col mx-auto">
+        {% if training_list_len is None %}
+        <div class="row">
+            <div class="col-8 offset-2">
+                <span class="badge badge-primary mt-4" style="font-size:30px">
+                Create you first Set <br>
+                <span style="font-size:22px">You may pass "Weight" field if you train without weights</span><br>
+            </span>
+            </div>
+        </div>
+        {% endif %}
+        <p>
+            <button type="button" class="btn btn-outline-dark mt-4" data-toggle="modal" data-target="#set_create{{ exercise.slug }}">Add Set</button>
+        </p>
+    </div>
+</div>
 {% endblock %}

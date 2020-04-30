@@ -23,7 +23,7 @@ class Workout(CommonInfo):
     def get_absolute_url(self):
         return reverse('exercise_list', kwargs={
             'slug': self.slug,
-            'author': self.author,
+            # 'author': self.author,
         })
 
     def save(self, *args, **kwargs):

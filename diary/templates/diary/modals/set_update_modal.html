@@ -1,0 +1,25 @@
+<!-- Modal -->
+<div class="modal fade" id="set_update{{ set.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url 'set_update_view' set.pk %}" method="post">
+                {% csrf_token %}
+
+                <div class="modal-body">
+                    {{ form.weight }}
+                    {{ form.reps }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" value="Save" class="btn btn-warning">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

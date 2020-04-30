@@ -1,49 +1,57 @@
 {% extends 'diary/base.html' %}
+{% load humanize %}
 
+{% block title %}
+Workouts - {{ block.super }}
+{% endblock %}
 
 {% block content %}
-
-
 {% for workout in workouts %}
 <div class="row">
-    <div class="col-4 offset-4">
-        <!--First button-->
-        <!--<a href="{% url 'exercise_list' workout.slug %}" class="btn btn-warning btn-lg btn-block mb-2">{{ workout.title }}</a>-->
+    <div class="col-12">
         <div class="btn-group btn-lg btn-block">
             <a href="{% url 'exercise_list' workout.slug %}" type="button" class="btn btn-warning btn-lg btn-block">{{ workout.title }}</a>
             <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
+                <i class="fas fa-ellipsis-v"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="{% url 'workout_update_view' workout.slug %}">Edit</a>
+                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_edit{{ workout.slug }}">Edit</button>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'workout_delete_url' workout.slug %}">Delete</a>
+                <!--Delete without confirmation
+                <form action="{% url 'workout_delete_url' workout.slug%}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item">DEL</button>
+                </form>-->
+                <!-- Button trigger modal -->
+                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_delete{{ workout.slug }}">Delete</button>
             </div>
         </div>
     </div>
 </div>
+{% include 'diary/modals/workout_update_modal.html' %}
+{% include 'diary/modals/workout_delete_modal.html' %}
+
+
+
 {% endfor %}
-
-<!--Collapse-->
+<!--Form Collapse-->
+{% include 'diary/modals/workout_create_modal.html' %}
 <div class="row">
-    <div class="col-4 offset-4">
-        <p>
-            <button class="btn btn-outline-warning mt-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                    aria-controls="collapseExample">
-                Add workout
-            </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-
-                <!--Form-->
-                <form method="POST"> {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" value="Save" class="btn btn-primary">
-                </form>
+    <div class="col">
+        {% if workouts_len == 0 %}
+        <div class="row">
+            <div class="col-8 offset-2">
+                            <span class="badge badge-primary" style="font-size:30px">
+                            Create you first Workout<br>
+                            <span style="font-size:22px">for example: "Leg day"</span><br>
+                        </span>
             </div>
         </div>
+        {% endif %}
+        <p>
+            <button type="button" class="btn btn-outline-dark mt-4" data-toggle="modal" data-target="#workout_create" data-form="{% url 'workout_update_view' workout.slug %}">Add workout</button>
+        </p>
+
     </div>
 </div>
-
 {% endblock %}

@@ -272,8 +272,13 @@ hr {
 
 }
 
+.delete_header, .delete_footer {
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+}
 
-.form input {
+
+.form input, .form-control {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;

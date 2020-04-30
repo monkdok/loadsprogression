@@ -26,7 +26,7 @@ class WorkoutList(LoginRequiredMixin, View):
             'workouts': workouts,
             'workouts_len': len(workouts)
         }
-        return render(request, 'diary/workout_list2.html', context)
+        return render(request, 'diary/workout_list.html', context)
 
     def post(self, request):
         form = WorkoutCreateForm(request.POST)
@@ -36,16 +36,8 @@ class WorkoutList(LoginRequiredMixin, View):
             form.save()
         return HttpResponseRedirect(self.request.path_info)
 
-    def workout_delete(self, request, slug):
-        if request.method == 'POST':
-            item = Workout.objects.get(slug=slug)
-            item.delete()
 
-    # def get_queryset(self):
-    #     return super(WorkoutList, self).get_queryset().filter(author=self.request.user)
-
-
-class WorkoutDetail(View):
+class ExerciseList(View):
     def get(self, request, slug):
         workout = get_object_or_404(Workout, slug__iexact=slug)
         exercises = workout.exercise_mm.all()
@@ -57,7 +49,7 @@ class WorkoutDetail(View):
             'exercises_len': len(exercises),
             'form': form,
         }
-        return render(request, 'diary/exercise_list2.html', context)
+        return render(request, 'diary/exercise_list.html', context)
 
     def post(self, request, slug):
         form = ExerciseCreateForm(request.POST)
@@ -164,7 +156,7 @@ class ExerciseDetail(View):
             'weight_per_set': weight_per_set,
             # 'training_dict': training_dict,
         }
-        return render(request, 'diary/exercise_detail3.html', context)
+        return render(request, 'diary/exercise_detail.html', context)
 
     def post(self, request, slug, author, workout):
         form = SetCreateForm(request.POST)
@@ -196,12 +188,26 @@ class WorkoutCreateView(View):
         return redirect('workout_list_url')
 
 
+class WorkoutUpdateView(UpdateView):
+    model = Workout
+    form_class = WorkoutCreateForm
+    # template_name_suffix = '_update_form'
+    success_url = reverse_lazy('workout_list_url')
+
+
+class WorkoutDeleteView(DeleteView):
+    model = Workout
+    # template_name = 'diary/workout_delete.html'
+    success_url = reverse_lazy('workout_list_url')
+
+
 class ExerciseCreateView(View):
     def get(self, request, slug):
         form = ExerciseCreateForm()
         return render(request, 'diary/exercise_form.html', {'form': form})
 
     def post(self, request, slug):
+        workout = Workout.objects.get(slug=slug)
         form = ExerciseCreateForm(request.POST)
         workout = Workout.objects.get(slug=slug)
         if form.is_valid():
@@ -209,7 +215,7 @@ class ExerciseCreateView(View):
             form.workout = workout
             form.author = self.request.user
             form.save()
-        return redirect('workout_list_url')
+        return HttpResponseRedirect(workout.get_absolute_url())
 
 
 class SetCreateView(View):
@@ -225,12 +231,12 @@ class SetCreateView(View):
             form.exercise = exercise
             form.author = self.request.user
             form.save()
-        return redirect('workout_list_url')
+        return HttpResponseRedirect(exercise.get_absolute_url())
 
 
 class SetDeleteView(DeleteView):
     model = Set
-    template_name = 'diary/set_delete.html'
+    # template_name = 'diary/set_delete.html'
 
     # def get_success_url(self):
     #     return reverse('/')
@@ -246,25 +252,12 @@ class SetDeleteView(DeleteView):
 
 class ExerciseDeleteView(DeleteView):
     model = Exercise
-    template_name = 'diary/exercise_delete.html'
+    # template_name = 'diary/exercise_delete.html'
 
     def get_success_url(self):
         view_name = 'exercise_list'
         # No need for reverse_lazy here, because it's called inside the method
         return reverse(view_name, kwargs={'slug': self.object.workout.slug})
-
-
-class WorkoutDeleteView(DeleteView):
-    model = Workout
-    # template_name = 'diary/workout_delete.html'
-    success_url = reverse_lazy('workout_list_url')
-
-
-class WorkoutUpdateView(UpdateView):
-    model = Workout
-    form_class = WorkoutCreateForm
-    template_name_suffix = '_update_form'
-    success_url = reverse_lazy('workout_list_url')
 
 
 class ExerciseUpdateView(UpdateView):
