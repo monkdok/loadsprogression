@@ -61,10 +61,10 @@ class Set(models.Model):
     # AUTH_USER_MODEL
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     set_number = models.PositiveIntegerField(default=0, blank=False)
+    rest_time = models.CharField(default='', max_length=10, blank=True, null=True)
     weight = models.PositiveIntegerField(default='', blank=True, null=True)
     reps = models.PositiveIntegerField(default='', blank=False)
     volume = models.PositiveIntegerField(default='', blank=True, null=True)
-    # user_date = models.DateField(default=timezone.now, blank=True, null=True)
     date = models.DateField(auto_now_add=True)
     exercise = models.ForeignKey('Exercise', on_delete=models.CASCADE, related_name='set_mm', blank=True, null=True)
 

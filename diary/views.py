@@ -234,6 +234,22 @@ class SetCreateView(View):
         return HttpResponseRedirect(exercise.get_absolute_url())
 
 
+class SetUpdateView(UpdateView):
+    model = Set
+    form_class = SetCreateForm
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        view_name = 'exercise_detail_url'
+        # No need for reverse_lazy here, because it's called inside the method
+        return reverse(view_name, kwargs={
+            'slug': self.object.exercise.slug,
+            'author': self.object.author,
+            'workout': self.object.exercise.workout.slug,
+
+        })
+
+
 class SetDeleteView(DeleteView):
     model = Set
     # template_name = 'diary/set_delete.html'
@@ -270,22 +286,6 @@ class ExerciseUpdateView(UpdateView):
         # No need for reverse_lazy here, because it's called inside the method
         return reverse(view_name, kwargs={
             'slug': self.object.workout.slug,
-        })
-
-
-class SetUpdateView(UpdateView):
-    model = Set
-    form_class = SetCreateForm
-    template_name_suffix = '_update_form'
-
-    def get_success_url(self):
-        view_name = 'exercise_detail_url'
-        # No need for reverse_lazy here, because it's called inside the method
-        return reverse(view_name, kwargs={
-            'slug': self.object.exercise.slug,
-            'author': self.object.author,
-            'workout': self.object.exercise.workout.slug,
-
         })
 
 

@@ -41,6 +41,7 @@
                                 <button type="button" class="dropdown-item" data-toggle="modal" data-target="#set_delete{{ set.pk }}">Delete</button>
                             </div>
                         </div>
+                        {{ set.rest_time }}
                     </div>
                 </div>
             </div>
@@ -100,9 +101,217 @@
     {% endfor %}
 </div>
 
+<!--timer with laps-->
+<noscript><p>Извините, для работы приложения нужен включённый JavaScript</p></noscript>
+<script type="text/javascript">
+ function trim(string) { return string.replace (/\s+/g, " ").replace(/(^\s*)|(\s*)$/g, ''); }
+ var init=0;
+ var startDate;
+ var clocktimer;
+
+ function clearFields() {
+  init = 0;
+  clearTimeout(clocktimer);
+  document.clockform.clock.value='00:00:00.00';
+  document.clockform.label.value='';
+ }
+
+ function clearALL() {
+  clearFields();
+  document.getElementById('marker').innerHTML = '';
+ }
+
+ function startTIME() {
+  var thisDate = new Date();
+  var t = thisDate.getTime() - startDate.getTime();
+  var ms = t%1000; t-=ms; ms=Math.floor(ms/10);
+  t = Math.floor (t/1000);
+  var s = t%60; t-=s;
+  t = Math.floor (t/60);
+  var m = t%60; t-=m;
+  t = Math.floor (t/60);
+  var h = t%60;
+  if (h<10) h='0'+h;
+  if (m<10) m='0'+m;
+  if (s<10) s='0'+s;
+  if (ms<10) ms='0'+ms;
+  if (init==1) document.clockform.clock.value = h + ':' + m + ':' + s + '.' + ms;
+  clocktimer = setTimeout("startTIME()",10);
+ }
+
+ function findTIME() {
+  if (init==0) {
+   startDate = new Date();
+   startTIME();
+   init=1;
+  }
+  else {
+   var str = trim(document.clockform.label.value);
+   document.getElementById('marker').innerHTML = (str==''?'':str+': ') +
+    document.clockform.clock.value + '<br>' + document.getElementById('marker').innerHTML;
+   clearFields();
+  }
+ }
+</script>
+
+<form name="clockform">
+    <p>Время:
+        <input name="clock" size="12" maxlength="12" value="00:00:00.00">
+        Метка:
+        <input name="label" size="12" maxlength="40" value="">
+        <input name="starter" type="button" value="Старт/Стоп" onclick="findTIME()">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!--        <input name="clearer" type="button" value="Сбросить всё" onclick="clearALL()">-->
+    </p>
+    <p id="marker"></p>
+</form>
+
+
+
+<!--timer without buttons-->
+<!--<label id="minutes">00</label>:<label id="seconds">00</label>
+
+<script>
+    var minutesLabel = document.getElementById("minutes");
+    var secondsLabel = document.getElementById("seconds");
+    var totalSeconds = 0;
+    setInterval(setTime, 1000);
+
+    function setTime() {
+      ++totalSeconds;
+      secondsLabel.innerHTML = pad(totalSeconds % 60);
+      minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+    }
+
+    function pad(val) {
+      var valString = val + "";
+      if (valString.length < 2) {
+        return "0" + valString;
+      } else {
+        return valString;
+      }
+    }
+</script>-->
+
+<!--timer with buttons-->
+<!--<div>Time: <span id="time"></span></div>
+<input type="button" value="start" onclick="start();">
+<input type="button" value="stop" onclick="stop();">
+<input type="button" value="reset" onclick="reset()">
+
+<script>
+    var clsStopwatch = function() {
+   // Private vars
+   var startAt = 0; // Time of last start / resume. (0 if not running)
+   var lapTime = 0; // Time on the clock when last stopped in milliseconds
+
+
+   var now = function() {
+     return (new Date()).getTime();
+   };
+
+
+
+   // Public methods
+   // Start or resume
+   this.start = function() {
+     startAt = startAt ? startAt : now();
+   };
+
+
+
+   // Stop or pause
+   this.stop = function() {
+     // If running, update elapsed time otherwise keep it
+     lapTime = startAt ? lapTime + now() - startAt : lapTime;
+     startAt = 0; // Paused
+   };
+
+
+
+   // Reset
+   this.reset = function() {
+     lapTime = startAt = 0;
+   };
+
+
+
+   // Duration
+   this.time = function() {
+     return lapTime + (startAt ? now() - startAt : 0);
+   };
+ };
+
+
+
+ var x = new clsStopwatch();
+ var $time;
+ var clocktimer;
+ var ourTime = 3;
+
+
+
+ function pad(num, size) {
+   var s = "0000" + num;
+   return s.substr(s.length - size);
+ }
+
+
+
+ function formatTime(time) {
+   var h = m = s = ms = 0;
+   var newTime = '';
+
+
+
+   h = Math.floor(time / (60 * 60 * 1000));
+   time = time % (60 * 60 * 1000);
+   m = Math.floor(time / (60 * 1000));
+   time = time % (60 * 1000);
+   s = Math.floor(time / 1000);
+   ms = time % 1000;
+
+
+
+   newTime = pad(h, 2) + ':' + pad(m, 2) + ':' + pad(s, 2) + ':' + pad(ms, 3);
+   return newTime;
+ }
+
+
+
+ function update() {
+   $time.innerHTML = formatTime(x.time());
+ }
+
+
+
+ function start() {
+   //Declare $time here, so update() knows which field it needs to update
+   $time = document.getElementById('time');
+   clocktimer = setInterval("update()", 41);
+   x.start();
+ }
+
+
+
+ function stop() {
+   x.stop();
+   clearInterval(clocktimer);
+ }
+
+
+
+ function reset() {
+   stop();
+   x.reset();
+   update();
+ }
+</script>-->
+
+<form action=""></form>
 
 {% endif %}
-<!--Form Collapse-->
+<!--Modal Form-->
 {% include 'diary/modals/set_create_modal.html' %}
 <div class="row">
     <div class="col mx-auto">
