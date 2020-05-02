@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'set_create_url' exercise.slug %}" method="post">
+            <form id="set-create-form" action="{% url 'set_create_url' exercise.slug %}" method="post">
                 {% csrf_token %}
                 <span>{{ set_number }} Set</span>
                 {% for field in form %}
@@ -25,3 +25,22 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).on('submit', '#set-create-form', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type:'POST',
+            url: 'set_create_url',
+            data:{
+                weight:$('#weight').val(),
+                reps:$('#reps').val(),
+<!--                exercise:$('#exercise.slug')-->
+            },
+            success:function(){
+
+            }
+        })
+    });
+</script>

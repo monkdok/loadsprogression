@@ -137,7 +137,7 @@ hr {
 
 .breadcrumb-item+.breadcrumb-item::before {
     color: #6c757d;
-    content: "/";
+    content: "|";
 
 }
 
@@ -257,6 +257,20 @@ hr {
   font-family: "Roboto", sans-serif;
   font-size: 14px;
   color: black;
+}
+
+.timer {
+    margin-top: 20px;
+    margin-left: 27px;
+    width: 75%;
+
+}
+
+.timer input {
+    width: 70%;
+    font-size: 14px;
+
+
 }
 
 .set-fields {
