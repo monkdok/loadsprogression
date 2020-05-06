@@ -1,5 +1,7 @@
 {% extends 'diary/base.html' %}
 {% load humanize %}
+<script src="jquery-3.4.1.min.js"></script>
+
 
 {% block title %}
 Workouts - {{ block.super }}
@@ -10,19 +12,13 @@ Workouts - {{ block.super }}
 <div class="row">
     <div class="col-12">
         <div class="btn-group btn-lg btn-block">
-            <a href="{% url 'exercise_list' workout.slug %}" type="button" class="btn btn-warning btn-lg btn-block">{{ workout.title }}</a>
+            <a href="{% url 'exercise_list' workout.slug %}" type="button" class="btn btn-warning btn-lg btn-block" id="title{{ workout.slug }}">{{ workout.title }}</a>
             <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
             </button>
             <div class="dropdown-menu">
-                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_edit{{ workout.slug }}">Edit</button>
+                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_edit{{ workout.slug }}" id="edit{{ workout.slug }}">Edit</button>
                 <div class="dropdown-divider"></div>
-                <!--Delete without confirmation
-                <form action="{% url 'workout_delete_url' workout.slug%}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="dropdown-item">DEL</button>
-                </form>-->
-                <!-- Button trigger modal -->
                 <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_delete{{ workout.slug }}">Delete</button>
             </div>
         </div>
@@ -31,6 +27,22 @@ Workouts - {{ block.super }}
 {% include 'diary/modals/workout_update_modal.html' %}
 {% include 'diary/modals/workout_delete_modal.html' %}
 
+<script>
+$(document).ready(function() {
+  $("#edit{{ workout.slug }}").on("click", modal)
+  function modal () {
+    var title = $("#title{{ workout.slug }}").text();
+    alert(title);
+  }
+  });
+<!--  function modal() {-->
+<!--    var title = $("#title{{ workout.slug }}").val();-->
+<!--        console.log(title)-->
+
+<!--  }-->
+<!--});-->
+
+</script>
 
 
 {% endfor %}

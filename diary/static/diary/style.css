@@ -259,17 +259,34 @@ hr {
   color: black;
 }
 
-.timer {
-    margin-top: 20px;
-    margin-left: 27px;
-    width: 75%;
 
+.timer {
+    margin-top: 4px;
+    margin-left: 27px;
+    width: 70%;
+
+}
+
+.timer-icon {
+    color: #343a40;
+    margin-left: 37px;
+    margin-top:
+    width: 90px;
+    height: 45px;
 }
 
 .timer input {
     width: 70%;
+    margin: 15px 5px 0 5px;
     font-size: 14px;
+}
 
+.timer a {
+    width: 90px;
+    height: 45px !important;
+    margin-left: 4px;
+    height: 40px;
+    padding: 8px 7px !important;
 
 }
 

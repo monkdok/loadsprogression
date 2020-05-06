@@ -6,12 +6,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from datetime import date
 from django.contrib.auth.views import LoginView, LogoutView
-
-
 from .models import Exercise, Set, Workout
 from django.views.generic import View, ListView, DeleteView, UpdateView, TemplateView, DetailView, CreateView
 from .forms import *
-from django.views.generic.dates import ArchiveIndexView
+from django.views.generic.dates import MonthArchiveView
+
 
 
 class WorkoutList(LoginRequiredMixin, View):
@@ -287,6 +286,12 @@ class ExerciseUpdateView(UpdateView):
         return reverse(view_name, kwargs={
             'slug': self.object.workout.slug,
         })
+
+
+class SetMonthArchiveView(MonthArchiveView):
+    queryset = Set.objects.all()
+    date_field = "date"
+    allow_future = True
 
 
 class RegisterUserView(CreateView):

@@ -44,14 +44,24 @@
                         {% now "j.m.y" as today_date %}
                         {% if forloop.last and today_date == set.date|date:"j.m.y"%}
                         <div class="timer">
-                            <!--Timer-->
-                            <form name="clockform" id="rest-time" action="{% url 'set_update_view' set.pk %}">
-                                <input name="clock" id="clock" class="form-control" size="12" maxlength="12" value="00:00:00.00">
-                                <input type="hidden" name="label" size="12" maxlength="40" value="">
-                                <input type="hidden" id="marker">
-                                <input name="starter" type="button" class="btn btn-outline-dark" value="Start/Stop" onclick="findTIME()">
-                                <!--                            <p id="marker"></p>-->
-                            </form>
+                            <a class="btn btn-outline-dark timer-icon" data-toggle="collapse" href="#timer-collapse" role="button" aria-expanded="false"
+                               aria-controls="collapseExample">
+                                <i class="fas fa-stopwatch"></i>
+                            </a>
+                            <!--<button class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#timer-collapse" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fas fa-stopwatch"></i>
+                            </button>-->
+                            <div class="collapse" id="timer-collapse">
+
+                                <!--Timer-->
+                                <form name="clockform" id="rest-time" action="{% url 'set_update_view' set.pk %}">
+                                    <input name="clock" id="clock" class="form-control" size="12" maxlength="12" value="00:00:00.00">
+                                    <input type="hidden" name="label" size="12" maxlength="40" value="">
+                                    <input type="hidden" id="marker">
+                                    <input name="starter" type="button" class="btn btn-outline-dark" value="Start/Stop" onclick="findTIME()">
+                                    <!--                            <p id="marker"></p>-->
+                                </form>
+                            </div>
                         </div>
                         {% endif %}
                     </div>
@@ -61,6 +71,7 @@
         {% include 'diary/modals/set_update_modal.html' %}
         {% include 'diary/modals/set_delete_modal.html' %}
         {% include 'diary/modals/set_create_modal.html' %}
+
         {% endfor %}
     </div>
     {% endfor %}
@@ -112,62 +123,6 @@
     {% endif %}
     {% endfor %}
 </div>
-
-<!--timer with laps-->
-<noscript><p>Извините, для работы приложения нужен включённый JavaScript</p></noscript>
-<script type="text/javascript">
- function trim(string) { return string.replace (/\s+/g, " ").replace(/(^\s*)|(\s*)$/g, ''); }
- var init=0;
- var startDate;
- var clocktimer;
-
- function clearFields() {
-  init = 0;
-  clearTimeout(clocktimer);
-  document.clockform.clock.value='00:00:00.00';
-  document.clockform.label.value='';
- }
-
- function clearALL() {
-  clearFields();
-  document.getElementById('marker').innerHTML = '';
- }
-
- function startTIME() {
-  var thisDate = new Date();
-  var t = thisDate.getTime() - startDate.getTime();
-  var ms = t%1000; t-=ms; ms=Math.floor(ms/10);
-  t = Math.floor (t/1000);
-  var s = t%60; t-=s;
-  t = Math.floor (t/60);
-  var m = t%60; t-=m;
-  t = Math.floor (t/60);
-  var h = t%60;
-  if (h<10) h='0'+h;
-  if (m<10) m='0'+m;
-  if (s<10) s='0'+s;
-  if (ms<10) ms='0'+ms;
-  if (init==1) document.clockform.clock.value = h + ':' + m + ':' + s + '.' + ms;
-  clocktimer = setTimeout("startTIME()",10);
- }
-
- function findTIME() {
-  if (init==0) {
-   startDate = new Date();
-   startTIME();
-   init=1;
-  }
-  else {
-   	var str = trim(document.clockform.label.value);
-   	document.getElementById('marker').innerHTML = (str==''?'':str+': ') +
-  	document.clockform.clock.value + '<br>' + document.getElementById('marker').innerHTML;
-    var GetTime = $('#clock').val();
-    alert (GetTime)
-   	clearFields();
-  }
- }
-</script>
-
 {% endif %}
 <!--Modal Form-->
 {% include 'diary/modals/set_create_modal.html' %}
