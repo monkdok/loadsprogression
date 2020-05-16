@@ -1,6 +1,5 @@
 {% extends 'diary/base.html' %}
 {% load humanize %}
-<script src="jquery-3.4.1.min.js"></script>
 
 
 {% block title %}
@@ -9,6 +8,8 @@ Workouts - {{ block.super }}
 
 {% block content %}
 {% for workout in workouts %}
+
+<!--Workout button-->
 <div class="row">
     <div class="col-12">
         <div class="btn-group btn-lg btn-block">
@@ -16,6 +17,8 @@ Workouts - {{ block.super }}
             <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
             </button>
+
+            <!--Dropdown menu-->
             <div class="dropdown-menu">
                 <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_edit{{ workout.slug }}" id="edit{{ workout.slug }}">Edit</button>
                 <div class="dropdown-divider"></div>
@@ -31,17 +34,10 @@ Workouts - {{ block.super }}
 $(document).ready(function() {
   $("#edit{{ workout.slug }}").on("click", modal)
   function modal () {
-    var title = $("#title{{ workout.slug }}").text();
+    let title = $("#title{{ workout.slug }}").text();
     alert(title);
   }
   });
-<!--  function modal() {-->
-<!--    var title = $("#title{{ workout.slug }}").val();-->
-<!--        console.log(title)-->
-
-<!--  }-->
-<!--});-->
-
 </script>
 
 
@@ -67,3 +63,4 @@ $(document).ready(function() {
     </div>
 </div>
 {% endblock %}
+

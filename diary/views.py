@@ -1,16 +1,14 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.forms import modelform_factory
-from django.http import HttpResponseRedirect
+from django.template.loader import  render_to_string
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from datetime import date
 from django.contrib.auth.views import LoginView, LogoutView
-from .models import Exercise, Set, Workout
 from django.views.generic import View, ListView, DeleteView, UpdateView, TemplateView, DetailView, CreateView
 from .forms import *
-from django.views.generic.dates import MonthArchiveView
-
+import datetime
 
 
 class WorkoutList(LoginRequiredMixin, View):
@@ -174,17 +172,27 @@ class ExerciseDetail(View):
 
 
 class WorkoutCreateView(View):
-    def get(self, request):
-        form = WorkoutCreateForm()
-        return render(request, 'diary/workout_form.html', {'form': form})
+    def  get(self, request):
+        workout_title = request.GET.get('title', None)
 
-    def post(self, request):
-        form = WorkoutCreateForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.author = self.request.user
-            form.save()
-        return redirect('workout_list_url')
+        #create workout
+        obj = Workout.objects.create(title = workout_title)
+        workout = {'title': obj.title}
+        data = {'workout': workout}
+        return JsonResponse(data)
+
+# class WorkoutCreateView(View):
+#     def get(self, request):
+#         form = WorkoutCreateForm()
+#         return render(request, 'diary/workout_form.html', {'form': form})
+#
+#     def post(self, request):
+#         form = WorkoutCreateForm(request.POST)
+#         if form.is_valid():
+#             form = form.save(commit=False)
+#             form.author = self.request.user
+#             form.save()
+#         return redirect('workout_list_url')
 
 
 class WorkoutUpdateView(UpdateView):
@@ -286,12 +294,6 @@ class ExerciseUpdateView(UpdateView):
         return reverse(view_name, kwargs={
             'slug': self.object.workout.slug,
         })
-
-
-class SetMonthArchiveView(MonthArchiveView):
-    queryset = Set.objects.all()
-    date_field = "date"
-    allow_future = True
 
 
 class RegisterUserView(CreateView):
