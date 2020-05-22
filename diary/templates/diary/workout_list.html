@@ -30,18 +30,9 @@ Workouts - {{ block.super }}
 {% include 'diary/modals/workout_update_modal.html' %}
 {% include 'diary/modals/workout_delete_modal.html' %}
 
-<script>
-$(document).ready(function() {
-  $("#edit{{ workout.slug }}").on("click", modal)
-  function modal () {
-    let title = $("#title{{ workout.slug }}").text();
-    alert(title);
-  }
-  });
-</script>
-
 
 {% endfor %}
+
 <!--Form Collapse-->
 {% include 'diary/modals/workout_create_modal.html' %}
 <div class="row">
@@ -49,15 +40,15 @@ $(document).ready(function() {
         {% if workouts_len == 0 %}
         <div class="row">
             <div class="col-8 offset-2">
-                            <span class="badge badge-primary" style="font-size:30px">
-                            Create you first Workout<br>
-                            <span style="font-size:22px">for example: "Leg day"</span><br>
-                        </span>
+                <span class="badge badge-primary" style="font-size:30px">
+                Create you first Workout<br>
+                <span style="font-size:22px">for example: "Leg day"</span><br>
+                </span>
             </div>
         </div>
         {% endif %}
         <p>
-            <button type="button" class="btn btn-outline-dark mt-4" data-toggle="modal" data-target="#workout_create">Add workout</button>
+            <button type="button" class="btn btn-outline-dark mt-4" data-toggle="modal" data-target="#workout_create" id="js-add-workout">Add workout</button>
         </p>
 
     </div>

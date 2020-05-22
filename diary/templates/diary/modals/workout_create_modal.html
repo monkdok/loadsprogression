@@ -16,9 +16,27 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <input type="submit" value="Save" class="btn btn-warning">
+                    <input type="submit" value="Save" class="btn btn-warning" id="js-save-button">
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $("#js-save-button").on("click", modal)
+        function modal () {
+            $.ajax({
+                url: "{ url 'workout_create_url' }",
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#workout_create").modal("show");
+                },
+                success: function (data) {
+                    $("#workout_create .modal-content").html(data.html_form);
+                }
+            });
+        }
+    });
+</script>

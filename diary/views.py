@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.template.loader import  render_to_string
+from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -171,28 +171,45 @@ class ExerciseDetail(View):
         return HttpResponseRedirect(self.request.path_info)
 
 
-class WorkoutCreateView(View):
-    def  get(self, request):
-        workout_title = request.GET.get('title', None)
-
-        #create workout
-        obj = Workout.objects.create(title = workout_title)
-        workout = {'title': obj.title}
-        data = {'workout': workout}
-        return JsonResponse(data)
-
 # class WorkoutCreateView(View):
 #     def get(self, request):
 #         form = WorkoutCreateForm()
-#         return render(request, 'diary/workout_form.html', {'form': form})
+#         context = {'form': form}
+#         html_form = render_to_string('diary/modals/workout_create_modal.html', context, request=request)
+#         return JsonResponse({'html_form': html_form})
 #
 #     def post(self, request):
+#         data = {}
 #         form = WorkoutCreateForm(request.POST)
 #         if form.is_valid():
-#             form = form.save(commit=False)
-#             form.author = self.request.user
 #             form.save()
-#         return redirect('workout_list_url')
+#             data['form_is_valid'] = True
+#         else:
+#             data['form_is_valid'] = False
+
+
+# class WorkoutCreateView(View):
+#     def get(self, request):
+#         workout_title = request.GET.get('title', None)
+#
+#         # create workout
+#         obj = Workout.objects.create(title=workout_title)
+#         workout = {'title': obj.title}
+#         data = {'workout': workout}
+#         return JsonResponse(data)
+
+class WorkoutCreateView(View):
+    def get(self, request):
+        form = WorkoutCreateForm()
+        return render(request, 'diary/workout_form.html', {'form': form})
+
+    def post(self, request):
+        form = WorkoutCreateForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.author = self.request.user
+            form.save()
+        return redirect('workout_list_url')
 
 
 class WorkoutUpdateView(UpdateView):
@@ -233,7 +250,9 @@ class SetCreateView(View):
     def post(self, request, slug):
         form = SetCreateForm(request.POST)
         exercise = Exercise.objects.get(slug=slug)
+        print(exercise)
         if form.is_valid():
+            print(form.cleaned_data)
             form = form.save(commit=False)
             form.exercise = exercise
             form.author = self.request.user

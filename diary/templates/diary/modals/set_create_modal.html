@@ -25,22 +25,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(document).on('submit', '#set-create-form', function(e){
-        e.preventDefault();
-
-        $.ajax({
-            type:'POST',
-            url: 'set_create_url',
-            data:{
-                weight:$('#weight').val(),
-                reps:$('#reps').val(),
-<!--                exercise:$('#exercise.slug')-->
-            },
-            success:function(){
-
-            }
-        })
-    });
-</script>
