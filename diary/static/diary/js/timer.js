@@ -47,7 +47,7 @@ function clearFields() {
     clearTimeout(clockTimer)
     document.clockform.clock.value = getTime
     // console.log(document.clockform.restitimefield.value = getTime)
-    document.clockform.restitimefield.value = getTime
+    document.clockform.rest_time.value = getTime
     // let restTime = document.getElementById('rest-time-field')
     // restTime.innerHTML = getTime
     // console.log(restTime.textContent)

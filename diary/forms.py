@@ -49,7 +49,7 @@ class SetCreateForm(forms.ModelForm):
           widgets = {
                'weight': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'weight'}),
                'reps': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'repetitions'}),
-               'rest_time': forms.HiddenInput(),
+#                'rest_time': forms.HiddenInput(),
                }
 
 

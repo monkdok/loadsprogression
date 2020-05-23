@@ -11,12 +11,17 @@
             <form id="set-create-form" action="{% url 'set_create_url' exercise.slug %}" method="post">
                 {% csrf_token %}
                 <span>{{ set_number }} Set</span>
-                {% for field in form %}
+                <div class="fieldWrapper set-fields">
+
+
+                    {{ form.weight }} {{ form.reps }}
+                </div>
+                <!--{% for field in form %}
                 <div class="fieldWrapper set-fields">
                     {{ field.errors }}
                     {{ field }}
                 </div>
-                {% endfor %}
+                {% endfor %}-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <input type="submit" value="Create" class="btn btn-warning">

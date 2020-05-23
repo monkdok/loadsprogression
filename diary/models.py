@@ -61,7 +61,7 @@ class Set(models.Model):
     # AUTH_USER_MODEL
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     set_number = models.PositiveIntegerField(default=0, blank=False)
-    rest_time = models.CharField(default='', max_length=10, blank=True, null=True)
+    rest_time = models.CharField(default='', max_length=11, blank=True, null=True)
     weight = models.PositiveIntegerField(default='', blank=True, null=True)
     reps = models.PositiveIntegerField(default='', blank=False)
     volume = models.PositiveIntegerField(default='', blank=True, null=True)
