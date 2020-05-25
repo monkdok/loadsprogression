@@ -174,42 +174,42 @@ class ExerciseDetail(View):
 # class WorkoutCreateView(View):
 #     def get(self, request):
 #         form = WorkoutCreateForm()
-#         context = {'form': form}
-#         html_form = render_to_string('diary/modals/workout_create_modal.html', context, request=request)
-#         return JsonResponse({'html_form': html_form})
+#         return render(request, 'diary/workout_form.html', {'form': form})
 #
 #     def post(self, request):
-#         data = {}
 #         form = WorkoutCreateForm(request.POST)
 #         if form.is_valid():
+#             form = form.save(commit=False)
+#             form.author = self.request.user
 #             form.save()
-#             data['form_is_valid'] = True
-#         else:
-#             data['form_is_valid'] = False
+#         return redirect('workout_list_url')
 
-
-# class WorkoutCreateView(View):
-#     def get(self, request):
-#         workout_title = request.GET.get('title', None)
-#
-#         # create workout
-#         obj = Workout.objects.create(title=workout_title)
-#         workout = {'title': obj.title}
-#         data = {'workout': workout}
-#         return JsonResponse(data)
 
 class WorkoutCreateView(View):
-    def get(self, request):
-        form = WorkoutCreateForm()
-        return render(request, 'diary/workout_form.html', {'form': form})
-
     def post(self, request):
+        data = dict()
         form = WorkoutCreateForm(request.POST)
+        workouts = Workout.objects.all()
         if form.is_valid():
             form = form.save(commit=False)
             form.author = self.request.user
             form.save()
-        return redirect('workout_list_url')
+            data['form_is_valid'] = True
+            data['html_workouts'] = render_to_string('diary/workout_list.html', {
+                'workouts': workouts,
+            })
+        else:
+            data['form_is_valid'] = False
+        context = {'workouts': workouts}
+        data['workouts_create_form'] = render_to_string('diary/workout_form.html', context, request)
+        return JsonResponse(data)
+
+    def get(self, request):
+        data = dict()
+        form = WorkoutCreateForm()
+        context = {'form': form}
+        data['workouts_create_form'] = render_to_string('diary/workout_create_modal.html', context, request)
+        return JsonResponse(data)
 
 
 class WorkoutUpdateView(UpdateView):
