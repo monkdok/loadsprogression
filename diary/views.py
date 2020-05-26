@@ -26,12 +26,30 @@ class WorkoutList(LoginRequiredMixin, View):
         return render(request, 'diary/workout_list.html', context)
 
     def post(self, request):
-        form = WorkoutCreateForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.author = self.request.user
-            form.save()
-        return HttpResponseRedirect(self.request.path_info)
+                data = {}
+                form = WorkoutCreateForm(request.POST)
+                workouts = Workout.objects.all()
+                if form.is_valid():
+                    form = form.save(commit=False)
+                    form.author = self.request.user
+                    form_save = form.save()
+                    data['form_is_valid'] = True
+                    data['html'] = render_to_string('diary/workout_list.html', {
+                    'workouts': workouts,
+                    'workouts_len': len(workouts)},
+                    request)
+                else:
+                    data['form_is_valid'] = False
+                return JsonResponse(data)
+#     def post(self, request):
+#         form = WorkoutCreateForm(request.POST)
+#         if form.is_valid():
+#             form = form.save(commit=False)
+#             form.author = self.request.user
+#             form.save()
+#         return HttpResponseRedirect(self.request.path_info)
+
+
 
 
 class ExerciseList(View):
@@ -187,7 +205,7 @@ class ExerciseDetail(View):
 
 class WorkoutCreateView(View):
     def post(self, request):
-        data = dict()
+        data = {}
         form = WorkoutCreateForm(request.POST)
         workouts = Workout.objects.all()
         if form.is_valid():
@@ -195,21 +213,17 @@ class WorkoutCreateView(View):
             form.author = self.request.user
             form.save()
             data['form_is_valid'] = True
-            data['html_workouts'] = render_to_string('diary/workout_list.html', {
-                'workouts': workouts,
-            })
+            data['html'] = render_to_string('diary/workout_list.html', {'workouts': workouts}, request)
         else:
             data['form_is_valid'] = False
-        context = {'workouts': workouts}
-        data['workouts_create_form'] = render_to_string('diary/workout_form.html', context, request)
         return JsonResponse(data)
 
-    def get(self, request):
-        data = dict()
-        form = WorkoutCreateForm()
-        context = {'form': form}
-        data['workouts_create_form'] = render_to_string('diary/workout_create_modal.html', context, request)
-        return JsonResponse(data)
+#     def get(self, request):
+#         data = dict()
+#         form = WorkoutCreateForm()
+#         context = {'form': form}
+#         data['workouts_create_form'] = render_to_string('diary/workout_create_modal.html', context, request)
+#         return JsonResponse(data)
 
 
 class WorkoutUpdateView(UpdateView):

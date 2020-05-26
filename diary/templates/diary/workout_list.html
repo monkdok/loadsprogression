@@ -55,28 +55,30 @@ Workouts - {{ block.super }}
 </div>
 <script>
     $(document).ready(function(){
-        $("#js-add-workout").click(function() {
-            $("#workout_create").modal('show');
-        });
-    });
+        $("#js-save-button").on('submit', function(e) {
+            e.preventDefault();
+            let workoutTitle = $('#workout-title').val();
+            console.log(workoutTitle)
+            $.ajax({
+                url: workoutTitle.attr("action"),
+                // data: form.serialize(),
+                data: {title: workoutTitle},
+                type: workoutTitle.attr("method"),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.form_is_valid) {
+                        // $("#workouts").html(data.html);
+                        console.log('Yeah')
+                    }
+                    else {
+                        // $("#workout_create .modal-body").html(data.workouts_create_form);
+                        console.log('Yeah')
 
-    $("#workout_create").on("submit", "#workouts_create_form", function () {
-        let form = $(this);
-        $.ajax({
-            url: form.attr("action"),
-            data: form.serialize(),
-            type: form.attr("method"),
-            dataType: 'json',
-            success: function (data) {
-                if (data.form_is_valid) {
-                    $("#workouts").html(data.html_workouts);
+                    }
                 }
-                else {
-                    $("#workout_create .modal-body").html(data.workouts_create_form);
-                }
-            }
+            });
         });
-        return false;
     });
 </script>
 {% endblock %}

@@ -8,11 +8,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'workout_create_url' %}" method="post">
+            <form action="{% url 'workout_list_url' %}" method="post">
                 {% csrf_token %}
 
                 <div class="modal-body">
-                    {{ form.title }}
+                    <input class="form-control" name="title" placeholder="Workout name" id="workout-title">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
