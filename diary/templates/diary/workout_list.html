@@ -55,25 +55,24 @@ Workouts - {{ block.super }}
 </div>
 <script>
     $(document).ready(function(){
-        $("#js-save-button").on('submit', function(e) {
+        $("#form").on('submit', function(e) {
             e.preventDefault();
             let workoutTitle = $('#workout-title').val();
             console.log(workoutTitle)
             $.ajax({
-                url: workoutTitle.attr("action"),
+                url: "{% url 'workout_list_url' %}",
                 // data: form.serialize(),
-                data: {title: workoutTitle},
-                type: workoutTitle.attr("method"),
-                csrfmiddlewaretoken: '{{ csrf_token }}',
+                data: {title: workoutTitle, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                type: 'POST',
                 dataType: 'json',
                 success: function (data) {
                     if (data.form_is_valid) {
-                        // $("#workouts").html(data.html);
-                        console.log('Yeah')
+                        $('.modal-backdrop').remove();
+                        $("#ajax-response-here").html(data.html);
                     }
                     else {
                         // $("#workout_create .modal-body").html(data.workouts_create_form);
-                        console.log('Yeah')
+                        console.log('Nope')
 
                     }
                 }

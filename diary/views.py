@@ -28,7 +28,7 @@ class WorkoutList(LoginRequiredMixin, View):
     def post(self, request):
                 data = {}
                 form = WorkoutCreateForm(request.POST)
-                workouts = Workout.objects.all()
+                workouts = Workout.objects.filter(author=self.request.user)
                 if form.is_valid():
                     form = form.save(commit=False)
                     form.author = self.request.user

@@ -8,14 +8,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'workout_list_url' %}" method="post">
+            <form action="{% url 'workout_list_url' %}" method="post" id="form">
                 {% csrf_token %}
 
                 <div class="modal-body">
                     <input class="form-control" name="title" placeholder="Workout name" id="workout-title">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-backdrop="false">Cancel</button>
                     <input type="submit" value="Save" class="btn btn-warning" id="js-save-button">
                 </div>
             </form>
