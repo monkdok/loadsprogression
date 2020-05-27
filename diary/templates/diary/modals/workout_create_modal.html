@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="workout_create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Create workout</h5>
@@ -22,22 +22,4 @@
         </div>
     </div>
 </div>
-<!--
-<script>
-    $(document).ready(function() {
-        $("#js-save-button").on("click", modal)
-        function modal () {
-            $.ajax({
-                url: "{ url 'workout_create_url' }",
-                type: 'get',
-                dataType: 'json',
-                beforeSend: function () {
-                    $("#workout_create").modal("show");
-                },
-                success: function (data) {
-                    $("#workout_create .modal-content").html(data.html_form);
-                }
-            });
-        }
-    });
-</script>-->
+

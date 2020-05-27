@@ -27,9 +27,9 @@
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid" id="ajax-response-here">
     <div class="row justify-content-center">
-        <div class="all-sets-area" id="ajax-response-here">
+        <div class="all-sets-area">
             {% block content %}
             {% endblock %}
         </div>
@@ -45,7 +45,9 @@
 <!--<div class="version" style="bottom: 8px;right: 16px;">
     0.9.1
 </div>-->
+
 </body>
+
 <footer>
     {% block footer %}
     {% endblock %}

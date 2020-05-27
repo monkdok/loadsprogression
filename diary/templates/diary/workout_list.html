@@ -55,7 +55,7 @@ Workouts - {{ block.super }}
 </div>
 <script>
     $(document).ready(function(){
-        $("#form").on('submit', function(e) {
+       $("#form").on('submit', function(e) {
             e.preventDefault();
             let workoutTitle = $('#workout-title').val();
             console.log(workoutTitle)
@@ -67,8 +67,16 @@ Workouts - {{ block.super }}
                 dataType: 'json',
                 success: function (data) {
                     if (data.form_is_valid) {
+                        // $('.modal-backdrop').hide();
+                        // $(document.body).removeClass("modal-open");
+                        // $('#workout_create').modal('hide')
+                        // $('.modal').remove();
                         $('.modal-backdrop').remove();
+                        // $('#workout_create').modal('handleUpdate')
+                        // $('body').removeClass('modal-open');
+                        // document.documentElement.innerHTML = data.html; // 3 dots don't load
                         $("#ajax-response-here").html(data.html);
+                        $('.dropdown-toggle').dropdown();
                     }
                     else {
                         // $("#workout_create .modal-body").html(data.workouts_create_form);

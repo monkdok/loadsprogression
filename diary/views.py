@@ -28,6 +28,7 @@ class WorkoutList(LoginRequiredMixin, View):
     def post(self, request):
                 data = {}
                 form = WorkoutCreateForm(request.POST)
+                new_form = WorkoutCreateForm()
                 workouts = Workout.objects.filter(author=self.request.user)
                 if form.is_valid():
                     form = form.save(commit=False)
@@ -36,7 +37,8 @@ class WorkoutList(LoginRequiredMixin, View):
                     data['form_is_valid'] = True
                     data['html'] = render_to_string('diary/workout_list.html', {
                     'workouts': workouts,
-                    'workouts_len': len(workouts)},
+                    'workouts_len': len(workouts),
+                    'form': new_form},
                     request)
                 else:
                     data['form_is_valid'] = False
