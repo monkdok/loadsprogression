@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="workout_edit{{ workout.slug }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade workout-update-modal" id="workout-update-modal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,11 +8,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'workout_update_view' workout.slug %}" method="post">
+            <form action="{% url 'workout_update_view' workout.slug %}" method="post" id="workout-update-form">
                 {% csrf_token %}
 
                 <div class="modal-body">
-                    {{ form.title }}
+                    <input type="text" name="title" class="form-control">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

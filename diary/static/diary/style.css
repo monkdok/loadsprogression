@@ -321,6 +321,16 @@ hr {
   font-size: 14px;
 }
 
+.modal-backdrop {
+//hides the default modal shadow
+    display: none;
+}
+
+.modal-content {
+    /*box-shadow: 0px 0px 69px -10px rgba(130,130,130,1);*/
+    box-shadow: 0px 0px 50px 8px rgba(0,0,0,0.57);
+    border: none;
+}
 
 .form button, .logout-btn {
   font-family: "Roboto", sans-serif;
