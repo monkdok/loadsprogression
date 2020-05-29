@@ -20,7 +20,7 @@ Workouts - {{ block.super }}
 
             <!--Dropdown menu-->
             <div class="dropdown-menu">
-                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout-update-modal" id="edit{{ workout.slug }}">Edit</button>
+                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit{{ workout.slug }}">Edit</button>
                 <div class="dropdown-divider"></div>
                 <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_delete{{ workout.slug }}">Delete</button>
             </div>
@@ -75,7 +75,9 @@ Workouts - {{ block.super }}
                         // $('#workout_create').modal('handleUpdate')
                         // $('body').removeClass('modal-open');
                         // document.documentElement.innerHTML = data.html; // 3 dots don't load
-                        $("#ajax-response-here").html(data.html);
+                        let html2 = document.querySelector('html')
+                        // html2.innerHTML = data.html
+                        $("body").html(data.html);
                         $('.dropdown-toggle').dropdown();
                         $('body').removeClass('modal-open');
 
