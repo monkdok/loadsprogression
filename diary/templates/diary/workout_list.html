@@ -39,18 +39,12 @@ Workouts - {{ block.super }}
                 let parEl = this.parentElement.parentElement
                 console.log(parEl)
                 let workoutTitle = parEl.firstElementChild.textContent
-                console.log('title:', workoutTitle)
-                console.log('slug:', this.id)
                 let workoutUpdateModalId = 'edit' + this.id
                 let workoutInput = document.getElementById('workout-update-title')
                 if (workoutInput) {
                     let modalBody = $('.modal-body')
-                    console.log('input is ready')
-                    console.log(workoutInput)
-                    workoutInput.remove()
-                    workoutInput.setAttribute('value',workoutTitle)
-                    modalBody.append(workoutInput)
-
+                    let modalBodyInput = document.querySelector('.modal-body > input')
+                    $(modalBody).empty().append(`<input type="text" name="title" class="form-control" id="workout-update-title" value="${workoutTitle}">`)
                 }
             }
         })
