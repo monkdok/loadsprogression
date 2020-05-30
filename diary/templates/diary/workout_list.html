@@ -20,7 +20,7 @@ Workouts - {{ block.super }}
 
             <!--Dropdown menu-->
             <div class="dropdown-menu">
-                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit{{ workout.slug }}">Edit</button>
+                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit{{ workout.slug }}" id="{{ workout.slug }}">Edit</button>
                 <div class="dropdown-divider"></div>
                 <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_delete{{ workout.slug }}">Delete</button>
             </div>
@@ -32,7 +32,31 @@ Workouts - {{ block.super }}
 
 
 {% endfor %}
+<script>
+    $(document).ready(function () {
+        $('div.dropdown-menu > button').on('click', function () {
+            if (this.textContent === 'Edit') {
+                let parEl = this.parentElement.parentElement
+                console.log(parEl)
+                let workoutTitle = parEl.firstElementChild.textContent
+                console.log('title:', workoutTitle)
+                console.log('slug:', this.id)
+                let workoutUpdateModalId = 'edit' + this.id
+                let oldWorkoutInput = document.getElementById('workout-update-title')
+                if (oldWorkoutInput) {
+                    let modalBody = $('.modal-body')
+                    console.log('input is ready')
+                    console.log(oldWorkoutInput)
+                    oldWorkoutInput.remove()
+                    let newWorkoutInput = newWorkoutInput.setAttribute('value',workoutTitle)
+                    console.log(newWorkoutInput)
+                    modalBody.append(newWorkoutInput)
 
+                }
+            }
+        })
+    })
+</script>
 <!--Form Collapse-->
 {% include 'diary/modals/workout_create_modal.html' %}
 <div class="row">
@@ -53,11 +77,12 @@ Workouts - {{ block.super }}
 
     </div>
 </div>
+
 <script>
     $(document).ready(function(){
         $("#workout-create-form").on('submit', function(e) {
             e.preventDefault();
-            let workoutTitle = $('#workout-title').val();
+            let workoutTitle = $('#workout-create-title').val();
             console.log(workoutTitle)
             $.ajax({
                 url: "{% url 'workout_list_url' %}",
