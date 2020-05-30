@@ -42,15 +42,14 @@ Workouts - {{ block.super }}
                 console.log('title:', workoutTitle)
                 console.log('slug:', this.id)
                 let workoutUpdateModalId = 'edit' + this.id
-                let oldWorkoutInput = document.getElementById('workout-update-title')
-                if (oldWorkoutInput) {
+                let workoutInput = document.getElementById('workout-update-title')
+                if (workoutInput) {
                     let modalBody = $('.modal-body')
                     console.log('input is ready')
-                    console.log(oldWorkoutInput)
-                    oldWorkoutInput.remove()
-                    let newWorkoutInput = newWorkoutInput.setAttribute('value',workoutTitle)
-                    console.log(newWorkoutInput)
-                    modalBody.append(newWorkoutInput)
+                    console.log(workoutInput)
+                    workoutInput.remove()
+                    workoutInput.setAttribute('value',workoutTitle)
+                    modalBody.append(workoutInput)
 
                 }
             }
