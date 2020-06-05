@@ -7,6 +7,7 @@ Workouts - {{ block.super }}
 {% endblock %}
 
 {% block content %}
+
 {% for workout in workouts %}
 
 <!--Workout button-->
@@ -32,25 +33,8 @@ Workouts - {{ block.super }}
 
 
 {% endfor %}
-<script>
-    $(document).ready(function () {
-        $('div.dropdown-menu > button').on('click', function () {
-            if (this.textContent === 'Edit') {
-                let parEl = this.parentElement.parentElement
-                console.log(parEl)
-                let workoutTitle = parEl.firstElementChild.textContent
-                let workoutUpdateModalId = 'edit' + this.id
-                let workoutInput = document.getElementById('workout-update-title')
-                if (workoutInput) {
-                    let modalBody = $('.modal-body')
-                    let modalBodyInput = document.querySelector('.modal-body > input')
-                    $(modalBody).empty().append(`<input type="text" name="title" class="form-control" id="workout-update-title" value="${workoutTitle}">`)
-                }
-            }
-        })
-    })
-</script>
-<!--Form Collapse-->
+
+<!--Modal form-->
 {% include 'diary/modals/workout_create_modal.html' %}
 <div class="row">
     <div class="col">
@@ -73,9 +57,11 @@ Workouts - {{ block.super }}
 
 <script>
     $(document).ready(function(){
+        // Create workout
         $("#workout-create-form").on('submit', function(e) {
             e.preventDefault();
-            let workoutTitle = $('#workout-create-title').val();
+            // let workoutTitle = $('input#workout-create-title').val()
+            let workoutTitle = $('input#workout-create-title').val()
             console.log(workoutTitle)
             $.ajax({
                 url: "{% url 'workout_list_url' %}",
@@ -85,16 +71,8 @@ Workouts - {{ block.super }}
                 dataType: 'json',
                 success: function (data) {
                     if (data.form_is_valid) {
-                        // $('.modal-backdrop').hide();
-                        // $(document.body).removeClass("modal-open");
-                        // $('#workout_create').modal('hide')
-                        // $('.modal').remove();
                         $('.modal-backdrop').remove();
-                        // $('#workout_create').modal('handleUpdate')
-                        // $('body').removeClass('modal-open');
-                        // document.documentElement.innerHTML = data.html; // 3 dots don't load
                         let html2 = document.querySelector('html')
-                        // html2.innerHTML = data.html
                         $("body").html(data.html);
                         $('.dropdown-toggle').dropdown();
                         $('body').removeClass('modal-open');
@@ -108,7 +86,75 @@ Workouts - {{ block.super }}
                 }
             });
         });
+
+        //Update workout
+        $('div.dropdown-menu > button').on('click', function () {
+            if (this.textContent === 'Edit') {
+                let parEl = this.parentElement.parentElement
+                let workoutTitle = parEl.firstElementChild.textContent
+                let workoutUpdateModalId = 'edit' + this.id
+                let workoutInput = $('input#workout-update-title')
+                console.log('before:', workoutTitle)
+                if (workoutInput) {
+                    let modalBody = $('.modal-body')
+                    let modalBodyInput = $('.modal-body > input')
+                    $(modalBody).empty().append(`<input type="text" name="title" class="form-control" id="workout-update-title" value="${workoutTitle}">`)
+                }
+
+                // $('input#workout-update-title').keyup(function(){
+                //     let desc = $( 'input#workout-update-title' ).val();
+                //     alert(desc);
+                // });
+                $("form#workout-update-form").submit(function(s) {
+                    s.preventDefault()
+                    let url = $(this).attr('action')
+                    let workoutTitle = $('#workout-update-title').attr('value')
+                    let type = $(this).attr('type')
+
+                    console.log('after:', workoutTitle)
+                    console.log('url:', url)
+                    console.log('this:', this)
+                    $.ajax({
+                        url: url,
+                        data: {title: workoutTitle, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                        type: type,
+                        dataType: 'json',
+                        success: function (data) {
+                            alert('Success')
+                            if (data.form_is_valid) {
+                                // $('.modal-backdrop').hide();
+                                // $(document.body).removeClass("modal-open");
+                                // $('#workout_create').modal('hide')
+                                // $('.modal').remove();
+                                $('.modal-backdrop').remove();
+                                // $('#workout_create').modal('handleUpdate')
+                                // $('body').removeClass('modal-open');
+                                // document.documentElement.innerHTML = data.html; // 3 dots don't load
+                                let html2 = document.querySelector('html')
+                                // html2.innerHTML = data.html
+                                $("body").html(data.html);
+                                $('.dropdown-toggle').dropdown();
+                                $('body').removeClass('modal-open');
+
+                            }
+                            else {
+                                // $("#workout_create .modal-body").html(data.workouts_create_form);
+                                console.log('Nope')
+
+                            }
+                        }
+                    });
+
+                });
+            }
+        })
     });
 </script>
+
+<input type="text" value="PinkTie" id="txtDesc"/>
+<button id="button" onclick="updateDesc();">Update</button>
+
+
+
 {% endblock %}
 
