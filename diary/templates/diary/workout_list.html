@@ -1,7 +1,6 @@
 {% extends 'diary/base.html' %}
 {% load humanize %}
 
-
 {% block title %}
 Workouts - {{ block.super }}
 {% endblock %}
@@ -21,18 +20,18 @@ Workouts - {{ block.super }}
 
             <!--Dropdown menu-->
             <div class="dropdown-menu">
-                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit{{ workout.slug }}" id="{{ workout.slug }}">Edit</button>
+                <button type="button" class="dropdown-item" onClick="updateWorkout('{{ workout.slug }}')" data-toggle="modal" data-target="#edit" id="{{ workout.slug }}">Edit</button>
                 <div class="dropdown-divider"></div>
                 <button type="button" class="dropdown-item" data-toggle="modal" data-target="#workout_delete{{ workout.slug }}">Delete</button>
             </div>
         </div>
     </div>
 </div>
-{% include 'diary/modals/workout_update_modal.html' %}
 {% include 'diary/modals/workout_delete_modal.html' %}
 
 
 {% endfor %}
+{% include 'diary/modals/workout_update_modal.html' %}
 
 <!--Modal form-->
 {% include 'diary/modals/workout_create_modal.html' %}
@@ -71,86 +70,126 @@ Workouts - {{ block.super }}
                 dataType: 'json',
                 success: function (data) {
                     if (data.form_is_valid) {
-                        $('.modal-backdrop').remove();
-                        let html2 = document.querySelector('html')
-                        $("body").html(data.html);
-                        $('.dropdown-toggle').dropdown();
-                        $('body').removeClass('modal-open');
-
+                        appendToHtml(data)
                     }
                     else {
                         // $("#workout_create .modal-body").html(data.workouts_create_form);
-                        console.log('Nope')
-
+                        alert("All fields must have a valid value.")
                     }
                 }
-            });
-        });
-
-        //Update workout
-        $('div.dropdown-menu > button').on('click', function () {
-            if (this.textContent === 'Edit') {
-                let parEl = this.parentElement.parentElement
-                let workoutTitle = parEl.firstElementChild.textContent
-                let workoutUpdateModalId = 'edit' + this.id
-                let workoutInput = $('input#workout-update-title')
-                console.log('before:', workoutTitle)
-                if (workoutInput) {
-                    let modalBody = $('.modal-body')
-                    let modalBodyInput = $('.modal-body > input')
-                    $(modalBody).empty().append(`<input type="text" name="title" class="form-control" id="workout-update-title" value="${workoutTitle}">`)
-                }
-
-                // $('input#workout-update-title').keyup(function(){
-                //     let desc = $( 'input#workout-update-title' ).val();
-                //     alert(desc);
-                // });
-                $("form#workout-update-form").submit(function(s) {
-                    s.preventDefault()
-                    let url = $(this).attr('action')
-                    let workoutTitle = $('#workout-update-title').attr('value')
-                    let type = $(this).attr('type')
-
-                    console.log('after:', workoutTitle)
-                    console.log('url:', url)
-                    console.log('this:', this)
-                    $.ajax({
-                        url: url,
-                        data: {title: workoutTitle, csrfmiddlewaretoken: '{{ csrf_token }}'},
-                        type: type,
-                        dataType: 'json',
-                        success: function (data) {
-                            alert('Success')
-                            if (data.form_is_valid) {
-                                // $('.modal-backdrop').hide();
-                                // $(document.body).removeClass("modal-open");
-                                // $('#workout_create').modal('hide')
-                                // $('.modal').remove();
-                                $('.modal-backdrop').remove();
-                                // $('#workout_create').modal('handleUpdate')
-                                // $('body').removeClass('modal-open');
-                                // document.documentElement.innerHTML = data.html; // 3 dots don't load
-                                let html2 = document.querySelector('html')
-                                // html2.innerHTML = data.html
-                                $("body").html(data.html);
-                                $('.dropdown-toggle').dropdown();
-                                $('body').removeClass('modal-open');
-
-                            }
-                            else {
-                                // $("#workout_create .modal-body").html(data.workouts_create_form);
-                                console.log('Nope')
-
-                            }
-                        }
-                    });
-
-                });
-            }
+            })
+            $("#workout-create-form").trigger("reset")
         })
-    });
-</script>
 
+        // Update workout
+        // $('div.dropdown-menu > button').on('click', function () {
+        //     if (this.textContent === 'Edit') {
+        //         let parEl = this.parentElement.parentElement
+        //         let workoutTitle = parEl.firstElementChild.textContent
+        //         let workoutUpdateModalId = 'edit' + this.id
+        //         let workoutInput = $('input#workout-update-title')
+        //         console.log('before:', workoutTitle)
+        //         if (workoutInput) {
+        //             let modalBody = $('.modal-body')
+        //             let modalBodyInput = $('.modal-body > input')
+        //             $(modalBody).empty().append(`<input type="text" name="title" class="form-control" id="workout-update-title" value="${workoutTitle}">`)
+        //         }
+        //
+        //         // $('input#workout-update-title').keyup(function(){
+        //         //     let desc = $( 'input#workout-update-title' ).val();
+        //         //     alert(desc);
+        //         // });
+        //         $("form#workout-update-form").submit(function(s) {
+        //             s.preventDefault()
+        //             let url = $(this).attr('action')
+        //             let workoutTitle = $('#workout-update-title').attr('value')
+        //             let type = $(this).attr('type')
+        //
+        //             console.log('after:', workoutTitle)
+        //             console.log('url:', url)
+        //             console.log('this:', this)
+        //             $.ajax({
+        //                 url: url,
+        //                 data: {title: workoutTitle, csrfmiddlewaretoken: '{{ csrf_token }}'},
+        //                 type: type,
+        //                 dataType: 'json',
+        //                 success: function (data) {
+        //                     alert('Success')
+        //                     if (data.form_is_valid) {
+        //                         // $('.modal-backdrop').hide();
+        //                         // $(document.body).removeClass("modal-open");
+        //                         // $('#workout_create').modal('hide')
+        //                         // $('.modal').remove();
+        //                         $('.modal-backdrop').remove();
+        //                         // $('#workout_create').modal('handleUpdate')
+        //                         // $('body').removeClass('modal-open');
+        //                         // document.documentElement.innerHTML = data.html; // 3 dots don't load
+        //                         let html2 = document.querySelector('html')
+        //                         // html2.innerHTML = data.html
+        //                         $("body").html(data.html);
+        //                         $('.dropdown-toggle').dropdown();
+        //                         $('body').removeClass('modal-open');
+        //
+        //                     }
+        //                     else {
+        //                         // $("#workout_create .modal-body").html(data.workouts_create_form);
+        //                         console.log('Nope')
+        //
+        //                     }
+        //                 }
+        //             });
+        //
+        //         });
+        //     }
+        // })
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        // Update Django Ajax Call
+        $("form#workout-update-form").submit(function(s) {
+            s.preventDefault()
+            let url = $(this).attr('action')
+            let workoutTitle = $('#workout-update-title').val()
+            let type = $(this).attr('type')
+
+            console.log('after:', workoutTitle)
+            console.log('url:', url)
+            console.log('this:', this)
+            // $.ajax({
+            //     url: url,
+            //     data: {title: workoutTitle, csrfmiddlewaretoken: '{{ csrf_token }}'},
+            //     type: type,
+            //     dataType: 'json',
+            //     success: function (data) {
+            //         alert('Success')
+            //         if (data.form_is_valid) {
+            //             // $('.modal-backdrop').hide();
+            //             // $(document.body).removeClass("modal-open");
+            //             // $('#workout_create').modal('hide')
+            //             // $('.modal').remove();
+            //             $('.modal-backdrop').remove();
+            //             // $('#workout_create').modal('handleUpdate')
+            //             // $('body').removeClass('modal-open');
+            //             // document.documentElement.innerHTML = data.html; // 3 dots don't load
+            //             let html2 = document.querySelector('html')
+            //             // html2.innerHTML = data.html
+            //             $("body").html(data.html);
+            //             $('.dropdown-toggle').dropdown();
+            //             $('body').removeClass('modal-open');
+            //
+            //         }
+            //         else {
+            //             // $("#workout_create .modal-body").html(data.workouts_create_form);
+            //             console.log('Nope')
+            //
+            //         }
+            //     }
+            // });
+        })
+    })
+</script>
 <input type="text" value="PinkTie" id="txtDesc"/>
 <button id="button" onclick="updateDesc();">Update</button>
 
