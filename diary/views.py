@@ -228,7 +228,6 @@ class WorkoutUpdateView(View):
         workouts = Workout.objects.filter(author=self.request.user)
         workout = Workout.objects.get(slug=slug)
         form = WorkoutCreateForm(request.POST, instance = workout)
-        print(workout)
         if form.is_valid:
             form.save()
             data['form_is_valid'] = True

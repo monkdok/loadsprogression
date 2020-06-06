@@ -12,6 +12,7 @@ function updateWorkout(slug) {
        let workoutId = '#title' + slug
         let title = $(workoutId).text()
         $('#workout-update-title').val(title)
+        $('#workout-slug').val(slug)
     }
 }
 
@@ -20,39 +21,37 @@ $("form#workout-update-form").submit(function(s) {
     s.preventDefault()
     let url = $(this).attr('action')
     let workoutTitle = $('#workout-update-title').val()
+    let workoutSlug = $('#workout-slug').val()
     let type = $(this).attr('type')
+    let url2 = 'workout/' + workoutSlug + '/update/'
+    csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
 
     console.log('after:', workoutTitle)
     console.log('url:', url)
     console.log('this:', this)
-    // $.ajax({
-    //     url: url,
-    //     data: {title: workoutTitle, csrfmiddlewaretoken: '{{ csrf_token }}'},
-    //     type: type,
-    //     dataType: 'json',
-    //     success: function (data) {
-    //         alert('Success')
-    //         if (data.form_is_valid) {
-    //             // $('.modal-backdrop').hide();
-    //             // $(document.body).removeClass("modal-open");
-    //             // $('#workout_create').modal('hide')
-    //             // $('.modal').remove();
-    //             $('.modal-backdrop').remove();
-    //             // $('#workout_create').modal('handleUpdate')
-    //             // $('body').removeClass('modal-open');
-    //             // document.documentElement.innerHTML = data.html; // 3 dots don't load
-    //             let html2 = document.querySelector('html')
-    //             // html2.innerHTML = data.html
-    //             $("body").html(data.html);
-    //             $('.dropdown-toggle').dropdown();
-    //             $('body').removeClass('modal-open');
-    //
-    //         }
-    //         else {
-    //             // $("#workout_create .modal-body").html(data.workouts_create_form);
-    //             console.log('Nope')
-    //
-    //         }
-    //     }
-    // });
+    console.log('slug:', workoutSlug)
+    $.ajax({
+        url: url2,
+        data: {
+            slug: workoutSlug,
+            title: workoutTitle,
+            csrfmiddlewaretoken: csrf_token
+        },
+        type: 'post',
+        dataType: 'json',
+        success: function (data) {
+            if (data.form_is_valid) {
+                $('.modal-backdrop').remove();
+                let html2 = document.querySelector('html')
+                $("body").html(data.html);
+                $('.dropdown-toggle').dropdown();
+                $('body').removeClass('modal-open');
+
+            }
+            else {
+                alert("All fields must have a valid value.")
+
+            }
+        }
+    });
 })
