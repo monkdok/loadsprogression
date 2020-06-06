@@ -8,7 +8,6 @@ Workouts - {{ block.super }}
 {% block content %}
 
 {% for workout in workouts %}
-
 <!--Workout button-->
 <div class="row">
     <div class="col-12">
@@ -20,19 +19,21 @@ Workouts - {{ block.super }}
 
             <!--Dropdown menu-->
             <div class="dropdown-menu">
-                <button type="button" class="dropdown-item" onClick="updateWorkout('{{ workout.slug }}')" data-toggle="modal" data-target="#edit" id="{{ workout.slug }}">Edit</button>
+                <button type="button" class="dropdown-item" onClick="updateItem('{{ workout.slug }}')" data-toggle="modal" data-target="#edit" data-url="{% url 'workout_update_view' workout.slug %}" id="edit-dropdown{{ workout.slug }}">Edit</button>
                 <div class="dropdown-divider"></div>
-                <button type="button" class="dropdown-item" onclick="deleteWorkout('{{ workout.slug }}')" data-toggle="modal" data-target="#delete">Delete</button>
+                <button type="button" class="dropdown-item" onclick="deleteItem('{{ workout.slug }}')" data-toggle="modal" data-target="#delete" data-url="{% url 'workout_delete_url' workout.slug %}" id="delete-dropdown{{ workout.slug }}">Delete</button>
             </div>
         </div>
     </div>
 </div>
 {% endfor %}
-{% include 'diary/modals/workout_update_modal.html' %}
-{% include 'diary/modals/workout_delete_modal.html' %}
 
 <!--Modal form-->
+{% include 'diary/modals/workout_update_modal.html' %}
+{% include 'diary/modals/workout_delete_modal.html' %}
 {% include 'diary/modals/workout_create_modal.html' %}
+
+<!--Add workout button-->
 <div class="row">
     <div class="col">
         {% if workouts_len == 0 %}
@@ -46,39 +47,11 @@ Workouts - {{ block.super }}
         </div>
         {% endif %}
         <p>
-            <button type="button" class="btn btn-outline-dark mt-4" data-toggle="modal" data-target="#workout_create" data-backdrop="false" id="js-add-workout">Add workout</button>
+            <button type="button" class="btn btn-outline-dark mt-4" data-toggle="modal" data-target="#create" data-backdrop="false" id="js-add-workout">Add workout</button>
         </p>
 
     </div>
 </div>
-
-<script>
-    $(document).ready(function(){
-        // Create workout
-        $("#workout-create-form").on('submit', function(e) {
-            e.preventDefault();
-            let workoutTitle = $('input#workout-create-title').val()
-            console.log(workoutTitle)
-            $.ajax({
-                url: "{% url 'workout_list_url' %}",
-                // data: form.serialize(),
-                data: {title: workoutTitle, csrfmiddlewaretoken: '{{ csrf_token }}'},
-                type: 'POST',
-                dataType: 'json',
-                success: function (data) {
-                    if (data.form_is_valid) {
-                        appendToHtml(data)
-                    }
-                    else {
-                        alert("All fields must have a valid value.")
-                    }
-                }
-            })
-            $("#workout-create-form").trigger("reset")
-        })
-    })
-
-</script>
 
 {% endblock %}
 
