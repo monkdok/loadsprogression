@@ -238,22 +238,32 @@ class WorkoutUpdateView(View):
             'form': new_form},
             request)
         else:
-            data['form_is_valid'] = True
+            data['form_is_valid'] = False
+        return JsonResponse(data)
+
+class WorkoutDeleteView(View):
+    def post(self, request, slug):
+        data = {}
+        workout = Workout.objects.get(slug=slug)
+        new_form = WorkoutCreateForm()
+        workouts = Workout.objects.filter(author=self.request.user)
+        form = WorkoutCreateForm(request.POST, instance = workout)
+        workout.delete()
+        data['deleted'] = True
+        data['html'] = render_to_string('diary/workout_list.html', {
+            'workouts': workouts,
+            'workouts_len': len(workouts),
+            'workout': workout,
+            'form': new_form},
+            request)
         return JsonResponse(data)
 
 
 
-# class WorkoutUpdateView(UpdateView):
+# class WorkoutDeleteView(DeleteView):
 #     model = Workout
-#     form_class = WorkoutCreateForm
-#     # template_name_suffix = '_update_form'
+#     # template_name = 'diary/workout_delete.html'
 #     success_url = reverse_lazy('workout_list_url')
-
-
-class WorkoutDeleteView(DeleteView):
-    model = Workout
-    # template_name = 'diary/workout_delete.html'
-    success_url = reverse_lazy('workout_list_url')
 
 
 class ExerciseCreateView(View):
