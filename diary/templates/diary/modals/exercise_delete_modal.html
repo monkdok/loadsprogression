@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="exercise_delete{{ exercise.slug }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="delete" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header delete_header">
@@ -8,12 +8,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'exercise_delete_url' exercise.slug %}" method="post">
+            <form action="" method="post" id="delete-form">
                 {% csrf_token %}
-
-                <div class="modal-body">
-                    Delete {{ exercise.title }}?
-                </div>
                 <div class="modal-footer delete_footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger">Delete</button>

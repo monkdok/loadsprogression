@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="set_delete{{ set.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header delete_header">
@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'set_delete_url' set.pk %}" method="post">
+            <form method="post" id="delete-form">
                 {% csrf_token %}
 
                 <div class="modal-body">

@@ -1,27 +1,19 @@
 <!-- Modal -->
-<div class="modal fade" id="set_create{{ exercise.slug }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade form-inline" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Create set</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle"><span>{{ set_number }} Set</span></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="set-create-form" action="{% url 'set_create_url' exercise.slug %}" method="post">
+            <form class="" id="set-create-form" method="post">
                 {% csrf_token %}
-                <span>{{ set_number }} Set</span>
-                <div class="fieldWrapper set-fields">
-
-
-                    {{ form.weight }} {{ form.reps }}
+                <div class="modal-body">
+                    <input class="form-control" name="weight" placeholder="Weight" id="input-weight">
+                    <input class="form-control" name="reps" placeholder="Reps name" id="input-reps">
                 </div>
-                <!--{% for field in form %}
-                <div class="fieldWrapper set-fields">
-                    {{ field.errors }}
-                    {{ field }}
-                </div>
-                {% endfor %}-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <input type="submit" value="Create" class="btn btn-warning">

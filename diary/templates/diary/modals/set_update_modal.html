@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="set_update{{ set.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade form-inline" id="edit" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,14 +8,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'set_update_view' set.pk %}" method="post">
+            <form method="post" id="update-form">
                 {% csrf_token %}
 
                 <div class="modal-body">
-                    {{ form.weight }}
-                    {{ form.reps }}
-                    {{ form.rest_time }}
-
+                    <input id="pk" type="hidden" name="workoutSlug"/>
+                    <input type="number" name="inputWeight" class="form-control" id="update-weight">
+                    <input type="number" name="inputReps" class="form-control" id="update-reps">
+                    <input type="hidden" name="inputRestTime" class="form-control" id="update-rest_time">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

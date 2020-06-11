@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="exercise_create{{ workout.slug }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,11 +8,10 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'exercise_create_url' workout.slug %}" method="post">
+            <form method="post" id="create-form">
                 {% csrf_token %}
-
                 <div class="modal-body">
-                    {{ form.title }}
+                    <input class="form-control" name="title" placeholder="Exercise name" id="input-title">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
