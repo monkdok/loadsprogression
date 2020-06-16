@@ -6,30 +6,32 @@ Workouts - {{ block.super }}
 {% endblock %}
 
 {% block content %}
-{% for exercise in exercises %}
-<div class="row" id="item-{{ exercise.slug }}">
-    <div class="col-12">
-        <div class="btn-group btn-lg btn-block">
-            <a href="{{ exercise.get_absolute_url }}" type="button" class="btn btn-warning btn-lg btn-block" id="title{{ exercise.slug }}">{{ exercise.title }}</a>
-            <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
-            </button>
-            <div class="dropdown-menu">
-                <button type="button" class="dropdown-item" onClick="updateItem('{{ exercise.slug }}')" data-url="{% url 'exercise_update_view' exercise.slug %}" id="edit-dropdown{{ exercise.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
-                <div class="dropdown-divider"></div>
-                <!-- Button trigger modal -->
-                <button type="button" class="dropdown-item" onclick="deleteItem('{{ exercise.slug }}')" data-url="{% url 'exercise_delete_url' exercise.slug %}" id="delete-dropdown{{ exercise.slug }}" data-toggle="modal" data-target="#delete">Delete</button>
+<div class="buttons">
+    {% for exercise in exercises %}
+    <div class="row" id="item-{{ exercise.slug }}">
+        <div class="col-12">
+            <div class="btn-group btn-lg btn-block">
+                <a href="{{ exercise.get_absolute_url }}" type="button" class="btn btn-warning btn-lg btn-block" id="title{{ exercise.slug }}">{{ exercise.title }}</a>
+                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <button type="button" class="dropdown-item" onClick="updateItem('{{ exercise.slug }}')" data-url="{% url 'exercise_update_view' exercise.slug %}" id="edit-dropdown{{ exercise.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
+                    <div class="dropdown-divider"></div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="dropdown-item" onclick="deleteItem('{{ exercise.slug }}')" data-url="{% url 'exercise_delete_url' exercise.slug %}" id="delete-dropdown{{ exercise.slug }}" data-toggle="modal" data-target="#delete">Delete</button>
+                </div>
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
-{% endfor %}
 {% include 'diary/modals/exercise_delete_modal.html' %}
 {% include 'diary/modals/exercise_update_modal.html' %}
 
 <!--Form Collapse-->
 {% include 'diary/modals/exercise_create_modal.html' %}
-<div class="row">
+<div class="row" id="exist-check">
     <div class="col">
         {% if exercises_len == 0 %}
         <div class="row">
@@ -43,7 +45,7 @@ Workouts - {{ block.super }}
 
         {% endif %}
         <p>
-            <button type="button" class="btn btn-outline-dark mt-4" data-url="{% url 'exercise_list' workout.slug %}" id="add" data-toggle="modal" data-target="#create"
+            <button type="button" class="btn btn-outline-dark mt-4" data-url="{% url 'exercise_create_url' workout.slug %}" id="add" data-toggle="modal" data-target="#create"
                     data-backdrop="false">Add
                 exercise</button>
         </p>

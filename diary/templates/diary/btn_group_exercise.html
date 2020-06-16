@@ -1,0 +1,19 @@
+<div class="row" id="item-{{ item.slug }}">
+        <div class="col-12">
+            <div class="btn-group btn-lg btn-block">
+                <a href="{{ item.get_absolute_url }}" type="button" class="btn btn-warning btn-lg btn-block" id="title{{ item.slug }}">{{ item.title }}</a>
+                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+
+                <!--Dropdown menu-->
+                <div class="dropdown-menu">
+                    <button type="button" class="dropdown-item" onClick="updateItem('{{ item.slug }}')" data-url="{% url 'exercise_update_view' item.slug %}"
+                            id="edit-dropdown{{ item.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
+                    <div class="dropdown-divider"></div>
+                    <button type="button" class="dropdown-item" onclick="deleteItem('{{ item.slug }}')" data-url="{% url 'exercise_delete_url' item.slug %}"
+                            id="delete-dropdown{{ item.slug }}" data-toggle="modal" data-target="#delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>

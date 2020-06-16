@@ -19,6 +19,9 @@ function appendToBtnGroup(item) {
     $('.buttons').append(item)
     $('form#create-form').trigger('reset')
     $('#create').modal('hide')
+//    if ($("#exist-check")) {
+//        alert('exist-check')
+//    }
 
 }
 
@@ -27,6 +30,7 @@ function deleteItem(slug) {
         e.preventDefault()
         // Pass view url through item attribute "data-url"
         let url = $('#delete-dropdown' + slug).attr('data-url')
+        console.log(url)
         let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
         if (slug) {
             $.ajax({

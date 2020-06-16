@@ -41,29 +41,6 @@ class ExerciseList(LoginRequiredMixin, View):
         }
         return render(request, 'diary/exercise_list.html', context)
 
-    def post(self, request, slug):
-        data = {}
-        form = ExerciseCreateForm(request.POST)
-        workout = get_object_or_404(Workout, slug__iexact=slug, author=self.request.user)
-        exercises = workout.exercise_mm.all()
-        print('==============', exercises)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.author = self.request.user
-            form.workout = workout
-            form.save()
-            data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/exercise_list.html', {
-                'workout': workout,
-                'exercises': exercises,
-            }, request)
-            print(data['html'])
-        else:
-            data['form_is_valid'] = False
-        exercises2 = workout.exercise_mm.all()
-        print('==============', exercises2)
-        return JsonResponse(data)
-
 
 class ExerciseDetail(View):
     def get(self, request, slug):
@@ -382,7 +359,7 @@ class WorkoutCreateView(View):
             form.author = self.request.user
             form.save()
             data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/btn_group.html', {
+            data['html'] = render_to_string('diary/btn_group_workout.html', {
                 'item': form,
             }, request)
         else:
@@ -398,7 +375,7 @@ class WorkoutUpdateView(View):
         if form.is_valid:
             form.save()
             data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/btn_group.html', {
+            data['html'] = render_to_string('diary/btn_group_workout.html', {
                 'item': workout,
                 },
                 request)
@@ -417,11 +394,8 @@ class WorkoutDeleteView(View):
 
 
 class ExerciseCreateView(View):
-    def get(self, request, slug):
-        form = ExerciseCreateForm()
-        return render(request, 'diary/exercise_form.html', {'form': form})
-
     def post(self, request, slug):
+        data = {}
         workout = Workout.objects.get(slug=slug)
         form = ExerciseCreateForm(request.POST)
         if form.is_valid():
@@ -429,7 +403,13 @@ class ExerciseCreateView(View):
             form.workout = workout
             form.author = self.request.user
             form.save()
-        return HttpResponseRedirect(workout.get_absolute_url())
+            data['form_is_valid'] = True
+            data['html'] = render_to_string('diary/btn_group_exercise.html', {
+                'item': form,
+            }, request)
+        else:
+            data['form_is_valid'] = False
+        return JsonResponse(data)
 
 
 class SetCreateView(View):
@@ -499,35 +479,21 @@ class ExerciseDeleteView(View):
     def post(self, request, slug):
         data = {}
         exercise = Exercise.objects.get(slug=slug)
-        workout = exercise.workout
-        exercises = Exercise.objects.filter(author=self.request.user)
         exercise.delete()
         data['deleted'] = True
-        data['html'] = render_to_string('diary/exercise_list.html', {
-            'exercises': exercises,
-            'exercises_len': len(exercises),
-            'exercise': exercise,
-            'workout': workout,
-            },
-            request)
         return JsonResponse(data)
 
 
 class ExerciseUpdateView(View):
     def post(self, request, slug):
         data = {}
-        new_form = ExerciseCreateForm()
         exercise = get_object_or_404(Exercise, slug__iexact=slug, author=self.request.user)
         form = ExerciseCreateForm(request.POST, instance=exercise)
-        workout = exercise.workout
-        author = exercise.author
-        exercises = Exercise.objects.all().filter(workout=workout)
         if form.is_valid:
             form.save()
             data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/exercise_list.html', {
-                'exercises': exercises,
-                'workout': workout,
+            data['html'] = render_to_string('diary/btn_group_exercise.html', {
+                'item': exercise,
                 },
                 request)
         else:
