@@ -25,26 +25,6 @@ class WorkoutList(LoginRequiredMixin, View):
         }
         return render(request, 'diary/workout_list.html', context)
 
-    def post(self, request):
-        data = {}
-        form = WorkoutCreateForm(request.POST)
-        new_form = WorkoutCreateForm()
-        workouts = Workout.objects.filter(author=self.request.user)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.author = self.request.user
-            form.save()
-            data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/btn_group.html', {
-                'workouts': workouts,
-                'item': form,
-                'workouts_len': len(workouts),
-                'form': new_form},
-                request)
-        else:
-            data['form_is_valid'] = False
-        return JsonResponse(data)
-
 
 class ExerciseList(LoginRequiredMixin, View):
     login_url = 'account_login'
@@ -397,13 +377,14 @@ class WorkoutCreateView(View):
     def post(self, request):
         data = {}
         form = WorkoutCreateForm(request.POST)
-        workouts = Workout.objects.all()
         if form.is_valid():
             form = form.save(commit=False)
             form.author = self.request.user
             form.save()
             data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/workout_list.html', {'workouts': workouts}, request)
+            data['html'] = render_to_string('diary/btn_group.html', {
+                'item': form,
+            }, request)
         else:
             data['form_is_valid'] = False
         return JsonResponse(data)
@@ -412,17 +393,12 @@ class WorkoutCreateView(View):
 class WorkoutUpdateView(View):
     def post(self, request, slug):
         data = {}
-        workouts = Workout.objects.filter(author=self.request.user)
         workout = Workout.objects.get(slug=slug)
-        print('workout before update:', workout)
         form = WorkoutCreateForm(request.POST, instance=workout)
         if form.is_valid:
             form.save()
-            print('workout after update:', workout)
             data['form_is_valid'] = True
             data['html'] = render_to_string('diary/btn_group.html', {
-                'workouts': workouts,
-                'workouts_len': len(workouts),
                 'item': workout,
                 },
                 request)
@@ -435,15 +411,8 @@ class WorkoutDeleteView(View):
     def post(self, request, slug):
         data = {}
         workout = Workout.objects.get(slug=slug)
-        workouts = Workout.objects.filter(author=self.request.user)
         workout.delete()
         data['deleted'] = True
-        data['html'] = render_to_string('diary/workout_list.html', {
-            'workouts': workouts,
-            'workouts_len': len(workouts),
-            'workout': workout,
-            },
-            request)
         return JsonResponse(data)
 
 

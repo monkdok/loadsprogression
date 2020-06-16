@@ -36,7 +36,8 @@ function deleteItem(slug) {
                 dataType: 'json',
                 success: function (data) {
                     if (data.deleted) {
-                        appendToHtml(data)
+                        $('#item-' + slug).remove()
+                        $('#delete').modal('hide')
                     }
                 }
             })
@@ -68,6 +69,7 @@ $("#create-form").on('submit', function(e) {
     })
 })
 
+// Set create Django Ajax Call
 $("form#set-create-form").on('submit', function(e) {
     e.preventDefault()
     let inputWeight = $('input#input-weight').val()
