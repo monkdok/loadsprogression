@@ -7,7 +7,7 @@ Workouts - {{ block.super }}
 
 {% block content %}
 {% for exercise in exercises %}
-<div class="row">
+<div class="row" id="item-{{ exercise.slug }}">
     <div class="col-12">
         <div class="btn-group btn-lg btn-block">
             <a href="{{ exercise.get_absolute_url }}" type="button" class="btn btn-warning btn-lg btn-block" id="title{{ exercise.slug }}">{{ exercise.title }}</a>
@@ -24,8 +24,8 @@ Workouts - {{ block.super }}
     </div>
 </div>
 {% endfor %}
-{% include 'diary/modals/exercise_update_modal.html' %}
 {% include 'diary/modals/exercise_delete_modal.html' %}
+{% include 'diary/modals/exercise_update_modal.html' %}
 
 <!--Form Collapse-->
 {% include 'diary/modals/exercise_create_modal.html' %}

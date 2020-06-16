@@ -7,15 +7,19 @@ function collectInputs() {
     return map
 }
 
-console.log(collectInputs())
-
 // if view return if_valid = True
 function appendToHtml(data) {
-    $('.modal-backdrop').remove();
-    let html2 = document.querySelector('html')
-    $("body").html(data.html);
-    $('.dropdown-toggle').dropdown();
-    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove()
+    $("body").html(data.html)
+    $('.dropdown-toggle').dropdown()
+    $('body').removeClass('modal-open')
+}
+
+function appendToBtnGroup(item) {
+    $('.buttons').append(item)
+    $('form#create-form').trigger('reset')
+    $('#create').modal('hide')
+
 }
 
 function deleteItem(slug) {
@@ -55,14 +59,13 @@ $("#create-form").on('submit', function(e) {
         dataType: 'json',
         success: function (data) {
             if (data.form_is_valid) {
-                appendToHtml(data)
+                appendToBtnGroup(data.html)
             }
             else {
                 alert("All fields must have a valid value.")
             }
         }
     })
-    // $("#workout-create-form").trigger("reset")
 })
 
 $("form#set-create-form").on('submit', function(e) {
@@ -100,7 +103,7 @@ function updateItem(slug) {
         // Passing initial form fields data
         let itemId = '#title' + slug
         let title = $(itemId).text()
-        $('#update-title').val(title)
+        $('input#update-title').val(title)
         $('#slug').val(slug)
 
         // forming ajax request
@@ -108,6 +111,7 @@ function updateItem(slug) {
             s.preventDefault()
             let itemTitle = $('#update-title').val()
             let url = $('#edit-dropdown' + slug).attr('data-url')
+            console.log('url:', url)
             let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
             $.ajax({
                 url: url,
@@ -120,7 +124,9 @@ function updateItem(slug) {
                 dataType: 'json',
                 success: function (data) {
                     if (data.form_is_valid) {
-                        appendToHtml(data)
+                        $('#item-' + slug).replaceWith(data.html)
+                        $('form#update-form').trigger('reset')
+                        $('#edit').modal('hide')
 
                     }
                     else {

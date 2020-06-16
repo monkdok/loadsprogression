@@ -26,30 +26,24 @@ class WorkoutList(LoginRequiredMixin, View):
         return render(request, 'diary/workout_list.html', context)
 
     def post(self, request):
-                data = {}
-                form = WorkoutCreateForm(request.POST)
-                new_form = WorkoutCreateForm()
-                workouts = Workout.objects.filter(author=self.request.user)
-                if form.is_valid():
-                    form = form.save(commit=False)
-                    form.author = self.request.user
-                    form.save()
-                    data['form_is_valid'] = True
-                    data['html'] = render_to_string('diary/workout_list.html', {
-                        'workouts': workouts,
-                        'workouts_len': len(workouts),
-                        'form': new_form},
-                        request)
-                else:
-                    data['form_is_valid'] = False
-                return JsonResponse(data)
-#     def post(self, request):
-#         form = WorkoutCreateForm(request.POST)
-#         if form.is_valid():
-#             form = form.save(commit=False)
-#             form.author = self.request.user
-#             form.save()
-#         return HttpResponseRedirect(self.request.path_info)
+        data = {}
+        form = WorkoutCreateForm(request.POST)
+        new_form = WorkoutCreateForm()
+        workouts = Workout.objects.filter(author=self.request.user)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.author = self.request.user
+            form.save()
+            data['form_is_valid'] = True
+            data['html'] = render_to_string('diary/btn_group.html', {
+                'workouts': workouts,
+                'item': form,
+                'workouts_len': len(workouts),
+                'form': new_form},
+                request)
+        else:
+            data['form_is_valid'] = False
+        return JsonResponse(data)
 
 
 class ExerciseList(LoginRequiredMixin, View):
@@ -72,6 +66,7 @@ class ExerciseList(LoginRequiredMixin, View):
         form = ExerciseCreateForm(request.POST)
         workout = get_object_or_404(Workout, slug__iexact=slug, author=self.request.user)
         exercises = workout.exercise_mm.all()
+        print('==============', exercises)
         if form.is_valid():
             form = form.save(commit=False)
             form.author = self.request.user
@@ -82,8 +77,11 @@ class ExerciseList(LoginRequiredMixin, View):
                 'workout': workout,
                 'exercises': exercises,
             }, request)
+            print(data['html'])
         else:
             data['form_is_valid'] = False
+        exercises2 = workout.exercise_mm.all()
+        print('==============', exercises2)
         return JsonResponse(data)
 
 
@@ -183,14 +181,15 @@ class ExerciseDetail(View):
 
     def post(self, request, slug):
         data = {}
+        form = SetCreateForm(request.POST)
         exercise = get_object_or_404(Exercise, slug__iexact=slug)
         workout = get_object_or_404(Workout, slug=exercise.workout.slug)
         sets = exercise.set_mm.all()  # all sets in current exercise
         today_sets = len(Set.objects.all().filter(exercise=exercise, date=date.today()))
         set_number = today_sets + 1
+        new_form = SetCreateForm()
         today = date.today()
         if sets:
-            all_sets_count = len(sets)  # quantity of all sets
             all_dates = [set.date for set in sets]  # all sets dates
             all_dates = list(dict.fromkeys(all_dates))  # unique sets dates
             all_dates_count = len(all_dates)  # quantity of all unique dates
@@ -238,10 +237,10 @@ class ExerciseDetail(View):
                     weight_per_set.append(training_day_reps)
 
             training_dict = {'sets': last_training_sets, 'dates': last_dates}
+
         else:
             last_training_sets = None
             all_dates = None
-            all_sets_count = None
             all_dates_count = None
             all_dates_sets = None
             last_dates = None
@@ -254,7 +253,6 @@ class ExerciseDetail(View):
             'exercise': exercise,
             'set_list': sets,
             'all_dates': all_dates,
-            'all_sets_count': all_sets_count,
             'all_dates_count': all_dates_count,
             'all_dates_sets': all_dates_sets,
             'today': today,
@@ -266,20 +264,22 @@ class ExerciseDetail(View):
             'set_number': set_number,
             'volume': volume,
             'weight_per_set': weight_per_set,
+            'form': new_form,
         }
-        form = SetCreateForm(request.POST)
-        print(form)
         if form.is_valid():
             form = form.save(commit=False)
             form.set_number = set_number
             form.exercise = exercise
             form.author = self.request.user
-            form.save()
+            new_form = form.save()
             data['form_is_valid'] = True
             data['html'] = render_to_string('diary/exercise_detail.html', context, request)
+            print('==============', last_training_sets)
         else:
             data['form_is_valid'] = False
-        print('=========================', data['html'])
+        exercise2 = get_object_or_404(Exercise, slug__iexact=slug)
+        sets2 = exercise.set_mm.all()
+        print('===========', sets2)
         return JsonResponse(data)
 
 
@@ -414,13 +414,16 @@ class WorkoutUpdateView(View):
         data = {}
         workouts = Workout.objects.filter(author=self.request.user)
         workout = Workout.objects.get(slug=slug)
+        print('workout before update:', workout)
         form = WorkoutCreateForm(request.POST, instance=workout)
         if form.is_valid:
             form.save()
+            print('workout after update:', workout)
             data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/workout_list.html', {
+            data['html'] = render_to_string('diary/btn_group.html', {
                 'workouts': workouts,
                 'workouts_len': len(workouts),
+                'item': workout,
                 },
                 request)
         else:
@@ -452,7 +455,6 @@ class ExerciseCreateView(View):
     def post(self, request, slug):
         workout = Workout.objects.get(slug=slug)
         form = ExerciseCreateForm(request.POST)
-        workout = Workout.objects.get(slug=slug)
         if form.is_valid():
             form = form.save(commit=False)
             form.workout = workout
@@ -494,12 +496,13 @@ class SetUpdateView(UpdateView):
 
         })
 
+
 class SetDeleteView(View):
     def post(self, request, slug):
         data = {}
-        workout = Workout.objects.get(slug=slug)
-        workouts = Workout.objects.filter(author=self.request.user)
-        workout.delete()
+        set = Set.objects.get(pk=slug)
+        sets = Set.objects.filter(author=self.request.user)
+        set.delete()
         data['deleted'] = True
         data['html'] = render_to_string('diary/exercise_detail.html', {
             'workouts': workouts,
@@ -510,17 +513,17 @@ class SetDeleteView(View):
         return JsonResponse(data)
 
 
-class SetDeleteView(DeleteView):
-    model = Set
-
-    def get_success_url(self):
-        view_name = 'exercise_detail_url'
-        # No need for reverse_lazy here, because it's called inside the method
-        return reverse(view_name, kwargs={
-            'slug': self.object.exercise.slug,
-            'author': self.object.exercise.author,
-            'workout': self.object.exercise.workout.slug,
-        })
+# class SetDeleteView(DeleteView):
+#     model = Set
+#
+#     def get_success_url(self):
+#         view_name = 'exercise_detail_url'
+#         # No need for reverse_lazy here, because it's called inside the method
+#         return reverse(view_name, kwargs={
+#             'slug': self.object.exercise.slug,
+#             'author': self.object.exercise.author,
+#             'workout': self.object.exercise.workout.slug,
+#         })
 
 
 class ExerciseDeleteView(View):

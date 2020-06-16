@@ -7,26 +7,28 @@ Workouts - {{ block.super }}
 
 {% block content %}
 
-{% for workout in workouts %}
-<!--Workout button-->
-<div class="row">
-    <div class="col-12">
-        <div class="btn-group btn-lg btn-block">
-            <a href="{% url 'exercise_list' workout.slug %}" type="button" class="btn btn-warning btn-lg btn-block" id="title{{ workout.slug }}">{{ workout.title }}</a>
-            <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
-            </button>
+<div class="buttons">
+    {% for workout in workouts %}
+    <!--Workout button-->
+    <div class="row" id="item-{{ workout.slug }}">
+        <div class="col-12">
+            <div class="btn-group btn-lg btn-block">
+                <a href="{% url 'exercise_list' workout.slug %}" type="button" class="btn btn-warning btn-lg btn-block" id="title{{ workout.slug }}">{{ workout.title }}</a>
+                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
 
-            <!--Dropdown menu-->
-            <div class="dropdown-menu">
-                <button type="button" class="dropdown-item" onClick="updateItem('{{ workout.slug }}')" data-url="{% url 'workout_update_view' workout.slug %}" id="edit-dropdown{{ workout.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
-                <div class="dropdown-divider"></div>
-                <button type="button" class="dropdown-item" onclick="deleteItem('{{ workout.slug }}')" data-url="{% url 'workout_delete_url' workout.slug %}" id="delete-dropdown{{ workout.slug }}" data-toggle="modal" data-target="#delete">Delete</button>
+                <!--Dropdown menu-->
+                <div class="dropdown-menu">
+                    <button type="button" class="dropdown-item" onClick="updateItem('{{ workout.slug }}')" data-url="{% url 'workout_update_view' workout.slug %}" id="edit-dropdown{{ workout.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
+                    <div class="dropdown-divider"></div>
+                    <button type="button" class="dropdown-item" onclick="deleteItem('{{ workout.slug }}')" data-url="{% url 'workout_delete_url' workout.slug %}" id="delete-dropdown{{ workout.slug }}" data-toggle="modal" data-target="#delete">Delete</button>
+                </div>
             </div>
         </div>
     </div>
+    {% endfor %}
 </div>
-{% endfor %}
 
 <!--Modal form-->
 {% include 'diary/modals/workout_update_modal.html' %}
