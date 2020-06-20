@@ -1,0 +1,46 @@
+<div class="row" id="item-{{ item.pk }}">
+    <div class="col" align="left">
+        <div class="row">
+            <div class="col counter-set">
+                <div class="counter">
+                    {{ item.set_number }}.
+                </div>
+                <!-- Example single danger button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if item.weight %}
+                        {{ item.weight }}x{{ item.reps }} {{ item.rest_time }}
+                        {% else %}
+                        {{ item.reps }}
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                        <button type="button" class="dropdown-item" onClick="updateItem('{{ item.pk }}')" data-url="{% url 'set_update_view' item.pk %}"
+                                id="edit-dropdown{{ workout.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
+                        <div class="dropdown-divider"></div>
+                        <button type="button" class="dropdown-item" onclick="deleteItem('{{ item.pk }}')" data-url="{% url 'set_delete_url' item.pk %}"
+                                id="delete-dropdown{{ item.pk }}" data-toggle="modal" data-target="#delete">Delete</button>
+                    </div>
+                </div>
+                {% now "j.m.y" as today_date %}
+                {% if forloop.last and today_date == item.date|date:"j.m.y"%}
+                {% include 'diary/modals/set_rest_time_update_modal.html' %}
+                <div class="timer">
+                    <a class="btn btn-outline-dark timer-icon" data-toggle="modal" data-target="#set_rest_time_update_modal{{ item.pk }}">
+                        <i class="fas fa-stopwatch"></i>
+                    </a>
+                    <!--<button class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#timer-collapse" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fas fa-stopwatch"></i>
+                    </button>-->
+                    <!--                            {{ form.rest_time }}-->
+                    <div class="collapse" id="timer-collapse">
+
+                        <!--Timer-->
+
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

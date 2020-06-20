@@ -1,0 +1,80 @@
+{% extends 'diary/base.html' %}
+{% load humanize %}
+
+{% block title %}
+{{ exercise.title }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+{% if last_training_sets %}
+
+<div class="row">
+    <div class="set-box">
+        {% for %}
+    </div>
+</div>
+{% include 'diary/modals/set_update_modal.html' %}
+{% include 'diary/modals/set_delete_modal.html' %}
+<!--Volume-->
+<div class="row">
+    {% for i in volume %}
+    {% if i %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+                <span class="badge badge-primary volume-badge" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg.</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<!--Weight per rep-->
+<div class="row">
+    {% for i in weight_per_set %}
+    {% if i %}
+    <div class="volume-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+                <span class="badge badge-primary volume-badge" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg./rep</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="set-box">
+        <div class="volume row ">
+            <div class="volume-col col" align="left">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+<!--Modal Form-->
+{% include 'diary/modals/set_create_modal.html' %}
+<div class="row">
+    <div class="col mx-auto">
+        {% if last_date is None %}
+        <div class="row">
+            <div class="col-8 offset-2">
+                <span class="badge badge-primary mt-4" style="font-size:30px">
+                Create you first Set <br>
+                <span style="font-size:22px">You may pass "Weight" field if you train without weights</span><br>
+            </span>
+            </div>
+        </div>
+        {% endif %}
+        <button type="button" class="btn btn-outline-dark mt-4" data-url="{% url 'exercise_detail_url' exercise.slug %}" data-toggle="modal" id="add" data-target="#create"
+                    data-backdrop="false">Add Set</button>
+    </div>
+</div>
+{% endblock %}

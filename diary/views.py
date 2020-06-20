@@ -42,7 +42,7 @@ class ExerciseList(LoginRequiredMixin, View):
         return render(request, 'diary/exercise_list.html', context)
 
 
-class ExerciseDetail(View):
+class E1xerciseDetail(View):
     def get(self, request, slug):
         form = SetCreateForm()
         exercise = get_object_or_404(Exercise, slug__iexact=slug)
@@ -137,6 +137,7 @@ class ExerciseDetail(View):
         return render(request, 'diary/exercise_detail.html', context)
 
     def post(self, request, slug):
+
         data = {}
         form = SetCreateForm(request.POST)
         exercise = get_object_or_404(Exercise, slug__iexact=slug)
@@ -221,24 +222,102 @@ class ExerciseDetail(View):
             'set_number': set_number,
             'volume': volume,
             'weight_per_set': weight_per_set,
-            'form': new_form,
         }
         if form.is_valid():
             form = form.save(commit=False)
             form.set_number = set_number
             form.exercise = exercise
             form.author = self.request.user
-            new_form = form.save()
+            form.save()
+            sets.append(form)
             data['form_is_valid'] = True
             data['html'] = render_to_string('diary/exercise_detail.html', context, request)
-            print('==============', last_training_sets)
         else:
             data['form_is_valid'] = False
-        exercise2 = get_object_or_404(Exercise, slug__iexact=slug)
-        sets2 = exercise.set_mm.all()
-        print('===========', sets2)
+
+
         return JsonResponse(data)
 
+
+class ExerciseDetail(View):
+    def get(self, request, slug):
+        exercise = get_object_or_404(Exercise, slug__iexact=slug)
+        today_sets = len(Set.objects.all().filter(exercise=exercise, date=date.today()))
+        set_number = today_sets + 1
+        today = date.today()
+        workout = get_object_or_404(Workout, slug=exercise.workout.slug)
+        all_sets = exercise.set_mm.filter(author=self.request.user)  # all sets in current exercise
+        all_dates = [set.date for set in all_sets]  # all sets dates
+        unique_dates = list(dict.fromkeys(all_dates))  # unique sets dates
+        print('=========unique dates', sorted(unique_dates))
+        last_sets = []
+        secondlast_sets = []
+        print('==========secondlast date', unique_dates[-2])
+        print('==========last date', unique_dates[-1])
+        if unique_dates:
+            if len(unique_dates) >= 2:
+                last_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-1]).order_by('set_number')]
+                secondlast_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-2]).order_by('set_number')]
+            else:
+                last_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-1]).order_by('set_number')]
+                secondlast_sets = None
+        context = {
+            'second_last_date': unique_dates[-2] if len(unique_dates) >= 2 else None,
+            'last_date': unique_dates[-1],
+            'secondlast_sets': secondlast_sets,
+            'last_sets': last_sets,
+            'exercise': exercise,
+            'workout': workout,
+
+        }
+        return render(request, 'diary/set_list.html', context)
+
+
+    def post(self, request, slug):
+
+        data = {}
+        form = SetCreateForm(request.POST)
+        exercise = get_object_or_404(Exercise, slug__iexact=slug)
+        today_sets = len(Set.objects.all().filter(exercise=exercise, date=date.today()))
+        set_number = today_sets + 1
+        today = date.today()
+
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.set_number = set_number
+            form.exercise = exercise
+            form.author = self.request.user
+            form.save()
+
+            workout = get_object_or_404(Workout, slug=exercise.workout.slug)
+            all_sets = exercise.set_mm.filter(author=self.request.user)  # all sets in current exercise
+            all_dates = [set.date for set in all_sets]  # all sets dates
+            unique_dates = list(dict.fromkeys(all_dates))  # unique sets dates
+            print('=========unique dates', sorted(unique_dates))
+            last_sets = []
+            secondlast_sets = []
+            print('==========secondlast date', unique_dates[-2])
+            print('==========last date', unique_dates[-1])
+            if unique_dates:
+                if len(unique_dates) >= 2:
+                    last_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-1]).order_by('set_number')]
+                    secondlast_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-2]).order_by('set_number')]
+                else:
+                    last_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-1]).order_by('set_number')]
+                    secondlast_sets = None
+            context = {
+                'last_sets': last_sets,
+                'secondlast_sets': secondlast_sets,
+                'last_date': unique_dates[-1],
+                'second_last_date': unique_dates[-2] if unique_dates >= 2 else None,
+
+            }
+            data['form_is_valid'] = True
+            data['html'] = render_to_string('diary/exercise_detail.html', request)
+        else:
+            data['form_is_valid'] = False
+
+        return JsonResponse(data)
 
 # class ExerciseDetail(View):
 #     def get(self, request, slug):
@@ -413,21 +492,28 @@ class ExerciseCreateView(View):
 
 
 class SetCreateView(View):
-    def get(self, request, slug):
-        form = SetCreateForm()
-        return render(request, 'diary/set_form.html', {'form': form})
-
     def post(self, request, slug):
+        data = {}
         form = SetCreateForm(request.POST)
         exercise = Exercise.objects.get(slug=slug)
-        print(exercise)
+        sets = len(Set.objects.all().filter(exercise=exercise, date=date.today()))
+        set_number = sets + 1
         if form.is_valid():
             print(form.cleaned_data)
             form = form.save(commit=False)
             form.exercise = exercise
             form.author = self.request.user
+            form.set_number = set_number
             form.save()
-        return HttpResponseRedirect(exercise.get_absolute_url())
+            data['form_is_valid'] = True
+            print('============', form)
+            data['html'] = render_to_string('diary/btn_group_set.html', {
+                'item': form,
+            }, request)
+            print(data['html'])
+        else:
+            data['form_is_valid'] = False
+        return JsonResponse(data)
 
 
 class SetUpdateView(UpdateView):
@@ -462,19 +548,6 @@ class SetDeleteView(View):
         return JsonResponse(data)
 
 
-# class SetDeleteView(DeleteView):
-#     model = Set
-#
-#     def get_success_url(self):
-#         view_name = 'exercise_detail_url'
-#         # No need for reverse_lazy here, because it's called inside the method
-#         return reverse(view_name, kwargs={
-#             'slug': self.object.exercise.slug,
-#             'author': self.object.exercise.author,
-#             'workout': self.object.exercise.workout.slug,
-#         })
-
-
 class ExerciseDeleteView(View):
     def post(self, request, slug):
         data = {}
@@ -499,19 +572,6 @@ class ExerciseUpdateView(View):
         else:
             data['form_is_valid'] = False
         return JsonResponse(data)
-
-
-# class ExerciseUpdateView(UpdateView):
-#     model = Exercise
-#     form_class = ExerciseCreateForm
-#     template_name_suffix = '_update_form'
-#
-#     def get_success_url(self):
-#         view_name = 'exercise_list'
-#         # No need for reverse_lazy here, because it's called inside the method
-#         return reverse(view_name, kwargs={
-#             'slug': self.object.workout.slug,
-#         })
 
 
 class RegisterUserView(CreateView):

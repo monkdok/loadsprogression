@@ -25,6 +25,16 @@ function appendToBtnGroup(item) {
 
 }
 
+function setAppendToBtnGroup(item) {
+    $('.set-box').append(item)
+    $('form#set-create-form').trigger('reset')
+    $('#create').modal('hide')
+//    if ($("#exist-check")) {
+//        alert('exist-check')
+//    }
+
+}
+
 function deleteItem(slug) {
     $('#delete-form').submit(function (e) {
         e.preventDefault()
@@ -50,7 +60,7 @@ function deleteItem(slug) {
 
 }
 
-// Create Django Ajax Call
+// Workout & exercise reate Django Ajax Call
 $("#create-form").on('submit', function(e) {
     e.preventDefault()
     let inputTitle = $('input#input-title').val()
@@ -80,7 +90,8 @@ $("form#set-create-form").on('submit', function(e) {
     let inputReps = $('input#input-reps').val()
     let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
     url = $('#add').attr('data-url')
-    alert( inputWeight + ' x ' + inputReps)
+    console.log(url)
+    console.log(inputWeight + ' x ' + inputReps)
     $.ajax({
         url: url,
         // data: form.serialize(),

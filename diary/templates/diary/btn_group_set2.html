@@ -1,12 +1,4 @@
-{% extends 'diary/base.html' %}
 {% load humanize %}
-
-{% block title %}
-{{ exercise.title }} - {{ block.super }}
-{% endblock %}
-
-{% block content %}
-{% if last_training_sets %}
 
 <div class="row">
     {% for training in last_training_sets %}
@@ -90,7 +82,6 @@
     {% endif %}
     {% endfor %}
 </div>
-
 <!--Weight per rep-->
 <div class="row">
     {% for i in weight_per_set %}
@@ -112,23 +103,3 @@
     {% endif %}
     {% endfor %}
 </div>
-{% endif %}
-<!--Modal Form-->
-{% include 'diary/modals/set_create_modal.html' %}
-<div class="row">
-    <div class="col mx-auto">
-        {% if training_list_len is None %}
-        <div class="row">
-            <div class="col-8 offset-2">
-                <span class="badge badge-primary mt-4" style="font-size:30px">
-                Create you first Set <br>
-                <span style="font-size:22px">You may pass "Weight" field if you train without weights</span><br>
-            </span>
-            </div>
-        </div>
-        {% endif %}
-        <button type="button" class="btn btn-outline-dark mt-4" data-url="{% url 'set_create_url' exercise.slug %}" data-toggle="modal" id="add" data-target="#create"
-                    data-backdrop="false">Add Set</button>
-    </div>
-</div>
-{% endblock %}
