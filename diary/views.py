@@ -250,28 +250,35 @@ class ExerciseDetail(View):
         all_dates = [set.date for set in all_sets]  # all sets dates
         unique_dates = list(dict.fromkeys(all_dates))  # unique sets dates
         print('=========unique dates', sorted(unique_dates))
-        last_sets = []
-        secondlast_sets = []
-        print('==========secondlast date', unique_dates[-2])
-        print('==========last date', unique_dates[-1])
+        last_sets = None
+        secondlast_sets = None
         if unique_dates:
+
             if len(unique_dates) >= 2:
-                last_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-1]).order_by('set_number')]
-                secondlast_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-2]).order_by('set_number')]
+                last_sets = all_sets.filter(exercise=exercise, date=unique_dates[-1]).order_by('set_number')
+                secondlast_sets = all_sets.filter(exercise=exercise, date=unique_dates[-2]).order_by('set_number')
             else:
-                last_sets = [all_sets.filter(exercise=exercise, date=unique_dates[-1]).order_by('set_number')]
+                last_sets = all_sets.filter(exercise=exercise, date=unique_dates[-1]).order_by('set_number')
                 secondlast_sets = None
         context = {
             'second_last_date': unique_dates[-2] if len(unique_dates) >= 2 else None,
-            'last_date': unique_dates[-1],
+            'last_date': unique_dates[-1] if unique_dates else None,
             'secondlast_sets': secondlast_sets,
             'last_sets': last_sets,
+            'data': {
+                'secondlast_sets': {
+                    'sets': secondlast_sets,
+                    'date': unique_dates[-2] if len(unique_dates) >= 2 else None
+                },
+                'last_sets': {
+                    'sets': last_sets,
+                    'date': unique_dates[-1] if unique_dates else None
+                },
+            },
             'exercise': exercise,
             'workout': workout,
-
         }
         return render(request, 'diary/set_list.html', context)
-
 
     def post(self, request, slug):
 

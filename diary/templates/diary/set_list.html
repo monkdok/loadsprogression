@@ -6,59 +6,59 @@
 {% endblock %}
 
 {% block content %}
-{% if last_training_sets %}
 
 <div class="row">
-    <div class="set-box">
-        {% for %}
-    </div>
-</div>
-{% include 'diary/modals/set_update_modal.html' %}
-{% include 'diary/modals/set_delete_modal.html' %}
-<!--Volume-->
-<div class="row">
-    {% for i in volume %}
-    {% if i %}
-    <div class="volume-box">
-        <div class="volume row ">
-            <div class="volume-col col" align="left">
-                <span class="badge badge-primary volume-badge" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg.</span>
-            </div>
-        </div>
-    </div>
-    {% else %}
-    <div class="volume-box">
-        <div class="volume row ">
-            <div class="volume-col col" align="left">
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    {% endfor %}
-</div>
+        {% for training, value in data.items %}
+        {% if value.date %}
+            <div class="col set-box">
+                <div class="row date">
+                    <div class="col-10 offset-1 date">
+                        {{ value.date|naturalday:"j.m.y"|title }}
+                    </div>
+                </div>
+                {% for set in value.sets %}
+                <div class="row">
+                    <div class="col-1 set-number">
+                        <p>{{ set.set_number }}.</p>
+                    </div>
+                    <div class="btn-group col-9">
+                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if set.weight %}
+                                {{ set.weight }} x {{ set.reps }} {{ set.rest_time }}
+                            {% else %}
+                                {{ set.reps }}
+                            {% endif %}
+                        </button>
+                        <div class="dropdown-menu">
+                            <button type="button" class="dropdown-item" onClick="updateItem('{{ set.pk }}')" data-url="{% url 'set_update_view' set.pk %}"
+                                    id="edit-dropdown{{ workout.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
+                            <div class="dropdown-divider"></div>
+                            <button type="button" class="dropdown-item" onclick="deleteItem('{{ set.pk }}')" data-url="{% url 'set_delete_url' set.pk %}" id="delete-dropdown{{ set.pk }}" data-toggle="modal" data-target="#delete">Delete</button>
+                        </div>
+                    </div>
+                </div>
 
-<!--Weight per rep-->
-<div class="row">
-    {% for i in weight_per_set %}
-    {% if i %}
-    <div class="volume-box">
-        <div class="volume row ">
-            <div class="volume-col col" align="left">
-                <span class="badge badge-primary volume-badge" style="text-align:left;"><span style="font-size: 20px;">{{ i }}</span> kg./rep</span>
+                <div class="row mt-2">
+                    {% now "j.m.y" as today_date %}
+                    {% if forloop.last and today_date == set.date|date:"j.m.y"%}
+                    {% include 'diary/modals/set_rest_time_update_modal.html' %}
+                        <div class="col-1">
+                        </div>
+                        <div class="col-9 btn-group timer-btn">
+                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle set" data-toggle="modal" data-target="#set_rest_time_update_modal{{ set.pk }}">
+                                <i class="fas fa-stopwatch"></i>
+                            </button>
+                        </div>
+                        <div class="collapse" id="timer-collapse">
+                            <!--Timer-->
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
             </div>
-        </div>
-    </div>
-    {% else %}
-    <div class="set-box">
-        <div class="volume row ">
-            <div class="volume-col col" align="left">
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    {% endfor %}
+        {% endif %}
+        {% endfor %}
 </div>
-{% endif %}
 <!--Modal Form-->
 {% include 'diary/modals/set_create_modal.html' %}
 <div class="row">
@@ -74,7 +74,7 @@
         </div>
         {% endif %}
         <button type="button" class="btn btn-outline-dark mt-4" data-url="{% url 'exercise_detail_url' exercise.slug %}" data-toggle="modal" id="add" data-target="#create"
-                    data-backdrop="false">Add Set</button>
+                data-backdrop="false">Add Set</button>
     </div>
 </div>
 {% endblock %}

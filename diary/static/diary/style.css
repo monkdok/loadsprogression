@@ -34,7 +34,7 @@ div {
 
 .all-sets-area{
     width: 100%;
-    margin: 25px auto 25px auto;
+    margin: 5px auto 25px auto;
     padding: 0 15px;
     color: #333;
     font-weight: regular;
@@ -46,8 +46,9 @@ div {
 .set-box {
 /*
     background-color: #333;
-*/
+*/  overflow:hidden;
     width: 45%;
+    max-width: 250px;
     margin: 10px auto 0 auto;
     padding: 7px 15px;
     display: inline-block;
@@ -103,6 +104,27 @@ hr {
     display: inline-block;
     margin: 0 5px 0 0;
 }
+
+.date {
+    margin-bottom: 7px;
+    font-size: 18px;
+    font-weight: 300;
+    color: grey;
+
+}
+
+
+.set-number p {
+    margin: 0;
+    padding: 0;
+    font-weight: 100;
+    color: grey;
+    text-align: center;
+    position: relative;
+    top: 30%;
+
+}
+
 
 
 .button.facebook {
@@ -179,23 +201,34 @@ hr {
 .btn.btn-warning.set {
     height: 45px;
     width: 90px;
-    margin: 5px;
+    margin: 5px 5px 5px 0;
     display: table;
     font-style: black;
+    font-size: 1.4em;
+    color: #343A40;
     /*box-shadow: 0px 11px 14px -5px rgba(0,0,0,0.19);*/
     /*box-shadow: 0px 11px 7px -5px rgba(0,0,0,0.19);*/
     box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);
     /*box-shadow: 0px 9px 7px -7px rgba(0,0,0,0.47);*/
-
-
-
 }
+
+.btn.btn-outline-secondary.set {
+    height: 45px;
+    width: 90px;
+    margin: 5px 0;
+    font-style: black;
+    box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);
+}
+
+
 
 .btn-group.set {
     display: block;
-
 }
 
+.btn-group.timer-btn {
+    padding-right: 20px;
+}
 
 
 .navbar-nav {
@@ -274,6 +307,13 @@ hr {
     width: 90px;
     height: 45px;
 }
+
+i.fas.fa-stopwatch {
+    margin-top: 4px;
+    color: #343A40;
+    font-size: 1.73em;
+}
+
 
 .timer input {
     width: 70%;
