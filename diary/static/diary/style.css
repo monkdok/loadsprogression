@@ -57,6 +57,17 @@ div {
     /*box-shadow: 0px 0px 30px -2px rgba(0,0,0,0.09);*/
 }
 
+.volume-box {
+    overflow:hidden;
+    width: 45%;
+    max-width: 250px;
+    margin: 10px auto 0 auto;
+    padding: 7px 0;
+    display: inline-block;
+    font-size: 0.8em;
+
+}
+
 
 
 hr {
@@ -85,15 +96,6 @@ hr {
 }
 
 
-.volume-box {
-    width: 45%;
-    margin: 0 auto 0 auto;
-    padding: 0 15px 0 55px;
-    display: inline-block;
-    border-radius: 5px;
-}
-
-
 .volume-badge {
     margin: 0 auto;
 }
@@ -105,7 +107,7 @@ hr {
     margin: 0 5px 0 0;
 }
 
-.date {
+.date, .volume {
     margin-bottom: 7px;
     font-size: 18px;
     font-weight: 300;
@@ -204,8 +206,9 @@ hr {
     margin: 5px 5px 5px 0;
     display: table;
     font-style: black;
-    font-size: 1.4em;
+    font-size: 1.1em;
     color: #343A40;
+    font-weight: 300;
     /*box-shadow: 0px 11px 14px -5px rgba(0,0,0,0.19);*/
     /*box-shadow: 0px 11px 7px -5px rgba(0,0,0,0.19);*/
     box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);

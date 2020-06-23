@@ -22,16 +22,17 @@
                         <p>{{ set.set_number }}.</p>
                     </div>
                     <div class="btn-group col-9">
-                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" id="title{{ set.pk }}" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
                             {% if set.weight %}
-                                {{ set.weight }} x {{ set.reps }} {{ set.rest_time }}
+                                <span id="set-weight{{ set.pk }}">{{ set.weight }}</span> x <span id="set-reps{{ set.pk }}">{{ set.reps }}</span> {{ set.rest_time }}
                             {% else %}
                                 {{ set.reps }}
                             {% endif %}
                         </button>
                         <div class="dropdown-menu">
-                            <button type="button" class="dropdown-item" onClick="updateItem('{{ set.pk }}')" data-url="{% url 'set_update_view' set.pk %}"
-                                    id="edit-dropdown{{ workout.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
+                            <button type="button" class="dropdown-item" onClick="updateSet({{ set.id }})" data-url="{% url 'set_update_view' set.pk %}"
+                                    id="edit-dropdown{{ set.pk }}" data-toggle="modal" data-target="#edit">Edit</button>
                             <div class="dropdown-divider"></div>
                             <button type="button" class="dropdown-item" onclick="deleteItem('{{ set.pk }}')" data-url="{% url 'set_delete_url' set.pk %}" id="delete-dropdown{{ set.pk }}" data-toggle="modal" data-target="#delete">Delete</button>
                         </div>
@@ -59,8 +60,8 @@
         {% endif %}
         {% endfor %}
 </div>
-<!--Modal Form-->
-{% include 'diary/modals/set_create_modal.html' %}
+
+<!--Add button-->
 <div class="row">
     <div class="col mx-auto">
         {% if last_date is None %}
@@ -77,4 +78,41 @@
                 data-backdrop="false">Add Set</button>
     </div>
 </div>
+
+<!--Average set-->
+<div class="volume row mt-2">
+    {% for training, value in  average_set.items %}
+    {% if training and value %}
+    {% if value.weight %}
+    <div class="col-5 volume-box">
+        Average set: <br>
+        {{ value.weight }} x {{ value.reps }}
+    </div>
+    {% else %}
+    {% if value.reps %}
+    <div class="col-5 volume-box">
+        {{ value.reps }}
+    </div>
+    {% endif %}
+    {% endif %}
+
+    {% endif %}
+    {% endfor %}
+</div>
+
+<!--Volume-->
+<div class="volume row">
+    {% for i in volume %}
+    {% if i %}
+    <div class="col-5 volume-box">
+        Total load: <br>
+        {{ i }}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% include 'diary/modals/set_update_modal.html' %}
+{% include 'diary/modals/set_delete_modal.html' %}
+{% include 'diary/modals/set_create_modal.html' %}
 {% endblock %}

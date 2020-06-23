@@ -29,10 +29,6 @@ function setAppendToBtnGroup(item) {
     $('.set-box').append(item)
     $('form#set-create-form').trigger('reset')
     $('#create').modal('hide')
-//    if ($("#exist-check")) {
-//        alert('exist-check')
-//    }
-
 }
 
 function deleteItem(slug) {
@@ -60,7 +56,7 @@ function deleteItem(slug) {
 
 }
 
-// Workout & exercise reate Django Ajax Call
+// Workout & exercise create Django Ajax Call
 $("#create-form").on('submit', function(e) {
     e.preventDefault()
     let inputTitle = $('input#input-title').val()
@@ -82,6 +78,48 @@ $("#create-form").on('submit', function(e) {
         }
     })
 })
+
+// Workout & exercise update Django Ajax Call
+function updateItem(slug) {
+    if (slug) {
+        // Passing initial form fields data
+        let itemId = '#title' + slug
+        let title = $(itemId).text()
+        $('input#update-title').val(title)
+        $('#slug').val(slug)
+
+        // forming ajax request
+        $("form#update-form").submit(function(s) {
+            s.preventDefault()
+            let itemTitle = $('#update-title').val()
+            let url = $('#edit-dropdown' + slug).attr('data-url')
+            console.log('url:', url)
+            let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
+            $.ajax({
+                url: url,
+                data: {
+                    slug: slug,
+                    title: itemTitle,
+                    csrfmiddlewaretoken: csrf_token
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.form_is_valid) {
+                        $('#item-' + slug).replaceWith(data.html)
+                        $('form#update-form').trigger('reset')
+                        $('#edit').modal('hide')
+
+                    }
+                    else {
+                        alert("All fields must have a valid value.")
+
+                    }
+                }
+            });
+        })
+    }
+}
 
 // Set create Django Ajax Call
 $("form#set-create-form").on('submit', function(e) {
@@ -114,36 +152,39 @@ $("form#set-create-form").on('submit', function(e) {
     // $("#workout-create-form").trigger("reset")
 })
 
-// Update Django Ajax Call
-function updateItem(slug) {
-    if (slug) {
+
+// Set update Django Ajax Call
+function updateSet(pk) {
+    if (pk) {
         // Passing initial form fields data
-        let itemId = '#title' + slug
-        let title = $(itemId).text()
-        $('input#update-title').val(title)
-        $('#slug').val(slug)
+        let setWeightId = '#set-weight' + pk
+        let setRepsId = '#set-reps' + pk
+        let weight = $(setWeightId).text().trim()
+        let reps = $(setRepsId).text().trim()
+        $('input#update-weight').val(weight)
+        $('input#update-reps').val(reps)
+        $('#pk').val(pk)
 
         // forming ajax request
         $("form#update-form").submit(function(s) {
             s.preventDefault()
-            let itemTitle = $('#update-title').val()
-            let url = $('#edit-dropdown' + slug).attr('data-url')
-            console.log('url:', url)
+            let itemWeight = $('#update-weight').val()
+            let itemReps = $('#update-reps').val()
+            let url = $('#edit-dropdown' + pk).attr('data-url')
             let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
             $.ajax({
                 url: url,
                 data: {
-                    slug: slug,
-                    title: itemTitle,
+                    pk: pk,
+                    weight: itemWeight,
+                    reps: itemReps,
                     csrfmiddlewaretoken: csrf_token
                 },
                 type: 'post',
                 dataType: 'json',
                 success: function (data) {
                     if (data.form_is_valid) {
-                        $('#item-' + slug).replaceWith(data.html)
-                        $('form#update-form').trigger('reset')
-                        $('#edit').modal('hide')
+                        setAppendToBtnGroup(data.html)
 
                     }
                     else {
