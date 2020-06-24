@@ -61,8 +61,7 @@ div {
     overflow:hidden;
     width: 45%;
     max-width: 250px;
-    margin: 10px auto 0 auto;
-    padding: 7px 0;
+    margin: 0 auto;
     display: inline-block;
     font-size: 0.8em;
 

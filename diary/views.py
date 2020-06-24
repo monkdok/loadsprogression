@@ -359,7 +359,8 @@ class SetList(View):
             # volume calculating
             both_sets = [secondlast_sets, last_sets]
             volume = []
-            weight_per_rep = []
+            average_weight = []
+            average_reps = []
             for training in both_sets:
                 training_day_volume = 0
                 training_day_reps = 0
@@ -371,16 +372,20 @@ class SetList(View):
                         set_volume = 0
                         training_day_volume += set_volume
                         training_day_reps += set.reps
+                if training_day_reps:
+                    average_reps.append(int(training_day_reps / len(training)))
                 volume.append(training_day_volume)
                 if training_day_volume:
                     if training_day_volume % training_day_reps == 0:
                         calc = round(training_day_volume / training_day_reps)
-                        weight_per_rep.append(calc)
+                        average_weight.append(int(calc))
                     else:
-                        weight_per_rep.append(round(training_day_volume / training_day_reps, 1))
+                        calc = round(training_day_volume / training_day_reps, 1)
+                        average_weight.append(int(calc))
                 else:
                     training_day_reps = None
-                    weight_per_rep.append(training_day_reps)
+                    average_weight.append(training_day_reps)
+
             context = {
                 'second_last_date': unique_dates[-2] if len(unique_dates) >= 2 else None,
                 'last_date': unique_dates[-1] if unique_dates else None,
@@ -391,20 +396,31 @@ class SetList(View):
                         'sets': secondlast_sets,
                         'date': unique_dates[-2] if len(unique_dates) >= 2 else None,
                         'volume': volume[-2] if len(volume) >= 2 else None,
-                        'weight_per_rep': weight_per_rep[-2] if len(weight_per_rep) >= 2 else None,
+                        'average_weight': average_weight[-2] if len(average_weight) >= 2 else None,
 
                     },
                     'last_sets': {
                         'sets': last_sets,
                         'date': unique_dates[-1] if unique_dates else None,
                         'volume': volume[-1] if volume else None,
-                        'weight_per_rep': weight_per_rep[-1] if weight_per_rep else None,
+                        'average_weight': average_weight[-1] if average_weight else None,
                     },
                 },
                 'exercise': exercise,
                 'workout': workout,
                 'volume': volume,
-                'weight_per_rep': weight_per_rep,
+                'average_weight': average_weight,
+                'average_reps': average_reps,
+                'average_set': {
+                    'secondlast_average_set': {
+                        'weight': average_weight[-2] if len(average_weight) >= 2 else None,
+                        'reps': average_reps[-2] if len(average_reps) >= 2 else None,
+                    },
+                    'last_average_set': {
+                        'weight': average_weight[-1] if average_weight else None,
+                        'reps': average_reps[-1] if average_reps else None,
+                    }
+                }
             }
             data['form_is_valid'] = True
             data['html'] = render_to_string('diary/set_list.html', context, request)

@@ -61,6 +61,37 @@
         {% endfor %}
 </div>
 
+<!--Average set-->
+<div class="volume row mt-2">
+    {% for training, value in  average_set.items %}
+    {% if training and value %}
+    {% if value.weight %}
+    <div class="col-5 volume-box">
+        Average set: {{ value.weight }} x {{ value.reps }}
+    </div>
+    {% else %}
+    {% if value.reps %}
+    <div class="col-5 volume-box">
+        Average set: {{ value.reps }}
+    </div>
+    {% endif %}
+    {% endif %}
+
+    {% endif %}
+    {% endfor %}
+</div>
+
+<!--Volume-->
+<div class="volume row">
+    {% for i in volume %}
+    {% if i %}
+    <div class="col-5 volume-box">
+        Volume: {{ i }}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
 <!--Add button-->
 <div class="row">
     <div class="col mx-auto">
@@ -77,39 +108,6 @@
         <button type="button" class="btn btn-outline-dark mt-4" data-url="{% url 'exercise_detail_url' exercise.slug %}" data-toggle="modal" id="add" data-target="#create"
                 data-backdrop="false">Add Set</button>
     </div>
-</div>
-
-<!--Average set-->
-<div class="volume row mt-2">
-    {% for training, value in  average_set.items %}
-    {% if training and value %}
-    {% if value.weight %}
-    <div class="col-5 volume-box">
-        Average set: <br>
-        {{ value.weight }} x {{ value.reps }}
-    </div>
-    {% else %}
-    {% if value.reps %}
-    <div class="col-5 volume-box">
-        {{ value.reps }}
-    </div>
-    {% endif %}
-    {% endif %}
-
-    {% endif %}
-    {% endfor %}
-</div>
-
-<!--Volume-->
-<div class="volume row">
-    {% for i in volume %}
-    {% if i %}
-    <div class="col-5 volume-box">
-        Total load: <br>
-        {{ i }}
-    </div>
-    {% endif %}
-    {% endfor %}
 </div>
 
 {% include 'diary/modals/set_update_modal.html' %}
