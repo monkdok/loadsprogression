@@ -125,3 +125,42 @@ class SetListMixin(object):
             data['form_is_valid'] = False
 
         return JsonResponse(data)
+
+
+class ObjectListMixin(object):
+    model = None
+    template = None
+    form = None
+
+    def get_context_data(self, request, slug):
+        obj = self.model.objects.filter(author=self.request.user)
+        form = self.form
+        context = {
+            'form': form,
+            self.model.__name__.lower(): obj,
+            self.model.__name__.lower() + '_len': len(obj),
+        }
+        return context
+
+    def get(self, request, slug=None):
+        context = self.get_context_data(request, slug)
+        return render(request, self.template, context)
+
+
+class ObjectCreateMixin(object):
+    form = None
+    template = None
+
+    def post(self, request, slug=None):
+        data = {}
+        form = self.form(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.author = self.request.user
+            form.save()
+            context = {'item': form}
+            data['form_is_valid'] = True
+            data['html'] = render_to_string(self.template, context, request)
+        else:
+            data['form_is_valid'] = False
+        return JsonResponse(data)

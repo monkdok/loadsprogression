@@ -12,35 +12,26 @@ from .utils import *
 import datetime
 
 
-class WorkoutList(LoginRequiredMixin, View):
-    # model = Workout
+class WorkoutList(LoginRequiredMixin, ObjectListMixin, View):
     login_url = 'account_login'
-
-    def get(self, request):
-        workouts = Workout.objects.filter(author=self.request.user)
-        form = WorkoutCreateForm()
-        context = {
-            'form': form,
-            'workouts': workouts,
-            'workouts_len': len(workouts)
-        }
-        return render(request, 'diary/workout_list.html', context)
+    model = Workout
+    form = WorkoutCreateForm()
+    template = 'diary/workout_list.html'
 
 
-class ExerciseList(LoginRequiredMixin, View):
+class ExerciseList(LoginRequiredMixin, ObjectListMixin, View):
     login_url = 'account_login'
+    model = Workout
+    template = 'diary/exercise_list.html'
+    form = ExerciseCreateForm()
 
-    def get(self, request, slug):
+    def get_context_data(self, request, slug):
+        context = super().get_context_data(request, slug)
         workout = get_object_or_404(Workout, slug__iexact=slug, author=self.request.user)
         exercises = workout.exercise_mm.all()
-        form = ExerciseCreateForm()
-        context = {
-            'workout': workout,
-            'exercises': exercises,
-            'exercises_len': len(exercises),
-            'form': form,
-        }
-        return render(request, 'diary/exercise_list.html', context)
+        context['workout'] = workout
+        context['exercise'] = exercises
+        return context
 
 
 class SetList(SetListMixin, View):
@@ -48,21 +39,9 @@ class SetList(SetListMixin, View):
     template = 'diary/set_list.html'
 
 
-class WorkoutCreateView(View):
-    def post(self, request):
-        data = {}
-        form = WorkoutCreateForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.author = self.request.user
-            form.save()
-            data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/btn_group_workout.html', {
-                'item': form,
-            }, request)
-        else:
-            data['form_is_valid'] = False
-        return JsonResponse(data)
+class WorkoutCreateView(ObjectCreateMixin, View):
+    form = WorkoutCreateForm
+    template = 'diary/btn_group_workout.html'
 
 
 class WorkoutUpdateView(View):
@@ -91,23 +70,25 @@ class WorkoutDeleteView(View):
         return JsonResponse(data)
 
 
-class ExerciseCreateView(View):
-    def post(self, request, slug):
-        data = {}
-        workout = Workout.objects.get(slug=slug)
-        form = ExerciseCreateForm(request.POST)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.workout = workout
-            form.author = self.request.user
-            form.save()
-            data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/btn_group_exercise.html', {
-                'item': form,
-            }, request)
-        else:
-            data['form_is_valid'] = False
-        return JsonResponse(data)
+class ExerciseCreateView(ObjectCreateMixin, View):
+    form = ExerciseCreateForm
+    template = 'diary/btn_group_exercise.html'
+
+    # def post(self, request, slug):
+    #     data = super().post(request, slug)
+    #     workout = Workout.objects.get(slug=slug)
+    #     if form.is_valid():
+    #         form = form.save(commit=False)
+    #         form.workout = workout
+    #         form.author = self.request.user
+    #         form.save()
+    #         data['form_is_valid'] = True
+    #         data['html'] = render_to_string('diary/btn_group_exercise.html', {
+    #             'item': form,
+    #         }, request)
+    #     else:
+    #         data['form_is_valid'] = False
+    #     return JsonResponse(data)
 
 
 class SetCreateView(View):

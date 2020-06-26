@@ -8,7 +8,7 @@ Workouts - {{ block.super }}
 {% block content %}
 
 <div class="buttons">
-    {% for workout in workouts %}
+    {% for workout in workout %}
     <!--Workout button-->
     <div class="row" id="item-{{ workout.slug }}">
         <div class="col-12">
@@ -38,7 +38,7 @@ Workouts - {{ block.super }}
 <!--Add workout button-->
 <div class="row">
     <div class="col">
-        {% if workouts_len == 0 %}
+        {% if workout_len == 0 %}
         <div class="row">
             <div class="col-8 offset-2">
                 <span class="badge badge-primary" style="font-size:30px">
