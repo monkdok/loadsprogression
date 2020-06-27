@@ -19,7 +19,7 @@
                 {% for set in value.sets %}
                 <div class="row">
                     <div class="col-1 set-number">
-                        <p>{{ set.set_number }}.</p>
+                        <p>{{ forloop.counter }}.</p>
                     </div>
                     <div class="btn-group col-9">
                         <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" id="title{{ set.pk }}" data-toggle="dropdown" aria-haspopup="true"
@@ -34,7 +34,7 @@
                             <button type="button" class="dropdown-item" onClick="updateSet({{ set.pk }})" data-url="{% url 'set_update_view' set.pk %}"
                                     id="edit-dropdown{{ set.pk }}" data-toggle="modal" data-target="#edit">Edit</button>
                             <div class="dropdown-divider"></div>
-                            <button type="button" class="dropdown-item" onclick="deleteItem('{{ set.pk }}')" data-url="{% url 'set_delete_url' set.pk %}" id="delete-dropdown{{ set.pk }}" data-toggle="modal" data-target="#delete">Delete</button>
+                            <button type="button" class="dropdown-item" onclick="setDelete({{ set.pk }})" data-url="{% url 'set_delete_url' set.pk %}" id="delete-dropdown{{ set.pk }}" data-toggle="modal" data-target="#delete">Delete</button>
                         </div>
                     </div>
                 </div>

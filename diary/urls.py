@@ -35,9 +35,7 @@ urlpatterns = [
     path('exercise/<str:slug>/exercise_delete', ExerciseDeleteView.as_view(), name='exercise_delete_url'),
     path('exercise/delete/<int:pk>/', ExerciseDeleteView.as_view(), name='exercise_delete_url'),
     path('workout/<str:slug>/workout_delete', WorkoutDeleteView.as_view(), name='workout_delete_url'),
-    path('login', DiaryLoginView.as_view(), name='login_url'),
-    path('logout', DiaryLogoutView.as_view(), name='logout_url'),
-    path('register', RegisterUserView.as_view(), name='register_url'),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

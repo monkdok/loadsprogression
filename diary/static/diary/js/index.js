@@ -10,6 +10,7 @@ function collectInputs() {
 // if view return if_valid = True
 function appendToHtml(data) {
     $('.modal-backdrop').remove()
+    console.log(data.html)
     $("body").html(data.html)
     $('.dropdown-toggle').dropdown()
     $('body').removeClass('modal-open')
@@ -196,4 +197,29 @@ function updateSet(pk) {
             });
         })
     }
+}
+
+// Set update Django Ajax Call
+function setDelete(pk) {
+    $('#delete-form').submit(function (e) {
+        e.preventDefault()
+        // Pass view url through item attribute "data-url"
+        let url = $('#delete-dropdown' + pk).attr('data-url')
+        console.log(url)
+        let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
+        if (pk) {
+            $.ajax({
+                url: url,
+                data: {'pk': pk, csrfmiddlewaretoken: csrf_token},
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.deleted) {
+                        appendToHtml(data)
+                    }
+                }
+            })
+        }
+    })
+
 }

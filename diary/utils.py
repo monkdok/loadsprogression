@@ -3,12 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy, reverse
 from datetime import date
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import View, ListView, DeleteView, UpdateView, TemplateView, DetailView, CreateView
+from django.views.generic import View
 from .forms import *
-import datetime
 
 
 class SetListMixin(object):
@@ -119,7 +117,6 @@ class SetListMixin(object):
             form.author = self.request.user
             form.save()
             context = self.get_context_data(request, slug)
-            print(context)
             data['form_is_valid'] = True
             data['html'] = render_to_string('diary/set_list.html', context, request)
         else:
@@ -132,8 +129,19 @@ class ObjectListMixin(object):
     model = None
     template = None
     form = None
+    parent = None
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, request, slug):
+        if self.parent:
+            workout = self.parent.objects.get(slug=slug)
+            exercise = workout.exercise_mm.all()
+            context = {
+                'workout': workout,
+                'exercise': exercise,
+                'exercises_len': len(exercise),
+                'form': self.form,
+            }
+            return context
         obj = self.model.objects.filter(author=self.request.user)
         form = self.form
         context = {
@@ -157,10 +165,11 @@ class ObjectCreateMixin(object):
         form = self.form(request.POST)
         if form.is_valid():
             form = form.save(commit=False)
+            # checking model for parent availability
             if self.parent:
-                setattr(form, self.parent.__name__.lower(), self.parent.objects.get(slug=slug))
-                # Вынести в пересенну self.parent.objects.get(slug=slug)
-
+                parent = self.parent.objects.get(slug=slug)
+                # receiving form attribute from model name
+                setattr(form, self.parent.__name__.lower(), parent)
             form.author = self.request.user
             form.save()
             context = {'item': form}
@@ -191,9 +200,33 @@ class ObjectUpdateMixin(SetListMixin, object):
                 context = self.get_context_data(request, slug=exercise.slug)
             else:
                 context = {'item': obj}
-            print(context)
             data['form_is_valid'] = True
             data['html'] = render_to_string(self.template, context, request)
         else:
             data['form_is_valid'] = False
+        return JsonResponse(data)
+
+
+class ObjectDeleteMixin(SetListMixin, object):
+    model = None
+    template = None
+
+    def post(self, request, slug=None, pk=None):
+        data = {}
+        obj = None
+        if slug:
+            obj = self.model.objects.get(slug=slug, author=self.request.user)
+            obj.delete()
+            data['deleted'] = True
+        elif pk:
+            obj = self.model.objects.get(pk=pk, author=self.request.user)
+            exercise = obj.exercise
+            context = self.get_context_data(request, slug=exercise.slug)
+            obj.delete()
+            context = self.get_context_data(request, slug=exercise.slug)
+            data['deleted'] = True
+            data['html'] = render_to_string(
+                self.template, context,
+                request
+            )
         return JsonResponse(data)
