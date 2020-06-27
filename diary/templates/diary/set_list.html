@@ -31,7 +31,7 @@
                             {% endif %}
                         </button>
                         <div class="dropdown-menu">
-                            <button type="button" class="dropdown-item" onClick="updateSet({{ set.id }})" data-url="{% url 'set_update_view' set.pk %}"
+                            <button type="button" class="dropdown-item" onClick="updateSet({{ set.pk }})" data-url="{% url 'set_update_view' set.pk %}"
                                     id="edit-dropdown{{ set.pk }}" data-toggle="modal" data-target="#edit">Edit</button>
                             <div class="dropdown-divider"></div>
                             <button type="button" class="dropdown-item" onclick="deleteItem('{{ set.pk }}')" data-url="{% url 'set_delete_url' set.pk %}" id="delete-dropdown{{ set.pk }}" data-toggle="modal" data-target="#delete">Delete</button>

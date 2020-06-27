@@ -132,13 +132,12 @@ class ObjectListMixin(object):
     template = None
     form = None
 
-    def get_context_data(self, request, slug):
+    def get_context_data(self, *args, **kwargs):
         obj = self.model.objects.filter(author=self.request.user)
         form = self.form
         context = {
             'form': form,
             self.model.__name__.lower(): obj,
-            self.model.__name__.lower() + '_len': len(obj),
         }
         return context
 
@@ -150,15 +149,50 @@ class ObjectListMixin(object):
 class ObjectCreateMixin(object):
     form = None
     template = None
+    parent = None
 
     def post(self, request, slug=None):
         data = {}
         form = self.form(request.POST)
         if form.is_valid():
             form = form.save(commit=False)
+            if self.parent:
+                setattr(form, self.parent.__name__.lower(), self.parent.objects.get(slug=slug))
+                # Вынести в пересенну self.parent.objects.get(slug=slug)
+
             form.author = self.request.user
             form.save()
             context = {'item': form}
+            data['form_is_valid'] = True
+            data['html'] = render_to_string(self.template, context, request)
+        else:
+            data['form_is_valid'] = False
+        return JsonResponse(data)
+
+
+class ObjectUpdateMixin(SetListMixin, object):
+    model = None
+    form = None
+    template = None
+
+    def post(self, request, slug=None, pk=None):
+        data = {}
+        obj = None
+        if slug:
+            obj = self.model.objects.get(slug=slug, author=self.request.user)
+        elif pk:
+            obj = self.model.objects.get(pk=pk, author=self.request.user)
+            exercise = obj.exercise
+        print('==============pk', pk)
+        print('==============slug', slug)
+        print('==============', request)
+        form = self.form(request.POST, instance=obj)
+        print('==============', self.template)
+        context = {'item': obj}
+        # context = {'exercise': exercise}
+        # context = self.get_context_data(request, slug)
+        if form.is_valid:
+            form.save()
             data['form_is_valid'] = True
             data['html'] = render_to_string(self.template, context, request)
         else:

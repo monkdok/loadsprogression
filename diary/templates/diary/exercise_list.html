@@ -31,10 +31,10 @@ Workouts - {{ block.super }}
 
 <!--Form Collapse-->
 {% include 'diary/modals/exercise_create_modal.html' %}
-<div class="row" id="exist-check">
+<div class="row">
     <div class="col">
         {% if exercises_len == 0 %}
-        <div class="row">
+        <div class="row" id="exist-check">
             <div class="col-8 offset-2">
                 <span class="badge badge-primary" style="font-size:30px">
                 Create you first Exercise<br>

@@ -17,6 +17,7 @@ function appendToHtml(data) {
 
 function appendToBtnGroup(item) {
     $('.buttons').append(item)
+    $('div#exist-check').remove()
     $('form#create-form').trigger('reset')
     $('#create').modal('hide')
 //    if ($("#exist-check")) {
@@ -184,7 +185,7 @@ function updateSet(pk) {
                 dataType: 'json',
                 success: function (data) {
                     if (data.form_is_valid) {
-                        setAppendToBtnGroup(data.html)
+                        appendToHtml(data)
 
                     }
                     else {

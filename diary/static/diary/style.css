@@ -41,13 +41,15 @@ div {
     max-width: 500px;
 }
 
-
+.dropdown-menu {
+    z-index: 2;
+    position: absolute;
+}
 
 .set-box {
 /*
     background-color: #333;
-*/  overflow:hidden;
-    width: 45%;
+*/  width: 45%;
     max-width: 250px;
     margin: 10px auto 0 auto;
     padding: 7px 15px;

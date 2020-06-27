@@ -31,6 +31,7 @@ class ExerciseList(LoginRequiredMixin, ObjectListMixin, View):
         exercises = workout.exercise_mm.all()
         context['workout'] = workout
         context['exercise'] = exercises
+        context['exercises_len'] = len(exercises)
         return context
 
 
@@ -44,21 +45,10 @@ class WorkoutCreateView(ObjectCreateMixin, View):
     template = 'diary/btn_group_workout.html'
 
 
-class WorkoutUpdateView(View):
-    def post(self, request, slug):
-        data = {}
-        workout = Workout.objects.get(slug=slug)
-        form = WorkoutCreateForm(request.POST, instance=workout)
-        if form.is_valid:
-            form.save()
-            data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/btn_group_workout.html', {
-                'item': workout,
-                },
-                request)
-        else:
-            data['form_is_valid'] = False
-        return JsonResponse(data)
+class WorkoutUpdateView(ObjectUpdateMixin, View):
+    model = Workout
+    form = WorkoutCreateForm
+    template = 'diary/btn_group_workout.html'
 
 
 class WorkoutDeleteView(View):
@@ -73,64 +63,34 @@ class WorkoutDeleteView(View):
 class ExerciseCreateView(ObjectCreateMixin, View):
     form = ExerciseCreateForm
     template = 'diary/btn_group_exercise.html'
-
-    # def post(self, request, slug):
-    #     data = super().post(request, slug)
-    #     workout = Workout.objects.get(slug=slug)
-    #     if form.is_valid():
-    #         form = form.save(commit=False)
-    #         form.workout = workout
-    #         form.author = self.request.user
-    #         form.save()
-    #         data['form_is_valid'] = True
-    #         data['html'] = render_to_string('diary/btn_group_exercise.html', {
-    #             'item': form,
-    #         }, request)
-    #     else:
-    #         data['form_is_valid'] = False
-    #     return JsonResponse(data)
+    parent = Workout
 
 
 class SetCreateView(View):
-    def post(self, request, slug):
-        data = {}
-        form = SetCreateForm(request.POST)
-        exercise = Exercise.objects.get(slug=slug)
-        sets = len(Set.objects.all().filter(exercise=exercise, date=date.today()))
-        set_number = sets + 1
-        if form.is_valid():
-            print(form.cleaned_data)
-            form = form.save(commit=False)
-            form.exercise = exercise
-            form.author = self.request.user
-            form.set_number = set_number
-            form.save()
-            data['form_is_valid'] = True
-            print('============', form)
-            data['html'] = render_to_string('diary/btn_group_set.html', {
-                'item': form,
-            }, request)
-            print(data['html'])
-        else:
-            data['form_is_valid'] = False
-        return JsonResponse(data)
+    form = SetCreateForm
+    template = 'diary/btn_group_set.html'
+    parent = Exercise
 
 
-class SetUpdateView(View):
-    def post(self, request, pk):
-        data = {}
-        set = Set.objects.get(pk=pk, author=self.request.user)
-        form = SetCreateForm(request.POST, instance=set)
-        if form.is_valid:
-            form.save()
-            data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/btn_group_set.html', {
-                'item': set,
-                },
-                request)
-        else:
-            data['form_is_valid'] = False
-        return JsonResponse(data)
+class SetUpdateView(ObjectUpdateMixin, View):
+    model = Set
+    form = SetCreateForm
+    template = 'diary/set_list.html'
+    #
+    # def post(self, request, pk):
+    #     data = {}
+    #     set = Set.objects.get(pk=pk, author=self.request.user)
+    #     form = SetCreateForm(request.POST, instance=set)
+    #     if form.is_valid:
+    #         form.save()
+    #         data['form_is_valid'] = True
+    #         data['html'] = render_to_string('diary/btn_group_set.html', {
+    #             'item': set,
+    #             },
+    #             request)
+    #     else:
+    #         data['form_is_valid'] = False
+    #     return JsonResponse(data)
 
 
 class SetDeleteView(View):
@@ -149,29 +109,18 @@ class SetDeleteView(View):
         return JsonResponse(data)
 
 
+class ExerciseUpdateView(ObjectUpdateMixin, View):
+    model = Exercise
+    form = ExerciseCreateForm
+    template = 'diary/btn_group_exercise.html'
+
+
 class ExerciseDeleteView(View):
     def post(self, request, slug):
         data = {}
         exercise = Exercise.objects.get(slug=slug)
         exercise.delete()
         data['deleted'] = True
-        return JsonResponse(data)
-
-
-class ExerciseUpdateView(View):
-    def post(self, request, slug):
-        data = {}
-        exercise = get_object_or_404(Exercise, slug__iexact=slug, author=self.request.user)
-        form = ExerciseCreateForm(request.POST, instance=exercise)
-        if form.is_valid:
-            form.save()
-            data['form_is_valid'] = True
-            data['html'] = render_to_string('diary/btn_group_exercise.html', {
-                'item': exercise,
-                },
-                request)
-        else:
-            data['form_is_valid'] = False
         return JsonResponse(data)
 
 
