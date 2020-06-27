@@ -119,6 +119,7 @@ class SetListMixin(object):
             form.author = self.request.user
             form.save()
             context = self.get_context_data(request, slug)
+            print(context)
             data['form_is_valid'] = True
             data['html'] = render_to_string('diary/set_list.html', context, request)
         else:
@@ -182,17 +183,15 @@ class ObjectUpdateMixin(SetListMixin, object):
             obj = self.model.objects.get(slug=slug, author=self.request.user)
         elif pk:
             obj = self.model.objects.get(pk=pk, author=self.request.user)
-            exercise = obj.exercise
-        print('==============pk', pk)
-        print('==============slug', slug)
-        print('==============', request)
         form = self.form(request.POST, instance=obj)
-        print('==============', self.template)
-        context = {'item': obj}
-        # context = {'exercise': exercise}
-        # context = self.get_context_data(request, slug)
         if form.is_valid:
             form.save()
+            if pk:
+                exercise = obj.exercise
+                context = self.get_context_data(request, slug=exercise.slug)
+            else:
+                context = {'item': obj}
+            print(context)
             data['form_is_valid'] = True
             data['html'] = render_to_string(self.template, context, request)
         else:

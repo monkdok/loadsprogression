@@ -12,14 +12,14 @@
             <li class="breadcrumb-item active" aria-current="page">{{ workout.title }}</li>
             {% endif %}
 
-
-            <!--
-                            {% url 'exercise_detail_url' exercise.slug as exercise_detail %}
-            -->
-            {% if exercise.get_absolute_url == request.path %}
+            {% url 'exercise_detail_url' exercise.slug as exercise_detail %}
+            {% url 'set_update_view' set.pk as set_update_view %}
+            {% if exercise_detail or set_update_view == request.path %}
             <li class="breadcrumb-item"><a href="{% url 'workout_list_url' %}">Workouts</a></li>
             <li class="breadcrumb-item"><a href="{% url 'exercise_list' workout.slug %}">{{ workout.title }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ exercise.title }}</li>
+            {% else %}
+            NOPE
             {% endif %}
             <div class="btn-group dropleft dots">
                 <button type="button" class="btn btn-sm btn-warning dropdown-toggle dotted-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

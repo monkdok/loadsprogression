@@ -76,21 +76,6 @@ class SetUpdateView(ObjectUpdateMixin, View):
     model = Set
     form = SetCreateForm
     template = 'diary/set_list.html'
-    #
-    # def post(self, request, pk):
-    #     data = {}
-    #     set = Set.objects.get(pk=pk, author=self.request.user)
-    #     form = SetCreateForm(request.POST, instance=set)
-    #     if form.is_valid:
-    #         form.save()
-    #         data['form_is_valid'] = True
-    #         data['html'] = render_to_string('diary/btn_group_set.html', {
-    #             'item': set,
-    #             },
-    #             request)
-    #     else:
-    #         data['form_is_valid'] = False
-    #     return JsonResponse(data)
 
 
 class SetDeleteView(View):
