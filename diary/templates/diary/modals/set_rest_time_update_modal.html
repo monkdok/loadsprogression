@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="set_rest_time_update_modal{{ set.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="set_rest_time_update_modal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,11 +11,11 @@
 
 
             <div class="modal-body">
-                <form name="clockform" id="rest-time" action="{% url 'set_update_view' set.pk %}" method="post">{% csrf_token %}
-                    <input name="clock" id="clock" class="form-control" size="12" maxlength="12" value="00:00:00.00">
-                    <input name="rest_time" id="rest-time-field" type="hidden">
-                    <input name="weight" type="hidden">
-                    <input name="reps" type="hidden">
+                <form name="clockform" id="update-form" method="post">{% csrf_token %}
+                    <input name="clock" id="clock" class="form-control" size="12" maxlength="12" value="00:00">
+                    <input name="rest_time" id="update-rest-time" type="hidden">
+                    <input name="weight" id="update-weight" type="hidden">
+                    <input name="reps" id="update-reps" type="hidden">
                     <input type="hidden" name="label" size="12" maxlength="40" value="">
                     <input type="hidden" id="marker">
                     <input name="starter" type="button" class="btn btn-outline-dark" value="Start/Stop" onclick="findTIME()">

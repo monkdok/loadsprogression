@@ -25,28 +25,32 @@
                         <button type="button" class="btn btn-sm btn-warning dropdown-toggle set" id="title{{ set.pk }}" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                             {% if set.weight %}
-                                <span id="set-weight{{ set.pk }}">{{ set.weight }}</span> x <span id="set-reps{{ set.pk }}">{{ set.reps }}</span> {{ set.rest_time }}
+                                <span id="set-weight{{ set.pk }}">{{ set.weight }}</span> x <span id="set-reps{{ set.pk }}">{{ set.reps }}</span>
                             {% else %}
-                                {{ set.reps }}
+                                <span id="set-reps{{ set.pk }}">{{ set.reps }}</span>
                             {% endif %}
                         </button>
                         <div class="dropdown-menu">
                             <button type="button" class="dropdown-item" onClick="updateSet({{ set.pk }})" data-url="{% url 'set_update_view' set.pk %}"
-                                    id="edit-dropdown{{ set.pk }}" data-toggle="modal" data-target="#edit">Edit</button>
+                                    id="edit{{ set.pk }}" data-toggle="modal" data-target="#edit">Edit</button>
                             <div class="dropdown-divider"></div>
                             <button type="button" class="dropdown-item" onclick="setDelete({{ set.pk }})" data-url="{% url 'set_delete_url' set.pk %}" id="delete-dropdown{{ set.pk }}" data-toggle="modal" data-target="#delete">Delete</button>
                         </div>
                     </div>
                 </div>
-
+                <div class="rest-time row">
+                        <div class="col rest-time-box">
+                            <span id="set-rest-time{{ set.pk }}">{{ set.rest_time }}</span>
+                        </div>
+                    </div>
                 <div class="row mt-2">
                     {% now "j.m.y" as today_date %}
                     {% if forloop.last and today_date == set.date|date:"j.m.y"%}
-                    {% include 'diary/modals/set_rest_time_update_modal.html' %}
                         <div class="col-1">
                         </div>
                         <div class="col-9 btn-group timer-btn">
-                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle set" data-toggle="modal" data-target="#set_rest_time_update_modal{{ set.pk }}">
+                            <button type="button" class="btn btn-sm btn-outline-secondary set" onclick="updateSet({{ set.pk }})" data-toggle="modal"
+                                    data-target="#set_rest_time_update_modal" data-url="{% url 'set_update_view' set.pk %}">
                                 <i class="fas fa-stopwatch"></i>
                             </button>
                         </div>
@@ -113,4 +117,5 @@
 {% include 'diary/modals/set_update_modal.html' %}
 {% include 'diary/modals/set_delete_modal.html' %}
 {% include 'diary/modals/set_create_modal.html' %}
+{% include 'diary/modals/set_rest_time_update_modal.html' %}
 {% endblock %}

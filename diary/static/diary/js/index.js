@@ -10,7 +10,6 @@ function collectInputs() {
 // if view return if_valid = True
 function appendToHtml(data) {
     $('.modal-backdrop').remove()
-    console.log(data.html)
     $("body").html(data.html)
     $('.dropdown-toggle').dropdown()
     $('body').removeClass('modal-open')
@@ -38,7 +37,6 @@ function deleteItem(slug) {
         e.preventDefault()
         // Pass view url through item attribute "data-url"
         let url = $('#delete-dropdown' + slug).attr('data-url')
-        console.log(url)
         let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
         if (slug) {
             $.ajax({
@@ -95,7 +93,6 @@ function updateItem(slug) {
             s.preventDefault()
             let itemTitle = $('#update-title').val()
             let url = $('#edit-dropdown' + slug).attr('data-url')
-            console.log('url:', url)
             let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
             $.ajax({
                 url: url,
@@ -130,8 +127,6 @@ $("form#set-create-form").on('submit', function(e) {
     let inputReps = $('input#input-reps').val()
     let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
     url = $('#add').attr('data-url')
-    console.log(url)
-    console.log(inputWeight + ' x ' + inputReps)
     $.ajax({
         url: url,
         // data: form.serialize(),
@@ -161,10 +156,13 @@ function updateSet(pk) {
         // Passing initial form fields data
         let setWeightId = '#set-weight' + pk
         let setRepsId = '#set-reps' + pk
+        let setRestTimeId = '#set-rest-time' + pk
         let weight = $(setWeightId).text().trim()
         let reps = $(setRepsId).text().trim()
+        let restTime = $(setRestTimeId).text().trim()
         $('input#update-weight').val(weight)
         $('input#update-reps').val(reps)
+        $('input#update-rest-time').val(restTime)
         $('#pk').val(pk)
 
         // forming ajax request
@@ -172,7 +170,8 @@ function updateSet(pk) {
             s.preventDefault()
             let itemWeight = $('#update-weight').val()
             let itemReps = $('#update-reps').val()
-            let url = $('#edit-dropdown' + pk).attr('data-url')
+            let itemRestTime = $('#update-rest-time').val()
+            let url = $('#edit' + pk).attr('data-url')
             let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
             $.ajax({
                 url: url,
@@ -180,6 +179,7 @@ function updateSet(pk) {
                     pk: pk,
                     weight: itemWeight,
                     reps: itemReps,
+                    rest_time: itemRestTime,
                     csrfmiddlewaretoken: csrf_token
                 },
                 type: 'post',
@@ -205,7 +205,6 @@ function setDelete(pk) {
         e.preventDefault()
         // Pass view url through item attribute "data-url"
         let url = $('#delete-dropdown' + pk).attr('data-url')
-        console.log(url)
         let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
         if (pk) {
             $.ajax({
