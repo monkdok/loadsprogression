@@ -1,0 +1,31 @@
+<!-- Modal -->
+
+<div class="modal fade" id="set_rest_time_update_modal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <form name="stopwatch" id="update-form" method="post">{% csrf_token %}
+                    <div class="stopwatch"><span class="min-sec">00:00</span><span class="ms">:00</span></div>
+                    <div class="controls">
+                        <button type="button" class="btn btn-warning" id="stop" onclick="stopTimer()" style="display: none;"><i class="fa fa-stop fa-fw fa-flip-horizontal" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-warning" id="start" onclick="startTime()"><i class="fa fa-play fa-fw" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-warning" id="pause" onclick="pauseTime()" style="display: none;"><i class="fa fa-pause fa-fw" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-warning" id="resume" onclick="startTime()" style="display: none;"><i class="fa fa-play fa-fw" aria-hidden="true"></i></button>
+                        <input type="button" class="btn btn-warning" id="reset" onclick="resetTimer()" style="display: none;" value="Reset">
+                    </div>
+
+                    <input name="rest_time" id="update-rest-time" type="hidden">
+                    <input name="weight" id="update-weight" type="hidden">
+                    <input name="reps" id="update-reps" type="hidden">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" value="Save" class="btn btn-warning" onclick="findTIME()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

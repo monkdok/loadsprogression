@@ -40,7 +40,9 @@
                 </div>
                 <div class="rest-time row">
                         <div class="col rest-time-box">
+                            {% if set.rest_time %}
                             <span id="set-rest-time{{ set.pk }}">{{ set.rest_time }}</span>
+                            {% endif %}
                         </div>
                     </div>
                 <div class="row mt-2">
@@ -117,5 +119,5 @@
 {% include 'diary/modals/set_update_modal.html' %}
 {% include 'diary/modals/set_delete_modal.html' %}
 {% include 'diary/modals/set_create_modal.html' %}
-{% include 'diary/modals/set_rest_time_update_modal.html' %}
+{% include 'diary/modals/timer_update_modal.html' %}
 {% endblock %}

@@ -156,21 +156,24 @@ function updateSet(pk) {
         // Passing initial form fields data
         let setWeightId = '#set-weight' + pk
         let setRepsId = '#set-reps' + pk
-        let setRestTimeId = '#set-rest-time' + pk
+        let setRestId = '#set-rest-time' + pk
+        // Current fields values
         let weight = $(setWeightId).text().trim()
         let reps = $(setRepsId).text().trim()
-        let restTime = $(setRestTimeId).text().trim()
+        let rest = $(setRestId).text().trim()
         $('input#update-weight').val(weight)
         $('input#update-reps').val(reps)
-        $('input#update-rest-time').val(restTime)
+        $('input#update-rest-time').val(rest)
         $('#pk').val(pk)
 
         // forming ajax request
         $("form#update-form").submit(function(s) {
             s.preventDefault()
+            let restTime = result.slice(0, 5)
+            $('input#update-rest-time').val(rest)
             let itemWeight = $('#update-weight').val()
             let itemReps = $('#update-reps').val()
-            let itemRestTime = $('#update-rest-time').val()
+            let itemRestTime = restTime
             let url = $('#edit' + pk).attr('data-url')
             let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
             $.ajax({

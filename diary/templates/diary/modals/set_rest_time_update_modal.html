@@ -19,9 +19,11 @@
                     <input type="hidden" name="label" size="12" maxlength="40" value="">
                     <input type="hidden" id="marker">
                     <input name="starter" type="button" class="btn btn-outline-dark" value="Start/Stop" onclick="findTIME()">
+                    <input name="pause" type="button" class="btn btn-secondary" value="Pause" onclick="pauseTime()">
+                    <input name="resume" type="button" class="btn btn-secondary" value="Resume" onclick="resumeTime()">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <input type="submit" value="Save" class="btn btn-warning">
+                        <input type="submit" value="Save" class="btn btn-warning" onclick="findTIME()">
                     </div>
                 </form>
             </div>
