@@ -12,9 +12,9 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     <input id="pk" type="hidden" name="setPk"/>
-                    <input type="number" name="inputWeight" class="form-control" id="update-weight">
-                    <input type="number" name="inputReps" class="form-control" id="update-reps">
-                    <input type="text" name="inputRestTime" class="form-control" id="update-rest-time">
+                    <input type="number" name="inputWeight" class="form-control" id="update-weight" autocomplete="off">
+                    <input type="number" name="inputReps" class="form-control" id="update-reps" autocomplete="off">
+                    <input type="text" name="inputRestTime" class="form-control" id="update-rest-time" autocomplete="off">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

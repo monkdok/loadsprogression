@@ -50,14 +50,14 @@
                     {% if forloop.last and today_date == set.date|date:"j.m.y"%}
                         <div class="col-1">
                         </div>
+                        <!--Timer-->
                         <div class="col-9 btn-group timer-btn">
-                            <button type="button" class="btn btn-sm btn-outline-secondary set" onclick="updateSet({{ set.pk }})" data-toggle="modal"
+                            <button type="button" class="btn btn-sm btn-outline-secondary set" onclick="restTime({{ set.pk }})" data-toggle="modal"
                                     data-target="#set_rest_time_update_modal" data-url="{% url 'set_update_view' set.pk %}">
                                 <i class="fas fa-stopwatch"></i>
                             </button>
                         </div>
                         <div class="collapse" id="timer-collapse">
-                            <!--Timer-->
                         </div>
                     {% endif %}
                 </div>

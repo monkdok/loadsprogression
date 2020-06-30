@@ -20,10 +20,6 @@ function appendToBtnGroup(item) {
     $('div#exist-check').remove()
     $('form#create-form').trigger('reset')
     $('#create').modal('hide')
-//    if ($("#exist-check")) {
-//        alert('exist-check')
-//    }
-
 }
 
 function setAppendToBtnGroup(item) {
@@ -169,11 +165,9 @@ function updateSet(pk) {
         // forming ajax request
         $("form#update-form").submit(function(s) {
             s.preventDefault()
-            let restTime = result.slice(0, 5)
-            $('input#update-rest-time').val(rest)
             let itemWeight = $('#update-weight').val()
             let itemReps = $('#update-reps').val()
-            let itemRestTime = restTime
+            let itemRestTime = $('#update-rest-time').val()
             let url = $('#edit' + pk).attr('data-url')
             let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
             $.ajax({
@@ -202,7 +196,56 @@ function updateSet(pk) {
     }
 }
 
-// Set update Django Ajax Call
+
+function restTime(pk) {
+    if (pk) {
+        // Passing initial form fields data
+        let setWeightId = '#set-weight' + pk
+        let setRepsId = '#set-reps' + pk
+        // Current fields values
+        let weight = $(setWeightId).text().trim()
+        let reps = $(setRepsId).text().trim()
+        $('input#update-weight').val(weight)
+        $('input#update-reps').val(reps)
+        $('#pk').val(pk)
+        // forming ajax request
+        $("form#update-form").submit(function(s) {
+            s.preventDefault()
+            let itemWeight = $('#update-weight').val()
+            let itemReps = $('#update-reps').val()
+//            let itemRestTime = result.slice(0, 5)
+            let itemRestTime = $('.stopwatch').text().trim().slice(0, 5)
+            let url = $('#edit' + pk).attr('data-url')
+            let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
+            $.ajax({
+                url: url,
+                data: {
+                    pk: pk,
+                    weight: itemWeight,
+                    reps: itemReps,
+                    rest_time: itemRestTime,
+                    csrfmiddlewaretoken: csrf_token
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.form_is_valid) {
+                        appendToHtml(data)
+
+                    }
+                    else {
+                        alert("All fields must have a valid value.")
+
+                    }
+                }
+            });
+        })
+    }
+}
+
+
+
+// Set delete Django Ajax Call
 function setDelete(pk) {
     $('#delete-form').submit(function (e) {
         e.preventDefault()

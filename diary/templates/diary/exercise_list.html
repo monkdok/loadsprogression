@@ -17,6 +17,8 @@ Workouts - {{ block.super }}
                 </button>
                 <div class="dropdown-menu">
                     <button type="button" class="dropdown-item" onClick="updateItem('{{ exercise.slug }}')" data-url="{% url 'exercise_update_view' exercise.slug %}" id="edit-dropdown{{ exercise.slug }}" data-toggle="modal" data-target="#edit">Edit</button>
+                    <button type="button" class="dropdown-item" onClick="moveItem('{{ exercise.slug }}')" data-url="{% url 'exercise_update_view' exercise.slug %}"
+                            id="move-dropdown{{ exercise.slug }}" data-toggle="modal" data-target="#move">Move</button>
                     <div class="dropdown-divider"></div>
                     <!-- Button trigger modal -->
                     <button type="button" class="dropdown-item" onclick="deleteItem('{{ exercise.slug }}')" data-url="{% url 'exercise_delete_url' exercise.slug %}" id="delete-dropdown{{ exercise.slug }}" data-toggle="modal" data-target="#delete">Delete</button>
