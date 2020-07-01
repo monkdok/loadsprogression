@@ -11,7 +11,7 @@ function collectInputs() {
 function appendToHtml(data) {
     $('.modal-backdrop').remove()
     $("body").html(data.html)
-    $('.dropdown-toggle').dropdown()
+//    $('.dropdown-toggle').dropdown()
     $('body').removeClass('modal-open')
 }
 
@@ -213,8 +213,12 @@ function restTime(pk) {
             s.preventDefault()
             let itemWeight = $('#update-weight').val()
             let itemReps = $('#update-reps').val()
-//            let itemRestTime = result.slice(0, 5)
-            let itemRestTime = $('.stopwatch').text().trim().slice(0, 5)
+            let itemRestTime
+            if (result === '00:00:00') {
+                itemRestTime = $('.stopwatch').text().trim().slice(0, 5)
+            } else {
+                itemRestTime = result.slice(0, 5)
+            }
             let url = $('#edit' + pk).attr('data-url')
             let csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
             $.ajax({

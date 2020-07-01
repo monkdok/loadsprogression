@@ -1,27 +1,28 @@
-let ms = 0
-let s = 0
-let m = 0
-let timer
-let isPaused = true
+var ms = 0
+var s = 0
+var m = 0
+var timer
+var isPaused = true
 
 
-let stopwatchEl = document.querySelector('.stopwatch')
-let startButton = document.querySelector('#start')
-let pauseButton = document.querySelector('#pause')
-let stopButton = document.querySelector('#stop')
-let resetButton = document.querySelector('#reset')
-let resumeButton = document.querySelector('#resume')
-let result = stopwatchEl.textContent
+var stopwatchEl = document.querySelector('.stopwatch')
+var startButton = document.querySelector('#start')
+var pauseButton = document.querySelector('#pause')
+var stopButton = document.querySelector('#stop')
+var resetButton = document.querySelector('#reset')
+var resumeButton = document.querySelector('#resume')
+var result = stopwatchEl.textContent
 
 
-function startTime() {
+$(document).on('click', '#start', function() {
     if(!timer) {
         timer = setInterval(run, 10)
         $(startButton).hide()
         $(pauseButton).show()
         $(stopButton).hide()
     }
-}
+})
+
 
 function run () {
     stopwatchEl.textContent = getTimer()
@@ -36,16 +37,16 @@ function run () {
     }
 }
 
-function pauseTime() {
+$('#pause').on('click', function() {
     result = stopwatchEl.textContent
     $(pauseButton).hide()
     $(stopButton).show()
     $(startButton).show()
     stop()
-}
+})
 
 
-function stopTimer() {
+$('#stop').on('click', function() {
     result = stopwatchEl.textContent
     stop()
     ms = 0
@@ -54,7 +55,7 @@ function stopTimer() {
     stopwatchEl.textContent = getTimer()
     $(stopButton).hide()
     $(startButton).show()
-}
+})
 
 
 function stop() {
@@ -62,10 +63,10 @@ function stop() {
     timer = false
 }
 
-function resetTimer() {
+$('#reset').on('click', function() {
     stopTimer()
     startTime()
-}
+})
 
 
 function getTimer() {
