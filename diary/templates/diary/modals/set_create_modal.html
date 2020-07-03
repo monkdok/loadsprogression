@@ -11,8 +11,8 @@
             <form class="" id="set-create-form" method="post">
                 {% csrf_token %}
                 <div class="modal-body">
-                    <input class="form-control" name="weight" placeholder="Weight" id="input-weight" autocomplete="off">
-                    <input class="form-control" name="reps" placeholder="Reps" id="input-reps" autocomplete="off">
+                    <input type="number" class="form-control" name="weight" placeholder="Weight" id="input-weight" autocomplete="off">
+                    <input type="number" class="form-control" name="reps" placeholder="Reps" id="input-reps" autocomplete="off">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

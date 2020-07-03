@@ -214,6 +214,7 @@ function restTime(pk) {
             let itemWeight = $('#update-weight').val()
             let itemReps = $('#update-reps').val()
             let itemRestTime
+            stop()
             if (result === '00:00:00') {
                 itemRestTime = $('.stopwatch').text().trim().slice(0, 5)
             } else {

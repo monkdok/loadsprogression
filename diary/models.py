@@ -6,7 +6,6 @@ from django.shortcuts import reverse
 from slugify import slugify
 
 
-
 class CommonInfo(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     title = models.CharField(max_length=100, blank=False, unique=False)
@@ -39,7 +38,7 @@ class Exercise(CommonInfo):
     exercise_id = models.AutoField(primary_key=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    workout = models.ForeignKey('Workout', on_delete=models.CASCADE, related_name='exercise_mm', blank=True, null=True)
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE, related_name='exercise_mm', blank=True, null=True, limit_choices_to={})
 
     def get_absolute_url(self):
         return reverse('exercise_detail_url', kwargs={

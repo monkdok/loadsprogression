@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Move Exercise</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -11,8 +11,15 @@
             <form method="post" id="update-form">
                 {% csrf_token %}
                 <div class="modal-body">
-                    <input class="form-control" id="slug" type="hidden"/>
-                    <input type="text" name="inputTitle" class="form-control" id="update-title" placeholder="Exercise name">
+                    <input class="form-control" id="slug" type="hidden">
+                    Choose workout:
+                    {{ form.workout }}
+<!--                    <select>-->
+<!--                        {% for workout in workouts %}-->
+<!--                        <option>{{ workout }}</option>-->
+<!--                        {% endfor %}-->
+<!--                    </select>-->
+<!--                    <input name="workout" class="form-control" id="update-title">-->
                 </div>
 
                 <div class="modal-footer">

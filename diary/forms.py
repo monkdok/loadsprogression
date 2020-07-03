@@ -28,6 +28,7 @@ class ExerciseCreateForm(forms.ModelForm):
           model = Exercise
           fields = [
                'title',
+               'workout',
                # 'description',
           ]
 
