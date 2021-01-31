@@ -1,0 +1,289 @@
+html, body {
+    text-align: center;
+    background-color: #f7f7f7;
+    color: #161616;
+    height: 100%;
+    min-width: 350px;
+    font-family: 'Roboto', sans-serif;
+/*
+    font-family: 'Ubuntu', sans-serif;
+*/
+
+}
+
+div {
+    display: block;
+}
+
+
+ button {
+    display: block;
+}
+
+
+.container {
+    text-align: center;
+    margin: auto;
+}
+
+.dropdown-toggle-split {
+    color: #3f3f3f;
+}
+
+
+.all-sets-area{
+    width: 100%;
+    padding: 0 15px;
+    color: #333;
+    font-weight: regular;
+    max-width: 500px;
+}
+
+
+.section{
+    width: 100%;
+    padding: 0 15px;
+}
+
+
+.set-box {
+/*
+    background-color: #333;
+*/
+    width: 45%;
+    margin: 10px auto 25px auto;
+    padding: 7px 15px;
+    display: inline-block;
+    /*border: 1px solid black;*/
+    border-radius: 5px;
+    /*box-shadow: 0px 0px 30px -2px rgba(0,0,0,0.09);*/
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+
+.badge {
+    margin: 0px auto 15px auto;
+    /*background-color: #333;*/
+    background-color: #f7f7f7;
+    line-height: normal;
+    padding: 5px 5px;
+    color: #333;
+    border: 1px solid #f7f7f7;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 300;
+    float: left;
+    white-space: normal;
+}
+
+
+.counter {
+    font-weight: 100;
+    color: grey;
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+
+.button.facebook {
+ background: red;
+ box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.dropleft .dropdown-toggle::before {
+    display: none;
+}
+
+
+.breadcrumb {
+    padding: 15px 0 15px 15px;
+    margin-right: auto !important;
+    margin-bottom: 0;
+    border-radius: 0;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase
+}
+
+.breadcrumb-item, a {
+    color: #FFBF0D;
+    margin: auto 0px;
+}
+
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #6c757d;
+    content: "/";
+
+}
+
+
+.dotted-btn {
+    float: right;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 40px;
+    background-color: transparent;
+}
+
+
+.button-section {
+    width: 100%;
+    margin: 25px auto 25px auto;
+}
+
+.btn {
+    font-weight: 300;
+
+}
+
+
+
+.btn-group.btn-lg.btn-block {
+    padding: 0;
+    margin: 5px 0;
+    box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);
+
+}
+
+
+.btn.btn-warning.set {
+    height: 45px;
+    width: 90px;
+    margin: 5px;
+    display: table;
+    font-style: black;
+    /*box-shadow: 0px 11px 14px -5px rgba(0,0,0,0.19);*/
+    /*box-shadow: 0px 11px 7px -5px rgba(0,0,0,0.19);*/
+    box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);
+    /*box-shadow: 0px 9px 7px -7px rgba(0,0,0,0.47);*/
+
+
+
+}
+
+.btn-group.set {
+    display: block;
+
+}
+
+
+
+.navbar-nav {
+    margin-left: auto;
+
+}
+
+
+.dotted_menu {
+  text-align: right;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #FFBF0D;
+  box-shadow: 0px 10px 0px #FFBF0D, 0px 20px 0px #FFBF0D;
+}
+
+
+.dotted-btn {
+    color: #FFBF0D;
+    font-size: 25px;
+}
+
+
+.dots {
+    margin: auto 10px auto auto
+}
+
+
+.three_dots {
+    width: 30px;
+    margin-left:auto;
+    margin-right:0;
+    background-color: #333 !important;
+}
+
+
+
+.login-page {
+  background-color: #f7f7f7;
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+
+.logout-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+
+
+.form {
+  position: relative;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 25px 45px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: black;
+}
+
+.card {
+    background-color: #f7f7f7;
+}
+
+
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  border-radius: 5px;
+  margin: 0 0 15px;
+  padding: 15px;
+  font-size: 14px;
+}
+
+
+.form button, .logout-btn {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: black;
+  font-size: 14px;
+  margin-bottom: 8px;
+  box-shadow: 0px 6px 7px -5px rgba(0,0,0,0.19);
+}
+
+
+.version {
+  color: grey;
+/*
+  position: absolute;
+*/
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  /*bottom: 8px;
+  right: 16px;*/
+  font-size: 18px;
+}
+
